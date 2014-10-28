@@ -1,4 +1,4 @@
-myLazyClock
+myLazyClock  [![Build Status](https://travis-ci.org/dralagen/myLazyClock.svg?branch=develop)](https://travis-ci.org/dralagen/myLazyClock)
 ===========
 
 My Lazy Smart Alarm Clock wake up and It's never time.
@@ -16,6 +16,29 @@ Device compatible
  - Personal computer with a browser HTML5 (Windows, Mac OS, Linux)
  - Raspberry
 
+
+Developer
+---------
+
+For Compile the project 
+
+```
+mvn install -Dmaven.test.skip=true 
+# or
+mvn clean install -Dmaven.test.skip=true 
+```
+
+For launch the google app engine dev serveur 
+
+```
+mvn -pl rest-api appengine:devserver
+```
+
+For deploy on google app engine
+
+```
+mvn -pl rest-api appengine:update
+```
 
 Contribute
 ----------
