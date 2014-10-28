@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>calendar-edit-univ-nantes</artifactId>
+    <artifactId>calendar-edt-univ-nantes</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
