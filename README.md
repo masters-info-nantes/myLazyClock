@@ -1,4 +1,4 @@
-myLazyClock
+myLazyClock [![Build Status](https://travis-ci.org/dralagen/myLazyClock.svg?branch=develop)](https://travis-ci.org/dralagen/myLazyClock)
 ===========
 
 My Lazy Smart Alarm Clock wake up and It's never time.
