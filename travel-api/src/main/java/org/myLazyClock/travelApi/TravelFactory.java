@@ -13,14 +13,22 @@ import java.util.Set;
  * @author dralagen
  */
 public class TravelFactory  implements Iterable<TravelStrategy> {
+
     private static TravelFactory ourInstance = new TravelFactory();
 
     public static TravelFactory getInstance() {
         return ourInstance;
     }
 
+    /**
+     * List all module who implement {@link TravelStrategy}
+     */
     private Map<Integer, TravelStrategy> allModules;
 
+    /**
+     * Search all module who implement {@link TravelStrategy}
+     * and put in allModule
+     */
     private TravelFactory() {
         allModules = new HashMap<Integer, TravelStrategy>();
 
@@ -57,7 +65,14 @@ public class TravelFactory  implements Iterable<TravelStrategy> {
         return allModules.values().iterator();
     }
 
-    public TravelStrategy get(Integer id) {
+    /**
+     * Select the {@link TravelStrategy} with id
+     *
+     * @param id Identifier of the {@link TravelStrategy}
+     * @return the {@link TravelStrategy} if find,
+     * @throws NullPointerException
+     */
+    public TravelStrategy get(Integer id) throws NullPointerException {
         TravelStrategy strategy = allModules.get(id);
         if (strategy == null) {
             throw new NullPointerException();

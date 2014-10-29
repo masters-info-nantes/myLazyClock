@@ -19,8 +19,16 @@ public class CalendarFactory implements Iterable<CalendarStrategy> {
         return ourInstance;
     }
 
+    /**
+     * List all module who implement {@link CalendarStrategy}
+     */
     private Map<Integer, CalendarStrategy> allModules;
 
+    /**
+     * Search all module who implement {@link CalendarStrategy}
+     * and put in allModule
+     *
+     */
     private CalendarFactory() {
         allModules = new HashMap<Integer, CalendarStrategy>();
 
@@ -50,7 +58,14 @@ public class CalendarFactory implements Iterable<CalendarStrategy> {
         }
     }
 
-    public CalendarStrategy get(Integer id) {
+    /**
+     * Select the {@link CalendarStrategy} with id
+     *
+     * @param id Identifier of the {@link CalendarStrategy}
+     * @return the {@link CalendarStrategy} if find,
+     * @throws NullPointerException
+     */
+    public CalendarStrategy get(Integer id) throws NullPointerException {
         CalendarStrategy strategy = allModules.get(id);
         if (strategy == null) {
             throw new NullPointerException();

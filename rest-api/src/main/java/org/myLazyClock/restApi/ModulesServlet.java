@@ -11,16 +11,19 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
+ * Servlet to print in plain text all module who implement
+ * {@link org.myLazyClock.calendarApi.CalendarStrategy}
+ *   and
+ * {@link org.myLazyClock.travelApi.TravelStrategy}
+ *
  * Created on 28/10/14.
  *
  * @author dralagen
  */
 public class ModulesServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         response.setContentType("text/plain");
 
         CalendarModulesService serviceCalendar = new CalendarModulesService();
@@ -39,5 +42,6 @@ public class ModulesServlet extends HttpServlet {
         out.println("All implementation of TravelStrategy : ");
         out.println("Name of implementation : id");
         out.println(serviceTravel.listModule());
+
     }
 }

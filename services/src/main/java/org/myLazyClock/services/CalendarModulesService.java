@@ -10,6 +10,11 @@ import org.myLazyClock.calendarApi.CalendarStrategy;
  */
 public class CalendarModulesService {
 
+    /**
+     * List all module who implement {@link CalendarStrategy}
+     *
+     * @return a String at this format : "Name : Id \n"
+     */
     public String listModule() {
         String result = "";
 
