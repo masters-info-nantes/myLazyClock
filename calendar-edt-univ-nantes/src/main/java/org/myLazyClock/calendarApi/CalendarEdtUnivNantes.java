@@ -7,9 +7,11 @@ package org.myLazyClock.calendarApi;
  */
 public class CalendarEdtUnivNantes implements CalendarStrategy {
 
+    public static final int ID = 2;
+
     @Override
     public Integer getId() {
-        return 2;
+        return ID;
     }
 
     @Override
