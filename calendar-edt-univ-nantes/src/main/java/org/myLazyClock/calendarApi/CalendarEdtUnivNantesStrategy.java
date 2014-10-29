@@ -5,7 +5,7 @@ package org.myLazyClock.calendarApi;
  *
  * @author dralagen
  */
-public class CalendarEdtUnivNantes implements CalendarStrategy {
+public class CalendarEdtUnivNantesStrategy implements CalendarStrategy {
 
     public static final int ID = 2;
 
