@@ -6,9 +6,12 @@
 
     <groupId>org.myLazyClock</groupId>
     <artifactId>myLazyClock</artifactId>
+    <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <version>1.0-SNAPSHOT</version>
+    <name>myLazyClock</name>
+    <description>My Lazy Smart Alarm Clock wake up and It's never time.</description>
+
 
     <modules>
         <module>rest-api</module>
