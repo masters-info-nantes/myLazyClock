@@ -1,7 +1,6 @@
 myLazyClock [![Build Status](https://travis-ci.org/dralagen/myLazyClock.svg?branch=develop)](https://travis-ci.org/dralagen/myLazyClock)
 ===========
 
-My Lazy Smart Alarm Clock wake up and It's never time.
 
 User Case
 ---------
@@ -16,6 +15,13 @@ Device compatible
  - Personal computer with a browser HTML5 (Windows, Mac OS, Linux)
  - Raspberry
 
+
+Required
+--------
+
+ - A serveur [Google AppEngine](http://mylazyclock.appspot.com/)
+ - A device compatible for the alarm clock
+ - A network connexion
 
 Contribute
 ----------
