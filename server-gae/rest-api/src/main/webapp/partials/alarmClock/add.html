@@ -1,0 +1,14 @@
+<h1>Add a new alarm clock</h1>
+
+<p>Please, enter id visible on your alarm clock</p>
+
+<form class="form-horizontal" ng-submit="submitAdd()" name="addAlarmClock">
+<fieldset>
+
+<!-- Text input-->
+<div class="form-group">
+  <input id="textinput" ng-model="alarmClock.id" name="textinput" type="text" placeholder="Alarm clock id" class="form-control input-md">
+</div>
+<button type="submit" class="btn btn-primary" ng-class="{'disabled' : !addAlarmClock.$valid}">Add</button>
+</fieldset>
+</form>

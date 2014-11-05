@@ -1,0 +1,11 @@
+body {
+    padding-top: 70px;
+}
+
+.navbar-user-picture {
+  margin-top: -10px;
+  margin-bottom: -10px;
+  height: 40px;
+  border: 1px solid #777;
+  margin-right: 10px;
+}

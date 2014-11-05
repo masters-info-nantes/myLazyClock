@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html ng-app="myLazyClock">
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style/style.css">
+
+    <title>My Lazy Clock</title>
+</head>
+<body>
+    <div ui-view></div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+    <script src="vendors/ui-bootsrap-0.11.2.min.js"></script>
+    <script src="vendors/ui-router-0.2.11.min.js"></script>
+
+    <script src="js/app.js"></script>
+    <script src="js/controller.js"></script>
+    <script src="js/router.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/controller/home.js"></script>
+    <script src="js/controller/login.js"></script>
+    <script src="js/controller/generate.js"></script>
+    <script src="js/controller/add.js"></script>
+    <script src="js/controller/item.js"></script>
+
+    <!-- ------ début du code ajouté ------ -->
+    <script>
+        var init = function() {
+            // sera intercepté par angularjs
+            window.init();
+        }
+    </script>
+    <script src="https://apis.google.com/js/client.js?onload=init"></script>
+    <!-- ------ fin du code ajouté ------  -->
+</body>
+</html>

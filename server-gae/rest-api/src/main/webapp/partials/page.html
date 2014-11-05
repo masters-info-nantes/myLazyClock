@@ -1,0 +1,33 @@
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">My Lazy Clock</a>
+        </div>
+
+        <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav">
+
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li ng-show="user"><a ng-href="{{user.link}}"><img ng-src="{{user.picture}}" class="img-circle navbar-user-picture"/>{{user.name}}</a></li>
+      </ul>
+    </nav>
+        
+
+    </div>
+</div>
+<div class="container">
+    <div ui-view></div>
+</div>
+
+<div class="footer">
+    <div class="container">
+        <p class="text-muted text-center">My Lazy Clock</p>
+    </div>
+</div>
