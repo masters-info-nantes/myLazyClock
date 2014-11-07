@@ -10,7 +10,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>travel-manual</artifactId>
-    <version>${project.parent.version}</version>
     <packaging>jar</packaging>
 
     <name>myLazyClock :: Travel :: Manual</name>
@@ -23,6 +22,4 @@
             <version>${project.version}</version>
         </dependency>
     </dependencies>
-
-
 </project>

@@ -9,18 +9,10 @@
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>rest-api</artifactId>
-    <version>${project.parent.version}</version>
     <packaging>war</packaging>
 
     <name>myLazyClock :: Rest API</name>
     <description>myLazyClock Rest API</description>
-
-    <properties>
-        <appengine.app.version>1</appengine.app.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <appengine.sdk.version>1.9.14</appengine.sdk.version>
-    </properties>
 
     <prerequisites>
         <maven>3.1.0</maven>
@@ -32,44 +24,20 @@
             <artifactId>services</artifactId>
             <version>${project.version}</version>
         </dependency>
-        
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>model</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Just for Test -->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>calendar-edt-univ-nantes</artifactId>
             <version>${project.version}</version>
         </dependency>
-        
-        <!-- Compile/runtime dependencies -->
-        <dependency>
-            <groupId>com.google.appengine</groupId>
-            <artifactId>appengine-api-1.0-sdk</artifactId>
-            <version>${appengine.sdk.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>jstl</groupId>
-            <artifactId>jstl</artifactId>
-            <version>1.2</version>
-        </dependency>
 
-        <!-- Test Dependencies -->
-        <dependency>
-            <groupId>com.google.appengine</groupId>
-            <artifactId>appengine-testing</artifactId>
-            <version>${appengine.sdk.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.appengine</groupId>
-            <artifactId>appengine-api-stubs</artifactId>
-            <version>${appengine.sdk.version}</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>
@@ -136,3 +104,4 @@
         </plugins>
     </build>
 </project>
+

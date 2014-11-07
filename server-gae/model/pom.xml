@@ -11,5 +11,7 @@
 
     <artifactId>model</artifactId>
 
+    <name>myLazyClock :: Model</name>
+    <description>myLazyClock persitence module</description>
 
 </project>

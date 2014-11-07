@@ -10,7 +10,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>calendar-aggregator</artifactId>
-    <version>${project.parent.version}</version>
     <packaging>pom</packaging>
 
     <name>myLazyClock :: Calendar (Aggregator)</name>

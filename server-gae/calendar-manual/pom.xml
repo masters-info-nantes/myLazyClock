@@ -10,7 +10,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>calendar-manual</artifactId>
-    <version>${project.parent.version}</version>
     <packaging>jar</packaging>
 
     <name>myLazyClock :: Calendar :: Manual</name>

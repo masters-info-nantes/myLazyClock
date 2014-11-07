@@ -10,7 +10,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>services</artifactId>
-    <version>${project.parent.version}</version>
     <packaging>jar</packaging>
 
     <name>myLazyClock :: Services</name>
@@ -44,6 +43,7 @@
             <artifactId>travel-api</artifactId>
             <version>${project.version}</version>
         </dependency>
+
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>model</artifactId>
