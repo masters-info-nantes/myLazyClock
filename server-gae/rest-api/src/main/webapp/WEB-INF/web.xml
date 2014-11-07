@@ -35,4 +35,14 @@
         <servlet-name>ModulesServlet</servlet-name>
         <url-pattern>/testModules</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>CalendarEdt</servlet-name>
+        <servlet-class>org.myLazyClock.restApi.CalendarEdtServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CalendarEdt</servlet-name>
+        <url-pattern>/calendarEdt</url-pattern>
+    </servlet-mapping>    
 </web-app>

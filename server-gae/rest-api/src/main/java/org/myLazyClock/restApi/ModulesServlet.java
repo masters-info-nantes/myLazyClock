@@ -42,6 +42,5 @@ public class ModulesServlet extends HttpServlet {
         out.println("All implementation of TravelStrategy : ");
         out.println("Name of implementation : id");
         out.println(serviceTravel.listModule());
-
     }
 }
