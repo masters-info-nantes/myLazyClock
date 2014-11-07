@@ -1,4 +1,4 @@
-myLazyClock [![Build Status](https://travis-ci.org/dralagen/myLazyClock.svg?branch=develop)](https://travis-ci.org/dralagen/myLazyClock)
+myLazyClock [![Build Status](https://travis-ci.org/masterALMA2016/myLazyClock.svg?branch=develop)](https://travis-ci.org/masterALMA2016/myLazyClock)
 ===========
 
 
@@ -29,6 +29,6 @@ Contribute
 We use git with [git-flow](http://nvie.com/posts/a-successful-git-branching-model/)
 
 ```
-git clone https://github.com/dralagen/myLazyClock.git -b develop
+git clone https://github.com/masterALMA2016/myLazyClock.git -b develop
 ```
 
