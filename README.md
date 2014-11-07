@@ -1,4 +1,4 @@
-myLazyClock  [![Build Status](https://travis-ci.org/dralagen/myLazyClock.svg?branch=develop)](https://travis-ci.org/dralagen/myLazyClock)
+myLazyClock  [![Build Status](https://travis-ci.org/masterALMA2016/myLazyClock.svg?branch=develop)](https://travis-ci.org/masterALMA2016/myLazyClock)
 ===========
 
 My Lazy Smart Alarm Clock wake up and It's never time.
@@ -20,15 +20,15 @@ Device compatible
 Developer
 ---------
 
-For Compile the project 
+For Compile the project
 
 ```
-mvn install -Dmaven.test.skip=true 
+mvn install -Dmaven.test.skip=true
 # or
-mvn clean install -Dmaven.test.skip=true 
+mvn clean install -Dmaven.test.skip=true
 ```
 
-For launch the google app engine dev serveur 
+For launch the google app engine dev serveur
 
 ```
 mvn -pl rest-api appengine:devserver
@@ -46,6 +46,6 @@ Contribute
 We use git with [git-flow](http://nvie.com/posts/a-successful-git-branching-model/)
 
 ```
-git clone https://github.com/dralagen/myLazyClock.git -b develop
+git clone https://github.com/masterALMA2016/myLazyClock.git -b develop
 ```
 
