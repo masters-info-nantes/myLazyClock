@@ -26,7 +26,7 @@ module.factory('GClient', ['$document', '$q', '$timeout',
 
 		function load(calback) {
 				loadScript(URL).then(function() {
-                	$timeout(calback);
+                	$timeout(calback ,500);
                     LOAD_GAE_API = true;
                 	
 				}).catch(function() {
@@ -37,6 +37,7 @@ module.factory('GClient', ['$document', '$q', '$timeout',
         return {
 
             get: function(calback){
+                console.log(LOAD_GAE_API);
                 if(LOAD_GAE_API)
                 	calback();
                 else
