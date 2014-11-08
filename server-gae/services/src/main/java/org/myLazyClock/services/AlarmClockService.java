@@ -42,7 +42,6 @@ public class AlarmClockService {
 
     public AlarmClock generate() {
         AlarmClock alarmClock = new AlarmClock();
-        alarmClock.setName("Alarm Clock");
         return AlarmClockRepository.getInstance().save(alarmClock);
     }
 }

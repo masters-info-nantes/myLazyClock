@@ -16,6 +16,12 @@ public class AlarmClock {
 
     private String name;
 
+    private String address;
+
+    private String defaultEventLocation;
+
+    private int preparationTime;
+
     public AlarmClock() {}
 
     public Long getId() {
@@ -40,5 +46,29 @@ public class AlarmClock {
 
     public void setUser(String user) {
         this.user = user;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getDefaultEventLocation() {
+        return defaultEventLocation;
+    }
+
+    public void setDefaultEventLocation(String defaultEventLocation) {
+        this.defaultEventLocation = defaultEventLocation;
+    }
+
+    public int getPreparationTime() {
+        return preparationTime;
+    }
+
+    public void setPreparationTime(int preparationTime) {
+        this.preparationTime = preparationTime;
     }
 }

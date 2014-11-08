@@ -2,10 +2,10 @@
 
 var controller = angular.module('myLazyClock.controller.alarmClock.add', []);
 
-controller.controller('myLazyClock.controller.alarmClock.add', ['$scope', '$rootScope', 'Api',
-    function homeCtl($scope, $rootScope, Api) {
+controller.controller('myLazyClock.controller.alarmClock.add', ['$scope', 'GApi',
+    function homeCtl($scope, GApi) {
     	$scope.submitAdd = function(){
-        	Api.post('link',{
+        	GApi.get('link',{
           		alarmClockId: $scope.alarmClock.id
         	}, function(resp) {
                 console.log("todos api sucessfully called");

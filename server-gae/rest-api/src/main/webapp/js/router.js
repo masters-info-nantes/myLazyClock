@@ -31,7 +31,7 @@ router
                 })
 
                 .state('webapp.login', {
-                    url :'/',
+                    url :'/login',
                     views :  {
                         '': {
                             templateUrl: 'partials/login.html',
