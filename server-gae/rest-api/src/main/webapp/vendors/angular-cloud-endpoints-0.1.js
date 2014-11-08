@@ -9,14 +9,14 @@ module.factory('GClient', ['$document', '$q', '$timeout',
         function loadScript(src) {
 				var deferred = $q.defer();
 				var script = $document[0].createElement('script');
-				script.onload = function () {
+				script.onload = function (e) {
 					$timeout(function () {
-						deferred.resolve();
+						deferred.resolve(e);
 					});
 				};
-				script.onerror = function () {
+				script.onerror = function (e) {
 					$timeout(function () {
-						deferred.reject();
+						deferred.reject(e);
 					});
 				};
 				script.src = src;
@@ -55,6 +55,8 @@ module.factory('GAuth', ['$rootScope', 'GClient',
         var CLIENT_ID;
         var SCOPES = ['https://www.googleapis.com/auth/userinfo.email'];
         var RESPONSE_TYPE = 'token id_token';
+        var LOGIN_SUCCESS = function() {};
+        var LOGIN_FAIL = function() {};
 
         function signin(mode, authorizeCallback) {
             gapi.auth.authorize({client_id: CLIENT_ID,
@@ -73,11 +75,22 @@ module.factory('GAuth', ['$rootScope', 'GClient',
                         $rootScope.user.name = resp.name;
                         $rootScope.user.link = resp.link;
                         $rootScope.$apply($rootScope.user);
+                        LOGIN_SUCCESS();
+                    } else {
+                        LOGIN_FAIL();
                     }
                 });
         }
 
         return {
+
+            setLoginSuccess: function(loginSuccess) {
+                LOGIN_SUCCESS = loginSuccess;
+            },
+
+            setLoginFail: function(loginFail) {
+                LOGIN_FAIL = loginFail;
+            },
 
         	setClient: function(client) {
         		CLIENT_ID = client;

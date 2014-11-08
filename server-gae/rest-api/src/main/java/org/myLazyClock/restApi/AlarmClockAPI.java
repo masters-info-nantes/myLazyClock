@@ -23,7 +23,6 @@ public class AlarmClockAPI {
 
     @ApiMethod(name = "list", httpMethod = ApiMethod.HttpMethod.GET, path="list")
     public Collection<AlarmClock> getAllByUser(User user) {
-        System.out.print(user.getEmail());
         return AlarmClockService.getInstance().findAll(user.getUserId());
     }
 

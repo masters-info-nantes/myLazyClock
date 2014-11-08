@@ -9,8 +9,8 @@ var app = angular.module('myLazyClock', [
 
 ]);
 
-app.run(['GAuth', 'GApi',
-    function(GAuth, GApi) {
+app.run(['GAuth', 'GApi', '$state',
+    function(GAuth, GApi, $state) {
 
         var CLIENT;
         var BASE;
@@ -29,6 +29,12 @@ app.run(['GAuth', 'GApi',
 
         GAuth.setClient(CLIENT);
         GAuth.load(function () {
+            GAuth.setLoginSuccess(function() {
+                $state.go('webapp.home');
+            });
+            GAuth.setLoginFail(function() {
+                $state.go('webapp.login');
+            });
             GAuth.login();
             GApi.load('myLazyClock','v1',BASE);
         });
