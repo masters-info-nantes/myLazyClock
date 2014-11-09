@@ -13,8 +13,8 @@ myLazyClock checks my edt and retards my wake up time and I can sleep more, It c
 Device compatible
 -----------------
 
- - Personal computer with a browser HTML5 (Windows, Mac OS, Linux)
- - Raspberry
+- Personal computer with a browser HTML5 (Windows, Mac OS, Linux)
+- Raspberry
 
 
 Developer
@@ -48,4 +48,3 @@ We use git with [git-flow](http://nvie.com/posts/a-successful-git-branching-mode
 ```
 git clone https://github.com/masterALMA2016/myLazyClock.git -b develop
 ```
-
