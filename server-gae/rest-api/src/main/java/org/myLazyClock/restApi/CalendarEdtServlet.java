@@ -13,6 +13,7 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
 
+import org.myLazyClock.calendarApi.EventNotFoundException;
 import org.myLazyClock.services.CalendarModulesService;
 
 /**
@@ -39,7 +40,8 @@ public class CalendarEdtServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
     	CalendarModulesService serviceCalendar = new CalendarModulesService();
-        
+		response.setContentType("text/plain");
+		
 		// Get given date
 		String dateParam = request.getParameter("day");
 		if(dateParam == null){
@@ -64,18 +66,18 @@ public class CalendarEdtServlet extends HttpServlet {
 		cal.set(java.util.Calendar.MINUTE, 59);		
 		
 		// Get first event of the day
-		Date nextEvent = serviceCalendar.getFirstEventOfDay(2, cal);
-		response.setContentType("text/plain");
-
-        if(nextEvent == null){ // No event this day
-            response.getWriter().println("No courses today for this day!");
+		try {
+			Date nextEvent = serviceCalendar.getFirstEventOfDay(2, cal);
+	        DateFormat dateTimeFormat = new SimpleDateFormat("dd/MM/yyy HH:mm");
+	
+	        response.getWriter().println("Event date (offset problems): "
+									  + dateTimeFormat.format(nextEvent) + "\n"
+			);
+		}
+		catch(EventNotFoundException ex){
+			// No event this day
+			response.getWriter().println("No courses today for this day!");
             return;
-        }
-
-        DateFormat dateTimeFormat = new SimpleDateFormat("dd/MM/yyy HH:mm");
-
-        response.getWriter().println("Event date (offset problems): "
-								  + dateTimeFormat.format(nextEvent) + "\n"
-		);
+		}
     }
 }
