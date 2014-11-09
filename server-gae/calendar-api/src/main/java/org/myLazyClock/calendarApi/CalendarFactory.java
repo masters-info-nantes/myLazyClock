@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 
 /**
  * Created on 28/10/14.
@@ -31,6 +32,7 @@ public class CalendarFactory implements Iterable<CalendarStrategy> {
      */
     private CalendarFactory() {
         allModules = new HashMap<Integer, CalendarStrategy>();
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Paris")); // For Calendar work's on Google servers
 
         Reflections reflections = new Reflections("org.myLazyClock.calendarApi");
         Set<Class<? extends CalendarStrategy>> modules = reflections.getSubTypesOf(CalendarStrategy.class);
