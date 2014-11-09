@@ -41,7 +41,11 @@ public class AlarmClockRepository {
     }
 
     public AlarmClock findOne(String id) {
-        AlarmClock one = ofy().load().type(AlarmClock.class).id(Long.valueOf(id)).now();
+        return findOne(Long.valueOf(id));
+    }
+
+    public AlarmClock findOne(Long id) {
+        AlarmClock one = ofy().load().type(AlarmClock.class).id(id).now();
         return one;
     }
 

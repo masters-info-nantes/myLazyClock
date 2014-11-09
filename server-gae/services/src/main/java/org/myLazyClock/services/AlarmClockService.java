@@ -30,14 +30,18 @@ public class AlarmClockService {
         return AlarmClockRepository.getInstance().findAllByUserId(userId);
     }
 
-    public AlarmClock item(String alarmClockId, String userId) {
+    public AlarmClock item(String alarmClockId) {
         return AlarmClockRepository.getInstance().findOne(alarmClockId);
     }
 
-    public AlarmClock link(String alarmClockId, String userId) {
-        AlarmClock alarmClock = AlarmClockRepository.getInstance().findOne(alarmClockId);
-        alarmClock.setUser(userId);
-        return AlarmClockRepository.getInstance().save(alarmClock);
+    public AlarmClock link(AlarmClock alarmClock, String userId) {
+        System.out.print("-->"+alarmClock.getId());
+        AlarmClock a = AlarmClockRepository.getInstance().findOne(alarmClock.getId());
+        a.setUser(userId);
+        a.setAddress(alarmClock.getAddress());
+        a.setDefaultEventLocation(alarmClock.getDefaultEventLocation());
+        a.setName(alarmClock.getName());
+        return AlarmClockRepository.getInstance().save(a);
     }
 
     public AlarmClock generate() {

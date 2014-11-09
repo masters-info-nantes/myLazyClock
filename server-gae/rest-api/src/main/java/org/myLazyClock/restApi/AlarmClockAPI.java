@@ -21,29 +21,29 @@ import java.util.Collection;
 )
 public class AlarmClockAPI {
 
-    @ApiMethod(name = "list", httpMethod = ApiMethod.HttpMethod.GET, path="list")
+    @ApiMethod(name = "alarmClock.list", httpMethod = ApiMethod.HttpMethod.GET, path="alarmClock/list")
     public Collection<AlarmClock> getAllByUser(User user) {
         return AlarmClockService.getInstance().findAll(user.getUserId());
     }
 
-    @ApiMethod(name = "listAll", httpMethod = ApiMethod.HttpMethod.GET, path="listAll")
+    @ApiMethod(name = "alarmClock.listAll", httpMethod = ApiMethod.HttpMethod.GET, path="alarmClock/listAll")
     public Collection<AlarmClock> getAll() {
         return AlarmClockService.getInstance().findAll();
     }
 
-    @ApiMethod(name = "item", httpMethod = ApiMethod.HttpMethod.GET, path="item")
-    public AlarmClock item(@Named("alarmClockId") String alarmClockId, User user) {
-        return AlarmClockService.getInstance().item(alarmClockId, user.getUserId());
+    @ApiMethod(name = "alarmClock.item", httpMethod = ApiMethod.HttpMethod.GET, path="alarmClock/item")
+    public AlarmClock item(@Named("alarmClockId") String alarmClockId) {
+        return AlarmClockService.getInstance().item(alarmClockId);
     }
 
-    @ApiMethod(name = "generate", httpMethod = ApiMethod.HttpMethod.GET, path="generate")
+    @ApiMethod(name = "alarmClock.generate", httpMethod = ApiMethod.HttpMethod.GET, path="alarmClock/generate")
     public AlarmClock generate() {
         return AlarmClockService.getInstance().generate();
     }
 
-    @ApiMethod(name = "link", httpMethod = ApiMethod.HttpMethod.POST, path="link")
-    public AlarmClock link(@Named("alarmClockId") String alarmClockId, User user) {
-        return AlarmClockService.getInstance().link(alarmClockId, user.getUserId());
+    @ApiMethod(name = "alarmClock.link", httpMethod = ApiMethod.HttpMethod.POST, path="alarmClock/link")
+    public AlarmClock link(AlarmClock alarmClock, User user) {
+        return AlarmClockService.getInstance().link(alarmClock, user.getUserId());
     }
 
 }

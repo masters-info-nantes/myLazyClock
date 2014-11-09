@@ -1,6 +1,8 @@
 package org.myLazyClock.model.model;
 
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.*;
+import com.googlecode.objectify.impl.translate.EnumTranslatorFactory;
 
 /**
  * Created by Maxime on 22/10/14.
@@ -71,4 +73,5 @@ public class AlarmClock {
     public void setPreparationTime(int preparationTime) {
         this.preparationTime = preparationTime;
     }
+
 }
