@@ -4,12 +4,15 @@ import java.io.IOException;
 
 import java.net.URL;
 import java.net.MalformedURLException;
+import java.util.Calendar;
+import java.util.Date;
 
 import org.myLazyClock.calendarApi.CalendarFactory;
 import org.myLazyClock.calendarApi.CalendarStrategy;
 
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.data.ParserException;
+import org.myLazyClock.calendarApi.EventNotFoundException;
 
 /**
  * Created on 28/10/14.
@@ -25,22 +28,17 @@ public class CalendarModulesService {
 	 * @param date Day where to search event
 	 * @return First event of day if exist, null otherwise
 	 */
-	public VEvent getFirstEventOfDay(int strategyId, java.util.Calendar date){
+	public Date getFirstEventOfDay(int strategyId, Calendar date){
 		CalendarStrategy strategy = CalendarFactory.getInstance().get(strategyId);
 		
 		// Get ICS file and first event of the day
-		VEvent nextEvent = null;
+		Date nextEvent = null;
 		try{
-			URL url = new URL("https://edt.univ-nantes.fr/staps/g93108.ics");	
-			String icsFile = strategy.getEdt(url);	
-			nextEvent = strategy.getFirstEvent(icsFile, date);
+			nextEvent = strategy.getFirstEvent("https://edt.univ-nantes.fr/staps/g93108.ics", date);
 		}
-		catch(IOException ex){
-			ex.printStackTrace();
-		}
-		catch(ParserException ex){
-			ex.printStackTrace();
-		}
+        catch (EventNotFoundException e) {
+            e.printStackTrace();
+        }
 		
 		return nextEvent;
 	}

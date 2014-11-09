@@ -30,14 +30,6 @@
             <artifactId>model</artifactId>
             <version>${project.version}</version>
         </dependency>
-
-        <!-- Just for Test -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>calendar-edt-univ-nantes</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
     </dependencies>
 
     <build>

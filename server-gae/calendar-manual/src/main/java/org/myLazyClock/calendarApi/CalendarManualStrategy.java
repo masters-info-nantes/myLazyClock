@@ -2,6 +2,8 @@ package org.myLazyClock.calendarApi;
 
 import java.net.URL;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.data.ParserException;
@@ -26,12 +28,10 @@ public class CalendarManualStrategy implements CalendarStrategy {
     }
     
     @Override
-    public String getEdt(URL edtUrl) throws IOException{
-    	return "No ics";
-    }
-    
-    @Override
-    public VEvent getFirstEvent(String icsFile, java.util.Calendar day) throws IOException, ParserException{
-    	return null;
+    public Date getFirstEvent(String url, Calendar day) throws EventNotFoundException {
+        if (day == null) {
+            throw new EventNotFoundException();
+        }
+    	return day.getTime();
     }
 }

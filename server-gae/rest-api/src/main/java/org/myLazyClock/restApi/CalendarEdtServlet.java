@@ -8,14 +8,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import java.text.DateFormat;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
 
 import org.myLazyClock.services.CalendarModulesService;
-import org.myLazyClock.calendarApi.CalendarEdtUnivNantesStrategy;
-
-import net.fortuna.ical4j.model.component.VEvent;
 
 /**
  * Send request to get schedule and returns the first
@@ -50,10 +48,10 @@ public class CalendarEdtServlet extends HttpServlet {
 		}
 		
 		java.util.Calendar cal = java.util.Calendar.getInstance();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		DateFormat dayEvent = new SimpleDateFormat("dd/MM/yyyy");
 		
 		try{
-			cal.setTime(sdf.parse(dateParam));	// No offset (month+1) so no offset in getFirstEvent to compare
+			cal.setTime(dayEvent.parse(dateParam));	// No offset (month+1) so no offset in getFirstEvent to compare
 		}
 		catch(ParseException ex){
 			ex.printStackTrace();
@@ -66,33 +64,18 @@ public class CalendarEdtServlet extends HttpServlet {
 		cal.set(java.util.Calendar.MINUTE, 59);		
 		
 		// Get first event of the day
-		VEvent nextEvent = serviceCalendar.getFirstEventOfDay(CalendarEdtUnivNantesStrategy.ID, cal);
+		Date nextEvent = serviceCalendar.getFirstEventOfDay(2, cal);
 		response.setContentType("text/plain");
-		
-		if(nextEvent == null){ // No event this day
-			response.getWriter().println("No courses today for this day!");
-			return;
-		}
-	
-		// Display event start date in human readable form
-		Date date = nextEvent.getStartDate().getDate();
-		java.util.Calendar debut = java.util.Calendar.getInstance();
-		debut.setTime(date);
-		
-		// Offsets
-		//debut.set(java.util.Calendar.MONTH, debut.get(java.util.Calendar.MONTH) + 1);
-		//debut.set(java.util.Calendar.HOUR_OF_DAY, debut.get(java.util.Calendar.HOUR_OF_DAY) + 1);
-		
-		response.getWriter().println("Event date (offset problems): "
-								  + debut.get(java.util.Calendar.DAY_OF_MONTH) + "/" +
-								  + debut.get(java.util.Calendar.MONTH) + "/" +
-								  + debut.get(java.util.Calendar.YEAR) + " " +
-								  + debut.get(java.util.Calendar.HOUR_OF_DAY) + ":" +
-								  + debut.get(java.util.Calendar.MINUTE) + "\n"								  
+
+        if(nextEvent == null){ // No event this day
+            response.getWriter().println("No courses today for this day!");
+            return;
+        }
+
+        DateFormat dateTimeFormat = new SimpleDateFormat("dd/MM/yyy HH:mm");
+
+        response.getWriter().println("Event date (offset problems): "
+								  + dateTimeFormat.format(nextEvent) + "\n"
 		);
-		
-		// Display event inf
-		response.getWriter().println(nextEvent.getDescription().getValue());	
-        
     }
 }
