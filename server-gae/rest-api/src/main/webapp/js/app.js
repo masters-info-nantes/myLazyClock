@@ -28,15 +28,16 @@ app.run(['GAuth', 'GApi', '$state',
         }
 
         GAuth.setClient(CLIENT);
+        GAuth.setLoginSuccess(function() {
+            $state.go('webapp.home');
+        });
+        GAuth.setLoginFail(function() {
+            $state.go('webapp.login');
+        });
         GAuth.load(function () {
-            GAuth.setLoginSuccess(function() {
-                $state.go('webapp.home');
+            GAuth.login(function () {
+                GApi.load('myLazyClock','v1',BASE);
             });
-            GAuth.setLoginFail(function() {
-                $state.go('webapp.login');
-            });
-            GAuth.login();
-            GApi.load('myLazyClock','v1',BASE);
         });
     }
 ]);

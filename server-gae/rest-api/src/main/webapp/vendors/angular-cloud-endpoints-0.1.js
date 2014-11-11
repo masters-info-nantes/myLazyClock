@@ -1,7 +1,7 @@
 var module = angular.module('angular-cloud-endpoints', []);
 
-module.factory('GClient', ['$document', '$q', '$timeout',
-		function ($document, $q, $timeout) {
+module.factory('GClient', ['$document', '$q', '$timeout', '$interval',
+		function ($document, $q, $timeout, $interval) {
 
         var LOAD_GAE_API = false;
         var URL = 'https://apis.google.com/js/client.js';
@@ -26,11 +26,22 @@ module.factory('GClient', ['$document', '$q', '$timeout',
 
 		function load(calback) {
 				loadScript(URL).then(function() {
-                	$timeout(calback ,500);
+                    var isok = function(calback) {
+                        if(gapi.client != undefined) {
+                            LOAD_GAE_API = true;
+                            calback();
+                            $interval.cancel(check);
+                        }
+                        else {
+                            console.log(";(");
+                        }
+                    }
+                	isok(calback);
+                    var check = $interval(function() {
+                        isok(calback);
+                    }, 10);
                     LOAD_GAE_API = true;
                 	
-				}).catch(function() {
-					LOAD_GAE_API = false;
 				});
 		}
 
@@ -112,8 +123,11 @@ module.factory('GAuth', ['$rootScope', 'GClient',
 
             },
 
-            login: function(){
-            	signin(true, getUser);
+            login: function(calback){
+            	signin(true, function() {
+                    getUser();
+                    calback();
+                });
             },
 
             signin: function(calback){                
@@ -152,7 +166,12 @@ module.factory('GApi', ['GClient',
                 API_NAME = name;
                 var i = 0;
                 angular.forEach(observerCallbacks, function(callback){
-                    gapi.client[name]['alarmClock'][observerCallbacksname[i]](observerCallbacksPostarray[i++]).execute(callback);
+                    var apipath = observerCallbacksname[i].split('.');
+                    var api = gapi.client[API_NAME];
+                    for(var j= 0; j < apipath.length; j++) {
+                        api = api[apipath[j]];
+                    }
+                    api(observerCallbacksPostarray[i++]).execute(callback);
                 });
             }, url)
         	});
@@ -160,7 +179,12 @@ module.factory('GApi', ['GClient',
 
         function api(apiname, postarray, apifunction) {
             if (LOAD_API) {
-                gapi.client[API_NAME]['alarmClock'][apiname](postarray).execute(apifunction);
+                var apipath = apiname.split('.');
+                var api = gapi.client[API_NAME];
+                for(var i= 0; i < apipath.length; i++) {
+                    api = api[apipath[i]];
+                }
+                api(postarray).execute(apifunction);
             }
             else
                 registerObserverCallback(apiname, postarray, apifunction);
