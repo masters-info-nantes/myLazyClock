@@ -20,7 +20,7 @@
     <filter-mapping>
         <filter-name>ObjectifyFilter</filter-name>
         <url-pattern>/_ah/spi/*</url-pattern>
-    </filter-mapping>
+        </filter-mapping>
 
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>

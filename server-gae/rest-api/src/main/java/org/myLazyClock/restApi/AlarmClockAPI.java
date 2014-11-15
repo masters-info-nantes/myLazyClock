@@ -17,7 +17,7 @@ import java.util.Collection;
     name = Constants.NAME,
     version = Constants.VERSION,
     clientIds = { Constants.WEB_CLIENT_ID, Constants.WEB_CLIENT_ID_DEV,  Constants.WEB_CLIENT_ID_DEV_WEB},
-    scopes = { Constants.EMAIL_SCOPE }
+    scopes = {Constants.SCOPE_EMAIL, Constants.SCOPE_CALENDAR_READ}
 )
 public class AlarmClockAPI {
 
