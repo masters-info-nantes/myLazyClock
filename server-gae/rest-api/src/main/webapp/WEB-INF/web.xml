@@ -5,7 +5,7 @@
         <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
         <init-param>
             <param-name>services</param-name>
-            <param-value>org.myLazyClock.restApi.AlarmClockAPI</param-value>
+            <param-value>org.myLazyClock.restApi.AlarmClockAPI,org.myLazyClock.restApi.CalendarAPI</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>
@@ -35,14 +35,4 @@
         <servlet-name>ModulesServlet</servlet-name>
         <url-pattern>/testModules</url-pattern>
     </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>CalendarServlet</servlet-name>
-        <servlet-class>org.myLazyClock.restApi.CalendarServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>CalendarServlet</servlet-name>
-        <url-pattern>/calendar</url-pattern>
-    </servlet-mapping>    
 </web-app>

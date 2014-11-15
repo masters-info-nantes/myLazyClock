@@ -26,14 +26,15 @@ public class ModulesServlet extends HttpServlet {
 
         response.setContentType("text/plain");
 
-        CalendarModulesService serviceCalendar = new CalendarModulesService();
+        CalendarModulesService serviceCalendar = CalendarModulesService.getInstance();
         TravelModulesServices serviceTravel = new TravelModulesServices();
 
 
         PrintWriter out = response.getWriter();
+
         out.println("All implementation of CalendarStrategy : ");
         out.println("Name of implementation : id");
-        out.println(serviceCalendar.listModule());
+        out.println(serviceCalendar.listModuleStr());
 
         out.println();
         out.println("=====================================");

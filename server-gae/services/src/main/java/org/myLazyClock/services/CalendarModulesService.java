@@ -6,6 +6,8 @@ import java.net.URL;
 import java.net.MalformedURLException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Collection;
+import java.util.ArrayList;
 
 import org.myLazyClock.calendarApi.CalendarFactory;
 import org.myLazyClock.calendarApi.CalendarStrategy;
@@ -20,6 +22,17 @@ import org.myLazyClock.calendarApi.EventNotFoundException;
  * @author dralagen
  */
 public class CalendarModulesService {
+
+    private static CalendarModulesService service = null;
+
+    private CalendarModulesService() {}
+
+    public static synchronized CalendarModulesService getInstance() {
+        if (null == service) {
+            service = new CalendarModulesService();
+        }
+        return service;
+    }
 
 	/**
 	 * Return the first event in specified day on online schedule
@@ -41,9 +54,26 @@ public class CalendarModulesService {
     /**
      * List all module who implement {@link CalendarStrategy}
      *
+     * @return a Collection of all modules
+     */
+    public Collection<CalendarStrategy> listModule() {
+        Collection<CalendarStrategy> result = new ArrayList<CalendarStrategy>();
+
+        CalendarFactory factory = CalendarFactory.getInstance();
+
+        for ( CalendarStrategy strategy : factory) {
+            result.add(strategy);
+        }
+
+        return result;
+    }
+
+    /**
+     * List all module who implement {@link CalendarStrategy}
+     *
      * @return a String at this format : "Name : Id \n"
      */
-    public String listModule() {
+    public String listModuleStr() {
         String result = "";
 
         CalendarFactory factory = CalendarFactory.getInstance();
