@@ -37,6 +37,12 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>calendar-google</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>calendar-api</artifactId>
             <version>${project.version}</version>
         </dependency>
