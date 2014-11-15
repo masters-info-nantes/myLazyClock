@@ -2,6 +2,8 @@ package org.myLazyClock.services;
 
 import org.myLazyClock.model.model.AlarmClock;
 import org.myLazyClock.model.repository.AlarmClockRepository;
+import org.myLazyClock.services.exception.NotFoundMyLazyClockException;
+import org.myLazyClock.services.exception.ForbiddenMyLazyClockException;
 
 import java.util.Collection;
 
@@ -21,26 +23,51 @@ public class AlarmClockService {
         return service;
     }
 
-
-    public Collection<AlarmClock> findAll() {
-        return AlarmClockRepository.getInstance().findAll();
+    private AlarmClock findOne(Long alarmClockId) throws NotFoundMyLazyClockException {
+        AlarmClock alarmClock = AlarmClockRepository.getInstance().findOne(alarmClockId);
+        if(alarmClock == null)
+            throw new NotFoundMyLazyClockException();
+        return alarmClock;
     }
 
     public Collection<AlarmClock> findAll(String userId) {
         return AlarmClockRepository.getInstance().findAllByUserId(userId);
     }
 
-    public AlarmClock item(String alarmClockId) {
-        return AlarmClockRepository.getInstance().findOne(alarmClockId);
+    public AlarmClock item(String alarmClockId) throws NotFoundMyLazyClockException {
+        return findOne(Long.parseLong(alarmClockId));
     }
 
-    public AlarmClock link(AlarmClock alarmClock, String userId) {
-        System.out.print("-->"+alarmClock.getId());
-        AlarmClock a = AlarmClockRepository.getInstance().findOne(alarmClock.getId());
+    public AlarmClock link(AlarmClock alarmClock, String userId) throws ForbiddenMyLazyClockException, NotFoundMyLazyClockException {
+        AlarmClock a = findOne(alarmClock.getId());
+        if(a.getUser() != null)
+            throw new ForbiddenMyLazyClockException();
         a.setUser(userId);
         a.setAddress(alarmClock.getAddress());
-        a.setDefaultEventLocation(alarmClock.getDefaultEventLocation());
         a.setName(alarmClock.getName());
+        a.setPreparationTime(alarmClock.getPreparationTime());
+        a.setColor(alarmClock.getColor());
+        return AlarmClockRepository.getInstance().save(a);
+    }
+
+    public AlarmClock unlink(AlarmClock alarmClock, String userId) throws ForbiddenMyLazyClockException, NotFoundMyLazyClockException {
+        AlarmClock a = findOne(alarmClock.getId());
+        if(!a.getUser().equals(userId))
+            throw new ForbiddenMyLazyClockException();
+        AlarmClock b = new AlarmClock();
+        b.setId(a.getId());
+        AlarmClockRepository.getInstance().delete(a);
+        return AlarmClockRepository.getInstance().save(b);
+    }
+
+    public AlarmClock update(AlarmClock alarmClock, String userId) throws ForbiddenMyLazyClockException, NotFoundMyLazyClockException {
+        AlarmClock a = findOne(alarmClock.getId());
+        if(!a.getUser().equals(userId))
+            throw new ForbiddenMyLazyClockException();
+        a.setAddress(alarmClock.getAddress());
+        a.setName(alarmClock.getName());
+        a.setPreparationTime(alarmClock.getPreparationTime());
+        a.setColor(alarmClock.getColor());
         return AlarmClockRepository.getInstance().save(a);
     }
 

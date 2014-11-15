@@ -20,7 +20,7 @@ public class AlarmClock {
 
     private String address;
 
-    private String defaultEventLocation;
+    private String color;
 
     private int preparationTime;
 
@@ -58,14 +58,6 @@ public class AlarmClock {
         this.address = address;
     }
 
-    public String getDefaultEventLocation() {
-        return defaultEventLocation;
-    }
-
-    public void setDefaultEventLocation(String defaultEventLocation) {
-        this.defaultEventLocation = defaultEventLocation;
-    }
-
     public int getPreparationTime() {
         return preparationTime;
     }
@@ -74,4 +66,12 @@ public class AlarmClock {
         this.preparationTime = preparationTime;
     }
 
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
 }

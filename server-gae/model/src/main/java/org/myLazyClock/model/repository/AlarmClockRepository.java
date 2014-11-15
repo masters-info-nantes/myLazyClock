@@ -54,4 +54,8 @@ public class AlarmClockRepository {
         return alarmClock;
     }
 
+    public void delete(AlarmClock alarmClock) {
+        ofy().delete().entity(alarmClock).now();
+    }
+
 }
