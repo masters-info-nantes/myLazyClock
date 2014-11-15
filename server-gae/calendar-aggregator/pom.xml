@@ -18,6 +18,7 @@
     <modules>
         <module>../calendar-manual</module>
         <module>../calendar-edt-univ-nantes</module>
+        <module>../calendar-google</module>
     </modules>
 
 

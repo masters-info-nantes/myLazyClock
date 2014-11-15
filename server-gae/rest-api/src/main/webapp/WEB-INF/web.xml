@@ -37,12 +37,12 @@
     </servlet-mapping>
     
     <servlet>
-        <servlet-name>CalendarEdt</servlet-name>
-        <servlet-class>org.myLazyClock.restApi.CalendarEdtServlet</servlet-class>
+        <servlet-name>CalendarServlet</servlet-name>
+        <servlet-class>org.myLazyClock.restApi.CalendarServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>CalendarEdt</servlet-name>
-        <url-pattern>/calendarEdt</url-pattern>
+        <servlet-name>CalendarServlet</servlet-name>
+        <url-pattern>/calendar</url-pattern>
     </servlet-mapping>    
 </web-app>

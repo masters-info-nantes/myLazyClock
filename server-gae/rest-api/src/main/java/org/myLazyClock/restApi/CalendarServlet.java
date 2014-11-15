@@ -35,7 +35,7 @@ import org.myLazyClock.services.CalendarModulesService;
  *   - in war/WEB-INF/lib to deploy
  *   
  */
-public class CalendarEdtServlet extends HttpServlet {
+public class CalendarServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
@@ -44,8 +44,13 @@ public class CalendarEdtServlet extends HttpServlet {
 		
 		// Get given date
 		String dateParam = request.getParameter("day");
+		String strategyParam = request.getParameter("cal");
 		if(dateParam == null){
-			response.getWriter().println("Please, specify 'day' parameter");
+			response.getWriter().println("Please, specify 'day' parameter with form \"DD/MM/YYYY\"");
+			return;
+		}
+		else if(strategyParam == null){
+			response.getWriter().println("Please, specify 'cal' parameter with \"edt\" or \"google\"");
 			return;
 		}
 		
@@ -67,7 +72,9 @@ public class CalendarEdtServlet extends HttpServlet {
 		
 		// Get first event of the day
 		try {
-			Date nextEvent = serviceCalendar.getFirstEventOfDay(2, cal);
+			int strategy = (strategyParam.equals("google")) ? 3 : 2;
+
+			Date nextEvent = serviceCalendar.getFirstEventOfDay(strategy, cal);
 	        DateFormat dateTimeFormat = new SimpleDateFormat("dd/MM/yyy HH:mm");
 	
 	        response.getWriter().println("Event date (offset problems): "
