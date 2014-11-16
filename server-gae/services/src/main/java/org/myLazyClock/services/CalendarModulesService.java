@@ -54,7 +54,7 @@ public class CalendarModulesService {
     /**
      * List all module who implement {@link CalendarStrategy}
      *
-     * @return a Collection of all modules
+     * @return a Collection of all Calendar modules
      */
     public Collection<CalendarStrategy> listModule() {
         Collection<CalendarStrategy> result = new ArrayList<CalendarStrategy>();
@@ -68,20 +68,4 @@ public class CalendarModulesService {
         return result;
     }
 
-    /**
-     * List all module who implement {@link CalendarStrategy}
-     *
-     * @return a String at this format : "Name : Id \n"
-     */
-    public String listModuleStr() {
-        String result = "";
-
-        CalendarFactory factory = CalendarFactory.getInstance();
-
-        for ( CalendarStrategy strategy : factory) {
-            result += strategy.getName() + " : " + strategy.getId() + "\n";
-        }
-
-        return result;
-    }
 }

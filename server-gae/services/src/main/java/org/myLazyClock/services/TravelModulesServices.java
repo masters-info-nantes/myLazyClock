@@ -3,6 +3,9 @@ package org.myLazyClock.services;
 import org.myLazyClock.travelApi.TravelFactory;
 import org.myLazyClock.travelApi.TravelStrategy;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 /**
  * Created on 28/10/14.
  *
@@ -13,15 +16,15 @@ public class TravelModulesServices {
     /**
      * List all module who implement {@link TravelStrategy}
      *
-     * @return a String at this format : "Name : Id \n"
+     * @return a Collection of all Travel modules
      */
-    public String listModule() {
-        String result = "";
+    public Collection<TravelStrategy> listModule() {
+        Collection<TravelStrategy> result = new ArrayList<TravelStrategy>();
 
         TravelFactory factory = TravelFactory.getInstance();
 
         for ( TravelStrategy strategy : factory) {
-            result += strategy.getName() + " : " + strategy.getId() + "\n";
+            result.add(strategy);
         }
 
         return result;
