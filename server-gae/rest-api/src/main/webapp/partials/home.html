@@ -1,7 +1,45 @@
-<button ui-sref="webapp.alarmClockItem({ id: a.id })" ng-repeat="a in alarmClocks" class="btn btn-default btn-lg btn-block">
-    <h1>{{ a.name }}</h1>
-        {{ a.id }}
-</button>
-<button class="btn btn-default btn-lg btn-block" ui-sref="webapp.alarmClockAdd">
-    <h1><span class="glyphicon glyphicon-plus"></span> Add a new alarm clock</h1>
-</button>
+<div class="row">
+      
+      <div class="col-md-6" ui-sref="webapp.alarmClockItem({ id: a.id })" ng-repeat="a in alarmClocks">
+        <div class="block-flat dark-box" style="background: {{a.color}};">
+						<div class="header">
+              <div class="actions">
+              </div>
+							<h3>{{a.name}}</h3>
+						</div>
+						<div class="content">
+							<div class="clock-wrap" style="color: {{a.color}};">
+              <div class="hour-wrap">
+		<div class="digit-top">
+			<div class="front">{{ clock  | date:'HH'}}</div>
+			<div class="back">{{ clock  | date:'HH'}}</div>
+		</div>
+		<div class="digit-bottom">
+			<div class="front">{{ clock  | date:'HH'}}</div>
+		</div>
+	</div>
+	<div class="min-wrap">
+		<div class="digit-top">
+			<div class="front">{{ clock  | date:'mm'}}</div>
+			<div class="back">{{ clock  | date:'mm'}}</div>
+		</div>
+		<div class="digit-bottom">
+			<div class="front">{{ clock  | date:'mm'}}</div>
+		</div>
+	</div>
+	<div class="sec-wrap">
+		<div class="digit-top">
+			<div class="front">{{ clock  | date:'ss'}}</div>
+			<div class="back">{{ clock  | date:'ss'}}</div>
+		</div>
+		<div class="digit-bottom">
+			<div class="front">{{ clock  | date:'ss'}}</div>
+		</div>
+	</div>
+</div>
+              <center><button type="button" class="btn btn-white btn-rad btn-trans" style="margin-top: 10px;">Configuration</button></center>
+            </div>
+        </div>
+        </div>
+
+      </div>

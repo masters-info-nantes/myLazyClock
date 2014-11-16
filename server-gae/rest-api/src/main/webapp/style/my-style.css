@@ -1,0 +1,22 @@
+.btn-trans.btn-white {
+	color: #ffffff;
+	border-color: #ffffff;
+	background-color: rgba(0, 0, 0, 0);
+}
+
+.btn-trans.btn-white:hover {
+  background-color: #ffffff;
+  color: rgba(0, 0, 0, 1);
+}
+
+.dark-box {
+	background: #7761a7;
+}
+
+.clock-wrap {
+	color: #7761a7;
+}
+
+.sign-up-container .middle-sign-up {
+margin-top: -150px;
+}

@@ -27,17 +27,18 @@ app.run(['GAuth', 'GApi', '$state',
             BASE = 'https://mylazyclock.appspot.com/_ah/api';
         }
 
+        GApi.load('myLazyClock','v1',BASE);
+        GApi.load('calendar','v3');
         GAuth.setClient(CLIENT);
-        GAuth.setLoginSuccess(function() {
-            $state.go('webapp.home');
-        });
-        GAuth.setLoginFail(function() {
-            $state.go('webapp.login');
-        });
-        GAuth.load(function () {
-            GAuth.login(function () {
-                GApi.load('myLazyClock','v1',BASE);
-            });
-        });
+        GAuth.setScopes(['https://www.googleapis.com/auth/userinfo.email','https://www.googleapis.com/auth/calendar.readonly']);
+        GAuth.checkAuth().then(
+            function () {
+                if($state.includes('login'))
+                    $state.go('webapp.home');
+            },
+            function() {
+                $state.go('login');
+            }
+        );
     }
 ]);

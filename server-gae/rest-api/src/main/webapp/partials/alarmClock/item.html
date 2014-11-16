@@ -1,4 +1,49 @@
-<h1>{{alarmClock.name}}</h1>
-<h6>{{alarmClock.id}}</h6>
-
-hello
+<style type ="text/css">
+.clock-wrap .front, .clock-wrap .back {
+	color: {{alarmClock.color}};
+}
+</style>
+<div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+<div class="block-flat dark-box" style="background: {{alarmClock.color}};">
+						<div class="header">
+              <div class="actions">
+                <a class="minimize" href="#"><i class="glyphicon glyphicon-pencil"></i></a>
+              </div>
+							<h3>{{alarmClock.name}}</h3>
+						</div>
+						<div class="content">
+              <div class="clock-wrap" ng-controller="myLazyClock.controller.clock" style="color: {{alarmClock.color}};">
+	<div class="hour-wrap">
+		<div class="digit-top">
+			<div class="front">00</div>
+			<div class="back">00</div>
+		</div>
+		<div class="digit-bottom">
+			<div class="front">00</div>
+		</div>
+	</div>
+	<div class="min-wrap">
+		<div class="digit-top">
+			<div class="front">00</div>
+			<div class="back">00</div>
+		</div>
+		<div class="digit-bottom">
+			<div class="front">00</div>
+		</div>
+	</div>
+	<div class="sec-wrap">
+		<div class="digit-top">
+			<div class="front">00</div>
+			<div class="back">00</div>
+		</div>
+		<div class="digit-bottom">
+			<div class="front">00</div>
+		</div>
+	</div>
+</div>
+						</div>
+					</div>
+</div>
+</div>

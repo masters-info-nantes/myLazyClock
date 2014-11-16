@@ -4,7 +4,7 @@ router
     .config(['$urlRouterProvider',
         function($urlRouterProvider) {
 
-            $urlRouterProvider.otherwise("/");
+            $urlRouterProvider.otherwise("/login");
 
         }]);
 
@@ -14,10 +14,21 @@ router
 
             $stateProvider
 
+                .state('login', {
+                    url :'/login',
+                    views :  {
+                        '': {
+                            templateUrl: 'partials/login.html',
+                            controller: 'myLazyClock.controller.login',
+                        },
+                    },
+                })
+
                 .state('webapp', {
                     abstract: true,
                     url: '',
                     templateUrl: 'partials/page.html',
+                    controller: 'myLazyClock.controller.page',
                 })
 
                 .state('webapp.home', {
@@ -26,16 +37,6 @@ router
                         '': {
                             controller: 'myLazyClock.controller.home',
                             templateUrl: 'partials/home.html',
-                        },
-                    },
-                })
-
-                .state('webapp.login', {
-                    url :'/login',
-                    views :  {
-                        '': {
-                            templateUrl: 'partials/login.html',
-                            controller: 'myLazyClock.controller.login',
                         },
                     },
                 })

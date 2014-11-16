@@ -1,45 +1,40 @@
-<h1>Add a new alarm clock</h1>
+<h1>Ajouter un nouveau réveil</h1>
 
-<p>Please, enter id visible on your alarm clock</p>
+
 
 <form class="form-horizontal" ng-submit="submitAdd()" name="addAlarmClock">
 <fieldset>
 
+<p>Saisir l'identificant visible sur le reveil (suite de chiffre)</p>
 <!-- Text input-->
 <div class="form-group">
-  <input id="textinput" ng-model="alarmClock.id" name="textinput" type="text" placeholder="Alarm clock id" class="form-control input-md">
+  <input ng-model="alarmClock.id" name="textinput" type="text" placeholder="ID de du réveil" class="form-control input-md">
 </div>
 
-<p>Name</p>
+<p>Nom du réveil</p>
 <!-- Text input-->
 <div class="form-group">
-  <input id="textinput" ng-model="alarmClock.name" name="textinput" type="text" placeholder="Alarm clock name" class="form-control input-md">
+  <input ng-model="alarmClock.name" name="textinput" type="text" placeholder="Nom du réveil" class="form-control input-md">
 </div>
 
-<p>Address</p>
+<p>Adresse où se trouve le réveil</p>
 <!-- Text input-->
 <div class="form-group">
-  <input id="textinput" ng-model="alarmClock.address" name="textinput" type="text" placeholder="Alarm clock id" class="form-control input-md">
+  <input ng-model="alarmClock.address" name="textinput" type="text" placeholder="Adresse du réveil" class="form-control input-md">
 </div>
 
-<p>default loc</p>
+<p>Temps que vous voulez pour vous préparer</p>
 <!-- Text input-->
 <div class="form-group">
-  <input id="textinput" ng-model="alarmClock.defaultEventLocation" name="textinput" type="text" placeholder="Alarm clock id" class="form-control input-md">
+  <input ng-model="alarmClock.preparationTime" name="textinput" type="text" placeholder="" class="form-control input-md">
 </div>
 
-<p>prepa</p>
+<p>Couleur du réveil</p>
 <!-- Text input-->
 <div class="form-group">
-  <input id="textinput" ng-model="alarmClock.preparationTime" name="textinput" type="text" placeholder="Alarm clock id" class="form-control input-md">
+  <input ng-model="alarmClock.color" name="textinput" type="text" placeholder="" class="form-control input-md">
 </div>
 
-<p>travelMode</p>
-<!-- Text input-->
-<div class="form-group">
-  <input id="textinput" ng-model="alarmClock.travelMode" name="textinput" type="text" placeholder="Alarm clock id" class="form-control input-md">
-</div>
-
-<button type="submit" class="btn btn-primary" ng-class="{'disabled' : !addAlarmClock.$valid}">Add</button>
+<button type="submit" class="btn btn-primary" ng-class="{'disabled' : !addAlarmClock.$valid}">Ajouter</button>
 </fieldset>
 </form>
