@@ -1,5 +1,7 @@
 package org.myLazyClock.calendarApi;
 
+import org.myLazyClock.calendarApi.CalendarEvent;
+
 import java.util.Calendar;
 
 /**

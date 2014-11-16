@@ -7,6 +7,7 @@ import com.google.api.server.spi.response.ForbiddenException;
 import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.users.User;
 import org.myLazyClock.model.model.AlarmClock;
+import org.myLazyClock.model.model.AlarmClockEvent;
 import org.myLazyClock.services.AlarmClockService;
 import org.myLazyClock.services.exception.ForbiddenMyLazyClockException;
 import org.myLazyClock.services.exception.NotFoundMyLazyClockException;
@@ -56,9 +57,9 @@ public class AlarmClockAPI {
     }
 
     @ApiMethod(name = "alarmClock.unlink", httpMethod = ApiMethod.HttpMethod.POST, path="alarmClock/unlink")
-    public AlarmClock unlink(AlarmClock alarmClock, User user) throws ForbiddenException, NotFoundException{
+    public AlarmClock unlink(@Named("alarmClockId") String alarmClockId, User user) throws ForbiddenException, NotFoundException{
         try {
-            return AlarmClockService.getInstance().unlink(alarmClock, user.getUserId());
+            return AlarmClockService.getInstance().unlink(alarmClockId, user.getUserId());
         } catch (ForbiddenMyLazyClockException e) {
             throw new ForbiddenException("Forbidden");
         } catch (NotFoundMyLazyClockException e) {
@@ -75,6 +76,11 @@ public class AlarmClockAPI {
         } catch (NotFoundMyLazyClockException e) {
             throw new NotFoundException("NotFound");
         }
+    }
+
+    @ApiMethod(name = "alarmClock.clockevent", httpMethod = ApiMethod.HttpMethod.POST, path="alarmClock/clockevent")
+    public AlarmClockEvent clockEvent(AlarmClock alarmClock, User user) throws ForbiddenException, NotFoundException{
+        return new AlarmClockEvent();
     }
 
 }

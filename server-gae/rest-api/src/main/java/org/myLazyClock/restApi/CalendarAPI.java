@@ -8,6 +8,7 @@ import com.google.appengine.api.users.User;
 import org.myLazyClock.calendarApi.CalendarEvent;
 import org.myLazyClock.calendarApi.CalendarStrategy;
 import org.myLazyClock.calendarApi.EventNotFoundException;
+import org.myLazyClock.model.model.Calendar;
 import org.myLazyClock.services.CalendarModulesService;
 
 import java.text.DateFormat;
@@ -26,11 +27,21 @@ import java.util.Collection;
         scopes = { Constants.SCOPE_EMAIL, Constants.SCOPE_CALENDAR_READ }
 )
 public class CalendarAPI {
+    
+    @ApiMethod(name = "calendar.add", httpMethod = ApiMethod.HttpMethod.POST, path="calendar")
+    public Calendar add(@Named("alarmClockId") String alarmClockId, @Named("calendar") Calendar calendar, User user) {
+        return calendar;
+    }
 
-    @ApiMethod(name = "calendar.listAll", httpMethod = ApiMethod.HttpMethod.GET, path="calendar/list")
+    @ApiMethod(name = "calendar.delete", httpMethod = ApiMethod.HttpMethod.DELETE, path="calendar")
+    public Calendar delete(@Named("alarmClockId") String alarmClockId, @Named("calendarId") String calendarId, User user) {
+        return new Calendar();
+    }
+
+    /*@ApiMethod(name = "calendar.listAll", httpMethod = ApiMethod.HttpMethod.GET, path="calendar/list")
     public Collection<CalendarStrategy> getAll() {
         return CalendarModulesService.getInstance().listModule();
-    }
+    }*/
 
 
     /*
@@ -38,7 +49,7 @@ public class CalendarAPI {
      * - calendar scope not work for me
      * - include Event object to remplace AlarmClock
      */
-    @ApiMethod(name = "calendar.firstEvent", httpMethod = ApiMethod.HttpMethod.GET, path="calendar/firstEvent")
+    /*@ApiMethod(name = "calendar.firstEvent", httpMethod = ApiMethod.HttpMethod.GET, path="calendar/firstEvent")
     public CalendarEvent getFirstEvent(@Named("cal") String calendarStrategy, @Named("details") String calendarDetails,
                                        @Named("day") String day, User user) throws ParseException, EventNotFoundException, OAuthRequestException {
 
@@ -62,5 +73,5 @@ public class CalendarAPI {
         }
 
         return nextEvent;
-    }
+    }*/
 }

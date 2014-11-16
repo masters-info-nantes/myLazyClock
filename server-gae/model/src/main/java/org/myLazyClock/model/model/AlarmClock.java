@@ -66,7 +66,6 @@ public class AlarmClock {
         this.preparationTime = preparationTime;
     }
 
-
     public String getColor() {
         return color;
     }
@@ -74,4 +73,5 @@ public class AlarmClock {
     public void setColor(String color) {
         this.color = color;
     }
+
 }
