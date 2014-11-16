@@ -3,18 +3,16 @@ package org.myLazyClock.restApi;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.Named;
-import com.google.appengine.api.users.User;
 import com.google.appengine.api.oauth.OAuthRequestException;
-
-import org.myLazyClock.model.model.AlarmClock;
+import com.google.appengine.api.users.User;
+import org.myLazyClock.calendarApi.CalendarEvent;
 import org.myLazyClock.calendarApi.CalendarStrategy;
 import org.myLazyClock.calendarApi.EventNotFoundException;
 import org.myLazyClock.services.CalendarModulesService;
 
-import java.util.Date;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 
 /**
@@ -41,8 +39,8 @@ public class CalendarAPI {
      * - include Event object to remplace AlarmClock
      */
     @ApiMethod(name = "calendar.firstEvent", httpMethod = ApiMethod.HttpMethod.GET, path="calendar/firstEvent")
-    public AlarmClock getFirstEvent(@Named("cal") String calendarStrategy, @Named("details") String calendarDetails,
-                                    @Named("day") String day, User user) throws ParseException, EventNotFoundException, OAuthRequestException {
+    public CalendarEvent getFirstEvent(@Named("cal") String calendarStrategy, @Named("details") String calendarDetails,
+                                       @Named("day") String day, User user) throws ParseException, EventNotFoundException, OAuthRequestException {
 
         CalendarModulesService serviceCalendar = CalendarModulesService.getInstance();
         java.util.Calendar cal = java.util.Calendar.getInstance();
@@ -57,15 +55,12 @@ public class CalendarAPI {
         // Get first event of the day
         int strategy = (calendarStrategy.equals("google")) ? 3 : 2;
 
-        Date nextEvent = serviceCalendar.getFirstEventOfDay(strategy, cal);
+        CalendarEvent nextEvent = serviceCalendar.getFirstEventOfDay(strategy, cal);
 
         if(user == null){
             throw new OAuthRequestException("Must be connected to access your calendar");
         }
 
-        AlarmClock alarm = new AlarmClock();
-        alarm.setName(nextEvent.toGMTString() + " GMT");
-        alarm.setAddress(user.toString());
-        return alarm;
+        return nextEvent;
     }
 }

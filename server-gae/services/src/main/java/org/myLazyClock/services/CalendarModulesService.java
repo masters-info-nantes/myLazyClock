@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.Collection;
 import java.util.ArrayList;
 
+import org.myLazyClock.calendarApi.CalendarEvent;
 import org.myLazyClock.calendarApi.CalendarFactory;
 import org.myLazyClock.calendarApi.CalendarStrategy;
 
@@ -41,11 +42,11 @@ public class CalendarModulesService {
 	 * @param date Day where to search event
 	 * @return First event of day if exist, null otherwise
 	 */
-	public Date getFirstEventOfDay(int strategyId, Calendar date) throws EventNotFoundException{
+	public CalendarEvent getFirstEventOfDay(int strategyId, Calendar date) throws EventNotFoundException{
 		CalendarStrategy strategy = CalendarFactory.getInstance().get(strategyId);
 		
 		// Get ICS file and first event of the day
-		Date nextEvent = null;
+		CalendarEvent nextEvent = null;
 		nextEvent = strategy.getFirstEvent("https://edt.univ-nantes.fr/staps/g93108.ics", date);
 			
 		return nextEvent;

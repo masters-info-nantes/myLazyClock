@@ -1,8 +1,8 @@
 package org.myLazyClock.model.model;
 
-import com.googlecode.objectify.Key;
-import com.googlecode.objectify.annotation.*;
-import com.googlecode.objectify.impl.translate.EnumTranslatorFactory;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 
 /**
  * Created by Maxime on 22/10/14.

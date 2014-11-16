@@ -1,9 +1,6 @@
 package org.myLazyClock.calendarApi;
 
-import java.net.URL;
-import java.io.IOException;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created on 28/10/14.
@@ -34,8 +31,8 @@ public interface CalendarStrategy {
      *
      * @param url url of source
      * @param day day in which search event
-     * @return Date of FirstEvent
+     * @return CalendarEvent the first event find
      * @throws EventNotFoundException if not event found in specific day
      */
-    public Date getFirstEvent(String url, Calendar day) throws EventNotFoundException;
+    public CalendarEvent getFirstEvent(String url, Calendar day) throws EventNotFoundException;
 }

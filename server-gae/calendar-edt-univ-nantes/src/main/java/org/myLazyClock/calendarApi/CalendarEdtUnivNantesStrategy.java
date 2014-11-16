@@ -9,13 +9,11 @@ import net.fortuna.ical4j.model.component.VEvent;
 
 import java.io.IOException;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Date;
 
 /**
 * Send request to get schedule and returns the first
@@ -85,7 +83,7 @@ public class CalendarEdtUnivNantesStrategy implements CalendarStrategy {
      * @throws EventNotFoundException if no event found
      */
     @Override
-    public Date getFirstEvent (String url, java.util.Calendar day) throws EventNotFoundException {
+    public CalendarEvent getFirstEvent (String url, java.util.Calendar day) throws EventNotFoundException {
 
         String icsFile = null;
         try {
@@ -141,6 +139,13 @@ public class CalendarEdtUnivNantesStrategy implements CalendarStrategy {
             throw new EventNotFoundException();
         }
 
-        return nextEvent.getStartDate().getDate();
+        CalendarEvent eventReturn = new CalendarEvent();
+
+        eventReturn.setBeginDate(nextEvent.getStartDate().getDate());
+        eventReturn.setEndDate(nextEvent.getEndDate().getDate());
+
+        eventReturn.setName(nextEvent.getSummary().getValue());
+
+        return eventReturn;
     }
 }

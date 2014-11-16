@@ -1,12 +1,6 @@
 package org.myLazyClock.calendarApi;
 
-import java.net.URL;
-import java.io.IOException;
 import java.util.Calendar;
-import java.util.Date;
-
-import net.fortuna.ical4j.model.component.VEvent;
-import net.fortuna.ical4j.data.ParserException;
 
 /**
  * Created on 28/10/14.
@@ -28,10 +22,15 @@ public class CalendarGoogleStrategy implements CalendarStrategy {
     }
     
     @Override
-    public Date getFirstEvent(String url, Calendar day) throws EventNotFoundException {
+    public CalendarEvent getFirstEvent(String url, Calendar day) throws EventNotFoundException {
         if (day == null) {
             throw new EventNotFoundException();
         }
-    	return day.getTime();
+
+        CalendarEvent returnEvent = new CalendarEvent();
+
+        returnEvent.setBeginDate(day.getTime());
+
+    	return returnEvent;
     }
 }
