@@ -27,9 +27,9 @@ import java.util.Collection;
         scopes = { Constants.SCOPE_EMAIL, Constants.SCOPE_CALENDAR_READ }
 )
 public class CalendarAPI {
-    
+
     @ApiMethod(name = "calendar.add", httpMethod = ApiMethod.HttpMethod.POST, path="calendar")
-    public Calendar add(@Named("alarmClockId") String alarmClockId, @Named("calendar") Calendar calendar, User user) {
+    public Calendar add(@Named("alarmClockId") String alarmClockId, Calendar calendar, User user) {
         return calendar;
     }
 
