@@ -1,11 +1,6 @@
 package org.myLazyClock.services;
 
-import java.io.IOException;
-
-import java.net.URL;
-import java.net.MalformedURLException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Collection;
 import java.util.ArrayList;
 
@@ -13,8 +8,6 @@ import org.myLazyClock.calendarApi.CalendarEvent;
 import org.myLazyClock.calendarApi.CalendarFactory;
 import org.myLazyClock.calendarApi.CalendarStrategy;
 
-import net.fortuna.ical4j.model.component.VEvent;
-import net.fortuna.ical4j.data.ParserException;
 import org.myLazyClock.calendarApi.EventNotFoundException;
 
 /**

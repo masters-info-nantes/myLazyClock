@@ -24,6 +24,8 @@ public class AlarmClockService {
     }
 
     private AlarmClock findOne(Long alarmClockId) throws NotFoundMyLazyClockException {
+        if (alarmClockId == null)
+            throw new NotFoundMyLazyClockException();
         AlarmClock alarmClock = AlarmClockRepository.getInstance().findOne(alarmClockId);
         if(alarmClock == null)
             throw new NotFoundMyLazyClockException();
@@ -50,8 +52,8 @@ public class AlarmClockService {
         return AlarmClockRepository.getInstance().save(a);
     }
 
-    public AlarmClock unlink(AlarmClock alarmClock, String userId) throws ForbiddenMyLazyClockException, NotFoundMyLazyClockException {
-        AlarmClock a = findOne(alarmClock.getId());
+    public AlarmClock unlink(String alarmClockId, String userId) throws ForbiddenMyLazyClockException, NotFoundMyLazyClockException {
+        AlarmClock a = findOne(Long.parseLong(alarmClockId));
         if(!a.getUser().equals(userId))
             throw new ForbiddenMyLazyClockException();
         AlarmClock b = new AlarmClock();
