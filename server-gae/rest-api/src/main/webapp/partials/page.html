@@ -15,10 +15,14 @@
           </div>
           <ul class="cl-vnavigation">
             <li><a ui-sref="webapp.home"><i class="glyphicon glyphicon-home"></i><span>Accueil</span></a></li>
-            <li ng-repeat="a in alarmClocks" ><a ui-sref="webapp.alarmClockItem({ id: a.id })"><i class="glyphicon glyphicon-dashboard"></i><span>{{ a.name }}</span></a></li>
+            <li ng-repeat="a in alarmClocks" ><a ui-sref="webapp.alarmClockItem.view({ id: a.id })"><i class="glyphicon glyphicon-dashboard"></i><span>{{ a.name }}</span></a></li>
             <li><a ui-sref="webapp.alarmClockAdd"><i class="glyphicon glyphicon-plus"></i><span>Ajouter un réveil</span></a></li>
             <h1>
           </ul>
+          <center style="margin-top : 60px;">
+            <a href="https://github.com/masterALMA2016/myLazyClock"><img src="images/gitHub.png" alt="github" /></a>
+            <p style="color: #CCC;">2014 - My Lazy Clock</p>
+          </center>
         </div>
       </div>
     </div>
@@ -44,7 +48,7 @@
   
     
     <div class="cl-mcont">
-        <div ui-view></div>
+        <div ui-view autoscroll="true"></div>
     
     </div>
     

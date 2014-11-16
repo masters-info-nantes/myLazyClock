@@ -16,9 +16,5 @@ controller.controller('myLazyClock.controller.home', ['$scope', '$timeout', 'GAp
                 console.log(resp);
                 $scope.alarmClocks = resp.items;
             });
-        GApi.executeAuth('myLazyClock', 'alarmClock.item', {alarmClockId: 4785074604081152}).then( function(respt) {
-                console.log("todos api sucessfully called");
-                console.log(respt);
-            });
     }
 ]);

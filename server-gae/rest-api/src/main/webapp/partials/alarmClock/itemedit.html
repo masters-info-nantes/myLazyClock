@@ -1,0 +1,45 @@
+<div class="block-flat dark-box" style="background: {{alarmClockTemp.color}};">
+<div class="header">
+	<div class="actions">
+	</div>
+	<h3>
+		<a class="minimize" ui-sref="webapp.alarmClockItem.view({ id: alarmClock.id })">
+			<span class="glyphicon glyphicon-chevron-left"></span>
+		</a>
+		{{alarmClockTemp.name}}
+	</h3>
+</div>
+<div class="content">
+	<form class="form-horizontal" ng-submit="submitUpdate()" name="addAlarmClock">
+<fieldset>
+
+<p>Nom du réveil</p>
+<!-- Text input-->
+<div class="form-group">
+  <input ng-model="alarmClockTemp.name" name="textinput" type="text" placeholder="Nom du réveil" class="form-control input-md">
+</div>
+
+<p>Adresse où se trouve le réveil</p>
+<!-- Text input-->
+<div class="form-group">
+  <input ng-model="alarmClockTemp.address" name="textinput" type="text" placeholder="Adresse du réveil" class="form-control input-md">
+</div>
+
+<p>Temps que vous voulez pour vous préparer</p>
+<!-- Text input-->
+<div class="form-group">
+  <input ng-model="alarmClockTemp.preparationTime" name="textinput" type="text" placeholder="" class="form-control input-md">
+</div>
+
+<p>Couleur du réveil</p>
+<!-- Text input-->
+<div class="form-group">
+  <input ng-model="alarmClockTemp.color" name="textinput" type="text" placeholder="" class="form-control input-md">
+</div>
+
+<button type="submit" class="btn btn-white btn-rad btn-trans" ng-class="{'disabled' : !addAlarmClock.$valid}">Valider</button>
+</fieldset>
+</form>
+
+</div>
+</div>

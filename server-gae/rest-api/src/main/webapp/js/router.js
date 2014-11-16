@@ -52,11 +52,42 @@ router
                 })
 
                 .state('webapp.alarmClockItem', {
+                    abstract: true,
                     url :'/alarmClock/{id}',
                     views :  {
                         '': {
                             templateUrl: 'partials/alarmClock/item.html',
                             controller: 'myLazyClock.controller.alarmClock.item',
+                        },
+                    },
+                })
+
+                .state('webapp.alarmClockItem.view', {
+                    url :'/',
+                    views :  {
+                        '': {
+                            templateUrl: 'partials/alarmClock/itemview.html',
+                            controller: 'myLazyClock.controller.alarmClock.item.view',
+                        },
+                    },
+                })
+
+                .state('webapp.alarmClockItem.edit', {
+                    url :'/edit',
+                    views :  {
+                        '': {
+                            templateUrl: 'partials/alarmClock/itemedit.html',
+                            controller: 'myLazyClock.controller.alarmClock.item.edit',
+                        },
+                    },
+                })
+
+                .state('webapp.alarmClockItem.delete', {
+                    url :'/delete',
+                    views :  {
+                        '': {
+                            templateUrl: 'partials/alarmClock/itemdelete.html',
+                            controller: 'myLazyClock.controller.alarmClock.item.delete',
                         },
                     },
                 })

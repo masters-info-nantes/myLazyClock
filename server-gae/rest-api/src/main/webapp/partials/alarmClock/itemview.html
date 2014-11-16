@@ -1,15 +1,8 @@
-<style type ="text/css">
-.clock-wrap .front, .clock-wrap .back {
-	color: {{alarmClock.color}};
-}
-</style>
-<div class="row">
-      <div class="col-md-2"></div>
-      <div class="col-md-8">
-<div class="block-flat dark-box" style="background: {{alarmClock.color}};">
+				<div class="block-flat dark-box" ng-style="{'background': alarmClock.color}">		
 						<div class="header">
               <div class="actions">
-                <a class="minimize" href="#"><i class="glyphicon glyphicon-pencil"></i></a>
+                <a class="minimize" ui-sref="webapp.alarmClockItem.edit({ id: alarmClock.id })"><i class="glyphicon glyphicon-pencil"></i></a>
+                <a class="minimize" ui-sref="webapp.alarmClockItem.delete({ id: alarmClock.id })"><i class="glyphicon glyphicon-remove"></i></a>
               </div>
 							<h3>{{alarmClock.name}}</h3>
 						</div>
@@ -45,5 +38,19 @@
 </div>
 						</div>
 					</div>
-</div>
-</div>
+
+
+<accordion close-others="true">
+    <accordion-group ng-repeat="c in googleCalendars">
+        <accordion-heading>
+            <i class="glyphicon glyphicon-calendar"></i> {{c.summary}}
+        </accordion-heading>
+        gcal
+    </accordion-group>
+    <accordion-group>
+        <accordion-heading ng-style="{'background': alarmClock.color}">
+            <i class="glyphicon glyphicon-plus"></i> Ajouter un nouveau calendrier
+        </accordion-heading>
+        ajouter
+    </accordion-group>
+  </accordion>

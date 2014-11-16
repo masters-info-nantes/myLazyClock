@@ -1,6 +1,6 @@
 <div class="row">
       
-      <div class="col-md-6" ui-sref="webapp.alarmClockItem({ id: a.id })" ng-repeat="a in alarmClocks">
+      <div class="col-md-6" ui-sref="webapp.alarmClockItem.view({ id: a.id })" ng-repeat="a in alarmClocks">
         <div class="block-flat dark-box" style="background: {{a.color}};">
 						<div class="header">
               <div class="actions">
@@ -39,6 +39,15 @@
 </div>
               <center><button type="button" class="btn btn-white btn-rad btn-trans" style="margin-top: 10px;">Configuration</button></center>
             </div>
+        </div>
+        </div>
+
+        <div class="col-md-6" ui-sref="webapp.alarmClockAdd">
+        <div class="block-flat dark-box" >
+						<center style="margin-top : 55px; margin-bottom: 55px;"><div class="content">
+							<h1><i class="glyphicon glyphicon-plus"></i></h1>
+              <button type="button" class="btn btn-white btn-rad btn-trans" style="margin-top: 10px;">Ajouter un réveil</button>
+            </div></center>
         </div>
         </div>
 

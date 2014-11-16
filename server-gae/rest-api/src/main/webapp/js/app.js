@@ -1,6 +1,7 @@
 var app = angular.module('myLazyClock', [
 
     'ui.bootstrap',
+    'templates.ui.bootstrap',
     'ui.router',
     'angular-cloud-endpoints',
 
@@ -8,6 +9,15 @@ var app = angular.module('myLazyClock', [
     'myLazyClock.controller',
 
 ]);
+
+app.config(function ($provide) {
+  $provide.decorator('$uiViewScroll', function ($delegate) {
+    return function (uiViewElement) {
+      window.scrollTo(0, (top - 30));
+      // Or some other custom behaviour...
+    }; 
+  });
+});
 
 app.run(['GAuth', 'GApi', '$state',
     function(GAuth, GApi, $state) {

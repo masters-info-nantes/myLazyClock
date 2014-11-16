@@ -60,7 +60,6 @@ module.factory('GClient', ['$document', '$q', '$timeout', '$interval',
 module.factory('GAuth', ['$rootScope', '$q', 'GClient', 'GApi',
     function($rootScope, $q, GClient, GApi){
         var isLoad = false;
-        var isLogin = false;
 
         var CLIENT_ID;
         var SCOPES = ['https://www.googleapis.com/auth/userinfo.email'];
@@ -114,10 +113,6 @@ module.factory('GAuth', ['$rootScope', '$q', 'GClient', 'GApi',
         }
 
         return {
-
-            isLogin: function() {
-                return isLogin;
-            },
 
             setClient: function(client) {
                 CLIENT_ID = client;
@@ -243,6 +238,8 @@ module.factory('GApi', ['$q', 'GClient',
         return {
 
             isLogin : function(value) {
+                if(arguments.length == 0)
+                    return isLogin;
                 isLogin = value;
             },
 

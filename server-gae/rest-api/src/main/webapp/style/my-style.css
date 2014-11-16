@@ -13,10 +13,35 @@
 	background: #7761a7;
 }
 
+.dark-box a{
+	color: #ffffff;
+}
+
 .clock-wrap {
 	color: #7761a7;
 }
 
 .sign-up-container .middle-sign-up {
 margin-top: -150px;
+}
+
+.accordion-toggle {
+	cursor: pointer;
+}
+
+.accordion.accordion-semi .panel-heading a {
+background-color: #FFF;
+color: #555;
+border-bottom: 0px;
+}
+
+.accordion.accordion-semi .panel-collapse .panel-body {
+	border-top: 1px dashed #CCC;
+padding: 15px 20px 20px 34px;
+}
+
+.github-bottom {
+	position: absolute;
+	right : 20px;
+	bottom: 20px;
 }
