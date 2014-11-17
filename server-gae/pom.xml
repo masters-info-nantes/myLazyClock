@@ -11,7 +11,57 @@
 
     <name>myLazyClock</name>
     <description>My Lazy Smart Alarm Clock wake up and It's never time.</description>
+    <url>http://mylazyclock.appspot.com</url>
 
+    <licenses>
+        <license>
+            <name>GNU Affero General Public License version 3</name>
+            <url>http://www.gnu.org/licenses/agpl.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>dralagen</id>
+            <name>Dralagen</name>
+            <email>dralagen@dralagen.fr</email>
+            <url>http://dralagen.fr</url>
+            <organization>ALMA - Université de Nantes</organization>
+            <organizationUrl>http:/alma.univ-nantes.fr</organizationUrl>
+            <timezone>Europe/Paris</timezone>
+        </developer>
+        <developer>
+            <id>maximepvrt</id>
+            <name>Maxime Pauvert</name>
+            <organization>ALMA - Université de Nantes</organization>
+            <organizationUrl>http:/alma.univ-nantes.fr</organizationUrl>
+            <timezone>Europe/Paris</timezone>
+        </developer>
+        <developer>
+            <id>kuroidoruido</id>
+            <name>kuroidoruido</name>
+            <organization>ALMA - Université de Nantes</organization>
+            <organizationUrl>http:/alma.univ-nantes.fr</organizationUrl>
+            <timezone>Europe/Paris</timezone>
+        </developer>
+        <developer>
+            <id>jbardon</id>
+            <name>J. Bardon</name>
+            <organization>ALMA - Université de Nantes</organization>
+            <organizationUrl>http:/alma.univ-nantes.fr</organizationUrl>
+            <timezone>Europe/Paris</timezone>
+        </developer>
+        <developer>
+            <id>obloodo</id>
+            <name>obloodo</name>
+            <organization>ALMA - Université de Nantes</organization>
+            <organizationUrl>http:/alma.univ-nantes.fr</organizationUrl>
+            <timezone>Europe/Paris</timezone>
+        </developer>
+    </developers>
+
+    <contributors/>
 
     <modules>
         <module>rest-api</module>
@@ -22,6 +72,14 @@
         <module>travel-aggregator</module>
         <module>model</module>
     </modules>
+
+    <scm>
+        <connection>scm:git:https://github.com/masterALMA2016/myLazyClock.git</connection>
+        <developerConnection>
+            scm:git:https://github.com/masterALMA2016/myLazyClock.git
+        </developerConnection>
+        <url>https://github.com/masterALMA2016/myLazyClock.git</url>
+    </scm>
 
     <properties>
         <appengine.app.version>1</appengine.app.version>
