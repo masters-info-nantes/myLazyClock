@@ -78,9 +78,4 @@ public class AlarmClockAPI {
         }
     }
 
-    @ApiMethod(name = "alarmClock.clockevent", httpMethod = ApiMethod.HttpMethod.POST, path="alarmClock/clockevent")
-    public AlarmClockEvent clockEvent(AlarmClock alarmClock, User user) throws ForbiddenException, NotFoundException{
-        return new AlarmClockEvent();
-    }
-
 }

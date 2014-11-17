@@ -14,6 +14,7 @@ import org.myLazyClock.services.CalendarModulesService;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -28,14 +29,24 @@ import java.util.Collection;
 )
 public class CalendarAPI {
 
+    @ApiMethod(name = "calendar.list", httpMethod = ApiMethod.HttpMethod.GET, path="calendar")
+    public Collection<Calendar> list(@Named("alarmClockId") String alarmClockId, User user) {
+        return new ArrayList<Calendar>();
+    }
+
+    @ApiMethod(name = "calendar.update", httpMethod = ApiMethod.HttpMethod.PUT, path="calendar")
+    public Calendar update(@Named("alarmClockId") String alarmClockId, Calendar calendar, User user) {
+        return new Calendar();
+    }
+
     @ApiMethod(name = "calendar.add", httpMethod = ApiMethod.HttpMethod.POST, path="calendar")
     public Calendar add(@Named("alarmClockId") String alarmClockId, Calendar calendar, User user) {
         return calendar;
     }
 
     @ApiMethod(name = "calendar.delete", httpMethod = ApiMethod.HttpMethod.DELETE, path="calendar")
-    public Calendar delete(@Named("alarmClockId") String alarmClockId, @Named("calendarId") String calendarId, User user) {
-        return new Calendar();
+    public void delete(@Named("alarmClockId") String alarmClockId, @Named("calendarId") String calendarId, User user) {
+
     }
 
     /*@ApiMethod(name = "calendar.listAll", httpMethod = ApiMethod.HttpMethod.GET, path="calendar/list")
