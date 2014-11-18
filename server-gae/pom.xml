@@ -82,7 +82,7 @@
     </scm>
 
     <properties>
-        <appengine.app.version>1</appengine.app.version>
+        <appengine.app.version>${project.version}</appengine.app.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <appengine.sdk.version>1.9.15</appengine.sdk.version>
