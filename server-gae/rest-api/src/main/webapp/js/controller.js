@@ -9,7 +9,8 @@ var controller = angular.module('myLazyClock.controller', [
     'myLazyClock.controller.alarmClock.item',
     'myLazyClock.controller.alarmClock.item.edit',
     'myLazyClock.controller.alarmClock.item.delete',
-    'myLazyClock.controller.alarmClock.item.view',
+    'myLazyClock.controller.alarmClock.item.view.calendarlist',
+    'myLazyClock.controller.alarmClock.item.view.calendarnew',
 
 ]);
 

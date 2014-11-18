@@ -1,0 +1,32 @@
+
+
+  <accordion close-others="true">
+    <accordion-group ng-repeat="calendar in calendars" is-open="status.open">
+        <accordion-heading>
+            <i class="glyphicon glyphicon-calendar"></i> {{calendar.name}}
+            
+            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+            <span ng-show="calendar.calendarType=='GOOGLE_CALENDAR'" class="pull-right label label-default google">Google Calendar</span>
+            <span ng-show="calendar.calendarType=='ICS_FILE'" class="pull-right label label-default">ICS</span>  
+        
+        </accordion-heading>
+        <p>calendarType : {{calendar.calendarType}}</p>
+        <p>param : {{calendar.param}}</p>
+        <p>tavelMode : {{calendar.tavelMode}}</p>
+        <p>useAlwaysDefaultLocation : {{calendar.useAlwaysDefaultLocation}}</p>
+        <p>defaultEventLocation : {{calendar.defaultEventLocation}}</p>
+    </accordion-group>
+  </accordion>
+<div class="accordion accordion-semi ">
+  <div class="panel panel-default">
+  <div class="panel-heading">
+    <h4 class="panel-title">
+      <a class="accordion-toggle" ui-sref="webapp.alarmClockItem.view.calendarnew">
+            <i class="glyphicon glyphicon-plus ng-scope"></i><span class="ng-scope"> Ajouter un nouveau calendrier
+            </span><i class="pull-right glyphicon glyphicon-chevron-right"></i>
+        </a>
+    </h4>
+  </div>
+</div>
+</div>
+</div>

@@ -63,11 +63,31 @@ router
                 })
 
                 .state('webapp.alarmClockItem.view', {
-                    url :'/',
+                    abstract: true,
+                    url :'',
                     views :  {
                         '': {
                             templateUrl: 'partials/alarmClock/itemview.html',
-                            controller: 'myLazyClock.controller.alarmClock.item.view',
+                        },
+                    },
+                })
+
+                .state('webapp.alarmClockItem.view.calendarlist', {
+                    url :'/',
+                    views :  {
+                        '': {
+                            templateUrl: 'partials/alarmClock/itemviewcalendarlist.html',
+                            controller: 'myLazyClock.controller.alarmClock.item.view.calendarlist',
+                        },
+                    },
+                })
+
+                .state('webapp.alarmClockItem.view.calendarnew', {
+                    url :'/new',
+                    views :  {
+                        '': {
+                            templateUrl: 'partials/alarmClock/itemviewcalendarnew.html',
+                            controller: 'myLazyClock.controller.alarmClock.item.view.calendarnew',
                         },
                     },
                 })

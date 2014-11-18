@@ -13,7 +13,7 @@ controller.controller('myLazyClock.controller.alarmClock.item.edit', ['$scope', 
                     if($rootScope.alarmClocks[i]['id'] == $scope.alarmClock.id)
                         $rootScope.alarmClocks[i]['name'] = $scope.alarmClock.name;
                 }
-                $state.go('webapp.alarmClockItem.view',{ id: $scope.alarmClock.id });
+                $state.go('webapp.alarmClockItem.view.calendarlist',{ id: $scope.alarmClock.id });
             });
         };
     }

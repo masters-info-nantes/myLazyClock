@@ -10,6 +10,11 @@ var app = angular.module('myLazyClock', [
 
 ]);
 
+app.constant('TRAVELS_MODE',[
+    {'name' : 'A pied', 'id' : 'WALKING'},
+    {'name' : 'En voiture', 'id' : 'DRIVING'},
+]);
+
 app.config(function ($provide) {
   $provide.decorator('$uiViewScroll', function ($delegate) {
     return function (uiViewElement) {

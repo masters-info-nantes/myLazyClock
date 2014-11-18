@@ -31,7 +31,22 @@ public class CalendarAPI {
 
     @ApiMethod(name = "calendar.list", httpMethod = ApiMethod.HttpMethod.GET, path="calendar")
     public Collection<Calendar> list(@Named("alarmClockId") String alarmClockId, User user) {
-        return new ArrayList<Calendar>();
+        ArrayList<Calendar> list = new ArrayList<Calendar>();
+        Calendar c1 = new Calendar();
+        c1.setCalendarType("GOOGLE_CALENDAR");
+        c1.setName("Anniversaires");
+        c1.setDefaultEventLocation("j'habite ici à nantes");
+        c1.setParam("#contacts@group.v.calendar.google.com");
+        c1.setTravelMode("BICYCLING");
+        list.add(c1);
+        Calendar c2 = new Calendar();
+        c2.setCalendarType("ICS_FILE");
+        c2.setName("Cours Escalade");
+        c2.setDefaultEventLocation("Gymnase grandmont tours");
+        c2.setParam("http://intranet.ect37.com/admin/2014/lessons/Perfectionnement%20%2812%20-%2017%20ans%29/calendar/ics/");
+        c2.setTravelMode("DRIVING");
+        list.add(c2);
+        return list;
     }
 
     @ApiMethod(name = "calendar.update", httpMethod = ApiMethod.HttpMethod.PUT, path="calendar")
@@ -41,6 +56,10 @@ public class CalendarAPI {
 
     @ApiMethod(name = "calendar.add", httpMethod = ApiMethod.HttpMethod.POST, path="calendar")
     public Calendar add(@Named("alarmClockId") String alarmClockId, Calendar calendar, User user) {
+        System.out.println(alarmClockId);
+        System.out.println(calendar.getName());
+        System.out.println(calendar.getParam());
+        System.out.println(calendar.getTravelMode());
         return calendar;
     }
 

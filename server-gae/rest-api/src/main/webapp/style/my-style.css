@@ -10,7 +10,7 @@
 }
 
 .dark-box {
-	background: #7761a7;
+	background: #2196F3;
 }
 
 .dark-box a{
@@ -18,7 +18,7 @@
 }
 
 .clock-wrap {
-	color: #7761a7;
+	color: #2196F3;
 }
 
 .sign-up-container .middle-sign-up {
@@ -44,4 +44,15 @@ padding: 15px 20px 20px 34px;
 	position: absolute;
 	right : 20px;
 	bottom: 20px;
+}
+
+.panel .label {
+margin-top: -3px;
+margin-right: 10px;
+padding: .3em .4em .3em;
+border-radius: 2px;
+}
+
+.label.google {
+	background: #536DFE;
 }

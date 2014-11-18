@@ -40,17 +40,4 @@
 					</div>
 
 
-<accordion close-others="true">
-    <accordion-group ng-repeat="c in googleCalendars">
-        <accordion-heading>
-            <i class="glyphicon glyphicon-calendar"></i> {{c.summary}}
-        </accordion-heading>
-        gcal
-    </accordion-group>
-    <accordion-group>
-        <accordion-heading ng-style="{'background': alarmClock.color}">
-            <i class="glyphicon glyphicon-plus"></i> Ajouter un nouveau calendrier
-        </accordion-heading>
-        ajouter
-    </accordion-group>
-  </accordion>
+<div ui-view></div>

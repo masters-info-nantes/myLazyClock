@@ -1,5 +1,6 @@
 package org.myLazyClock.model.model;
 
+import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
@@ -21,6 +22,8 @@ public class Calendar {
     private String travelMode;
 
     private String defaultEventLocation;
+
+    private boolean useAlwaysDefaultLocation;
 
 
     public Long getId() {
@@ -69,5 +72,13 @@ public class Calendar {
 
     public void setDefaultEventLocation(String defaultEventLocation) {
         this.defaultEventLocation = defaultEventLocation;
+    }
+
+    public boolean isUseAlwaysDefaultLocation() {
+        return useAlwaysDefaultLocation;
+    }
+
+    public void setUseAlwaysDefaultLocation(boolean useAlwaysDefaultLocation) {
+        this.useAlwaysDefaultLocation = useAlwaysDefaultLocation;
     }
 }
