@@ -10,11 +10,17 @@
             <span ng-show="calendar.calendarType=='ICS_FILE'" class="pull-right label label-default">ICS</span>  
         
         </accordion-heading>
-        <p>calendarType : {{calendar.calendarType}}</p>
-        <p>param : {{calendar.param}}</p>
-        <p>tavelMode : {{calendar.tavelMode}}</p>
-        <p>useAlwaysDefaultLocation : {{calendar.useAlwaysDefaultLocation}}</p>
-        <p>defaultEventLocation : {{calendar.defaultEventLocation}}</p>
+        <p>Moyen de transport : {{calendar.travelMode}}</p>
+        <p>Lieu par défaut des évenements : {{calendar.defaultEventLocation}} <span ng-hide="calendar.useAlwaysDefaultLocation">(utilisé même si l'évenement posséde une adresse)</span></p>
+         <div class="row">
+            <div class="col-md-6">
+              <a type="submit" class="btn btn-primary btn-block" ui-sref="webapp.alarmClockItem.view.calendaredit({ calendar: calendar.id })">Editer</a>
+            </div>
+            <div class="col-md-6">
+              <a type="submit" class="btn btn-primary btn-block" ui-sref="webapp.alarmClockItem.view.calendardelete({ calendar: calendar.id })">Supprimer</a>
+            </div>
+          </div>
+        
     </accordion-group>
   </accordion>
 <div class="accordion accordion-semi ">

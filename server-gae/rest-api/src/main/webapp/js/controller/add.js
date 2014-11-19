@@ -7,7 +7,7 @@ controller.controller('myLazyClock.controller.alarmClock.add', ['$rootScope', '$
     	$scope.submitAdd = function(){
         	GApi.executeAuth('myLazyClock', 'alarmClock.link',$scope.alarmClock).then(function(resp) {
                 $rootScope.alarmClocks.push(resp);
-                $state.go('webapp.alarmClockItem.view', {id : resp.id});
+                $state.go('webapp.alarmClockItem.view.calendarlist', {id : resp.id});
             });
     	}
     }

@@ -92,6 +92,26 @@ router
                     },
                 })
 
+                .state('webapp.alarmClockItem.view.calendaredit', {
+                    url :'/{calendar}/edit',
+                    views :  {
+                        '': {
+                            templateUrl: 'partials/alarmClock/itemviewcalendaredit.html',
+                            controller: 'myLazyClock.controller.alarmClock.item.view.calendaredit',
+                        },
+                    },
+                })
+
+                .state('webapp.alarmClockItem.view.calendardelete', {
+                    url :'/{calendar}/delete',
+                    views :  {
+                        '': {
+                            templateUrl: 'partials/alarmClock/itemviewcalendardelete.html',
+                            controller: 'myLazyClock.controller.alarmClock.item.view.calendardelete',
+                        },
+                    },
+                })
+
                 .state('webapp.alarmClockItem.edit', {
                     url :'/edit',
                     views :  {

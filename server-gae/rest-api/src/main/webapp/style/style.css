@@ -38,7 +38,7 @@ h6,
   font-weight: 300;
 }
 a {
-  color: #816bb1;
+  color: #0D47A1;
   text-decoration: none;
   outline: 0 none;
 }
@@ -572,7 +572,7 @@ pre {
 .navbar-default .navbar-nav > .open > a,
 .navbar-default .navbar-nav > .open > a:hover,
 .navbar-nav > .open > a:focus {
-  background-color: #816bb1;
+  background-color: #0D47A1;
   color: #223446;
 }
 .navbar-default .navbar-nav > .open > a,
@@ -1310,12 +1310,12 @@ body.animated #cl-wrapper {
 #head-nav.topbar .navbar-nav > .active > a,
 #head-nav.topbar .navbar-nav > .active > a:hover,
 #head-nav.topbar .navbar-nav > .active > a:focus {
-  background-color: #816bb1;
+  background-color: #0D47A1;
 }
 #head-nav.topbar .navbar-nav > .open > a,
 #head-nav.topbar .navbar-nav > .open > a:hover,
 #head-nav.topbar .navbar-nav > .open > a:focus {
-  background-color: #816bb1;
+  background-color: #0D47A1;
 }
 #head-nav.topbar .navbar-nav > .dropdown > a .caret {
   border-bottom-color: #fff;
@@ -2430,7 +2430,7 @@ table.information > tbody > tr > td {
   font-size: 15px;
   padding: 17px 16px;
   display: block;
-  color: #816bb1;
+  color: #0D47A1;
 }
 .accordion .panel-heading a .fa {
   transition: transform 200ms ease-in-out;
@@ -2796,7 +2796,7 @@ table.information > tbody > tr > td {
 .btn-primary:active,
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
-  background-color: #816bb1;
+  background-color: #0D47A1;
   border-color: transparent;
 }
 .btn-primary:active {
@@ -3613,7 +3613,7 @@ fieldset[disabled] .btn-primary.active {
 .cbp-spmenu > .header {
   padding: 20px;
   min-height: 64px;
-  background: #816bb1;
+  background: #0D47A1;
   position: relative;
 }
 .cbp-spmenu > .header h3 {
@@ -6619,7 +6619,7 @@ ul.timeline li > .date {
 }
 .cbp_tmtimeline > li .cbp_tmtime span:first-child {
   font-size: 0.9em;
-  color: #816bb1;
+  color: #0D47A1;
 }
 .cbp_tmtimeline > li .cbp_tmtime span:last-child {
   font-size: 2.9em;
@@ -6850,7 +6850,7 @@ ul.timeline li > .date {
   font-size: 14px;
   text-align: center;
   width: 24px;
-  color: #816bb1;
+  color: #0D47A1;
 }
 .treeview ul li label {
   padding-left: 36px;
@@ -7361,7 +7361,7 @@ ul.timeline li > .date {
 }
 .fuelux .wizard ul li.active {
   background: #FFF;
-  color: #816bb1;
+  color: #0D47A1;
 }
 .fuelux .wizard ul li.complete {
   color: #fff;
@@ -7740,7 +7740,7 @@ ul.timeline li > .date {
   #head-nav.topbar .user-nav > .open > a,
   #head-nav.topbar .user-nav > .open > a:hover,
   #head-nav.topbar .user-nav > .open > a:focus {
-    background-color: #816bb1 !important;
+    background-color: #0D47A1 !important;
   }
   #head-nav.topbar .profile_menu .dropdown-toggle {
     color: #fff !important;

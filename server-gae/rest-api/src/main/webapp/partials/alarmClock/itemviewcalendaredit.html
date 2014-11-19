@@ -1,0 +1,26 @@
+<div class="accordion accordion-semi ">
+  <div class="panel panel-default">
+  <div class="panel-heading">
+    <h4 class="panel-title">
+             <a ui-sref="webapp.alarmClockItem.view.calendarlist"><i class="glyphicon glyphicon-chevron-left"></i>{{ calendar.name }}
+              <span ng-show="calendar.calendarType=='GOOGLE_CALENDAR'" class="pull-right label label-default google">Google Calendar</span>
+            <span ng-show="calendar.calendarType=='ICS_FILE'" class="pull-right label label-default">ICS</span>
+        </a>
+    </h4>
+  </div>
+  <div >
+      <div class="panel-body">
+                <p>Moyen de transport utilisé pour se rendre aux événements</p>
+                <div class="form-group">
+                    <select class="form-control" ng-model="calendar.travelMode" ng-options="travelMode.name for travelMode in travelsMode"><option value="">-- Choix du moyen de transport --</option></select>
+                </div>
+                <p>Si un évenement du calendrier ne comporte pas de lieu, quel lieu doit être choisit</p>
+                <div class="form-group">
+                    <input ng-model="calendar.defaultEventLocation" name="textinput" type="text" placeholder="lieu par défaut" class="form-control input-md">
+                </div>
+                <p><input type="checkbox" ng-model="calendar.useAlwaysDefaultLocation"> Forcer à utiliser ce lieu pour tout les événements</label></p>
+        <button type="submit" class="btn btn-primary btn-block" ng-click="submitEdit()">Valider</button>
+  </div>
+</div>
+</div>
+</div>

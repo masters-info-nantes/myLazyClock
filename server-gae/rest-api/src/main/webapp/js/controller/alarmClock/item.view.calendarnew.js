@@ -4,7 +4,6 @@ controller.controller('myLazyClock.controller.alarmClock.item.view.calendarnew',
     function homeCtl($scope, GApi, $stateParams, TRAVELS_MODE) {
         $scope.travelsMode = TRAVELS_MODE;
     	$scope.newCalendar = {}
-        //$scope.newCalendar.useAlwaysDefaultLocation = false;
 
         $scope.temp = {};
         $scope.tab = 'google';
@@ -21,12 +20,12 @@ controller.controller('myLazyClock.controller.alarmClock.item.view.calendarnew',
             $scope.newCalendar.travelMode = $scope.temp.travelMode.id;
             if($scope.tab == 'google') {
                 $scope.newCalendar.name = $scope.temp.google.summary;
-                $scope.newCalendar.parm = $scope.temp.google.id;
+                $scope.newCalendar.param = $scope.temp.google.id;
                 $scope.newCalendar.calendarType = 'GOOGLE_CALENDAR';
             }
             if($scope.tab == 'ics') {
                 $scope.newCalendar.name = $scope.temp.ics.name;
-                $scope.newCalendar.parm = $scope.temp.ics.param;
+                $scope.newCalendar.param = $scope.temp.ics.param;
                 $scope.newCalendar.calendarType = 'ICS_FILE';
             }
             $scope.newCalendar.alarmClockId = $stateParams.id

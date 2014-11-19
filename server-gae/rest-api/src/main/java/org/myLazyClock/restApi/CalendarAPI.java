@@ -57,6 +57,7 @@ public class CalendarAPI {
         c1.setDefaultEventLocation("j'habite ici à nantes");
         c1.setParam("#contacts@group.v.calendar.google.com");
         c1.setTravelMode("BICYCLING");
+        c1.setId(Long.decode("1"));
         list.add(c1);
         Calendar c2 = new Calendar();
         c2.setCalendarType("ICS_FILE");
@@ -64,12 +65,13 @@ public class CalendarAPI {
         c2.setDefaultEventLocation("Gymnase grandmont tours");
         c2.setParam("http://intranet.ect37.com/admin/2014/lessons/Perfectionnement%20%2812%20-%2017%20ans%29/calendar/ics/");
         c2.setTravelMode("DRIVING");
+        c2.setId(Long.decode("2"));
         list.add(c2);
         return list;
     }
 
     @ApiMethod(name = "calendar.update", httpMethod = ApiMethod.HttpMethod.PUT, path="calendar")
-    public Calendar update(@Named("alarmClockId") String alarmClockId, Calendar calendar, User user) {
+    public Calendar update(Calendar calendar, User user) {
         return new Calendar();
     }
 
@@ -83,8 +85,20 @@ public class CalendarAPI {
     }
 
     @ApiMethod(name = "calendar.delete", httpMethod = ApiMethod.HttpMethod.DELETE, path="calendar")
-    public void delete(@Named("alarmClockId") String alarmClockId, @Named("calendarId") String calendarId, User user) {
+    public void delete(@Named("calendarId") String calendarId, User user) {
 
+    }
+
+    @ApiMethod(name = "calendar.item", httpMethod = ApiMethod.HttpMethod.GET, path="calendar/item")
+    public Calendar item(@Named("calendarId") String calendarId, User user) {
+        Calendar c1 = new Calendar();
+        c1.setCalendarType("GOOGLE_CALENDAR");
+        c1.setName("Anniversaires");
+        c1.setDefaultEventLocation("j'habite ici à nantes");
+        c1.setParam("#contacts@group.v.calendar.google.com");
+        c1.setTravelMode("BICYCLING");
+        c1.setId(Long.decode("1"));
+        return c1;
     }
 
     /*@ApiMethod(name = "calendar.listAll", httpMethod = ApiMethod.HttpMethod.GET, path="calendar/list")
