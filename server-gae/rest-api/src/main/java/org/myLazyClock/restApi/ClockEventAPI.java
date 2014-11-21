@@ -14,6 +14,7 @@ import org.myLazyClock.model.model.AlarmClock;
 import org.myLazyClock.model.model.AlarmClockEvent;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 
 @Api(
@@ -26,7 +27,23 @@ public class ClockEventAPI {
 
     @ApiMethod(name = "clockevent.list", httpMethod = ApiMethod.HttpMethod.GET, path="clockevent")
     public Collection<AlarmClockEvent> list(@Named("alarmClockId") String alarmClockId, User user) throws ForbiddenException, NotFoundException {
-        return new ArrayList<AlarmClockEvent>();
+        ArrayList<AlarmClockEvent> a = new ArrayList<AlarmClockEvent>();
+        AlarmClockEvent e = new AlarmClockEvent();
+        e.setAddress("15, rue kervegan, 44000 Nantes");
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(cal.getTimeInMillis()+30000);
+        e.setBeginDate(cal.getTime());
+        e.setTravelDuration(new Long(5));
+        e.setName("Cours à la fac");
+        AlarmClockEvent e1 = new AlarmClockEvent();
+        e1.setAddress("15, rue kervegan, 44000 Nantes");
+        cal.setTimeInMillis(cal.getTimeInMillis()+120000);
+        e1.setBeginDate(cal.getTime());
+        e1.setTravelDuration(new Long(5));
+        e1.setName("Cours à la fac 2");
+        a.add(e);
+        a.add(e1);
+        return a;
     }
 
 }

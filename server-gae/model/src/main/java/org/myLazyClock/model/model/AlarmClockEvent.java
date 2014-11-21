@@ -28,10 +28,16 @@ public class AlarmClockEvent {
 
     private Date beginDate;
     private Long travelDuration;
+    private String name;
+    private String address;
 
 
     public Date getBeginDate() {
         return beginDate;
+    }
+
+    public Long getBeginDateTime() {
+        return beginDate.getTime();
     }
 
     public void setBeginDate(Date beginDate) {
@@ -42,7 +48,34 @@ public class AlarmClockEvent {
         return travelDuration;
     }
 
+    public String getTravelDurationString() {
+        Long h = travelDuration/3600;
+        Long m = (travelDuration-(h*3600))/60;
+        Long s = travelDuration-(h*3600+m*60);
+        if (h != 0)
+            return h+" heure(s) et "+m+" minute(s)";
+        else {
+            return m+" minute(s)";
+        }
+    }
+
     public void setTravelDuration(Long travelDuration) {
         this.travelDuration = travelDuration;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
