@@ -3,7 +3,7 @@ var app = angular.module('myLazyClock', [
     'ui.bootstrap',
     'templates.ui.bootstrap',
     'ui.router',
-    'angular-cloud-endpoints',
+    'angular-google-gapi',
 
     'myLazyClock.router',
     'myLazyClock.controller',

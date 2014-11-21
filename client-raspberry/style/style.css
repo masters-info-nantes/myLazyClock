@@ -3,20 +3,20 @@
 body{
   padding:0px;
   margin:0px;
-  background-color:#16a085;
+  background-color:#2196F3;
   -webkit-font-smoothing: antialiased;
   font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-  color:#ffffff;
   text-align:center;
+  color: #2196F3;
 }
 
-h1 {
+.signin {
 
   font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight:300;
-  font-size:40px;
+  font-size:30px;
   color:#ffffff;
-  margin: 30px 0 0 0;
+  margin: 0;
   text-align:center;
 }
 
@@ -29,44 +29,89 @@ a {
   text-align:center;
 }
 
+.white {
+	  color:#ffffff;
+}
+
+.alarmClock {
+	width: 320px;
+	height: 240px;
+	top: 50%;
+	left: 50%;
+	margin-top: -120px;
+	margin-left: -160px;
+	position: absolute;
+	padding: 5px;
+}
+
+.event {
+	height:100px;
+	margin-bottom:5px;
+}
+
+.info,
+.date {
+	background-color:#ffffff;
+	height:100px;
+	float:left;
+	position: relative;
+	overflow: hidden;
+}
+
+.info{
+	margin-left: 5px;
+	width:205px;
+}
+
+.date{
+	width:100px;
+}
+
+.event h5 {
+	margin-top: 2px;
+}
+
+.event p {
+	margin: 0px;
+	padding: 0px;
+	text-align: center;
+}
+
 .clock-wrap{
-	width:610px;
   font-family: 'Pathway Gothic One', sans-serif;
-	height:200px;
-	margin:20px auto 30px auto;
-	padding:15px;
+	height:100px;
+	margin-bottom:5px;
 }
 
 .min-wrap,
 .hour-wrap, .sec-wrap{
-	width:200px;
-	height:200px;
+	width:100px;
+	height:100px;
 	
 	float:left;
 	position: relative;
 }
 
 .min-wrap, .sec-wrap{
-	margin-left: 4px;
+	margin-left: 5px;
 }
 
 
 .digit-top, 
 .digit-bottom{
-	width:200px;
-	height:100px;
+	width:100px;
+	height:50px;
 	position: absolute;
 }
 
 .clock-wrap .front, .clock-wrap .back{
-	width: 200px;
-	height: 100px;
+	width: 100px;
+	height: 50px;
 	position: absolute;
 	overflow: hidden;
-  background:#ffffff;
-	color:#16a085;
+  	background:#ffffff;
 	text-align: center;
-	font-size: 150px;
+	font-size: 75px;
 
 	transition: transform 800ms, z-index 800ms;
 	-moz-transition: -moz-transform 800ms, z-index 800ms;
@@ -82,10 +127,10 @@ a {
 	z-index: 30;
 	
 
-	transform-origin: 0px 100px;
-	-webkit-transform-origin: 0px 100px;
-	-moz-transform-origin: 0px 100px;
-	-o-transform-origin: 0px 100px;
+	transform-origin: 0px 50px;
+	-webkit-transform-origin: 0px 50px;
+	-moz-transform-origin: 0px 50px;
+	-o-transform-origin: 0px 50px;
 
 	transform: rotateX(0deg);
 	-webkit-transform: rotateX(0deg);
@@ -96,7 +141,7 @@ a {
 
 .clock-wrap .back{
 	z-index: 20;
-	top:100px;
+	top:50px;
 
 	transform-origin: 0px 0;
 	-webkit-transform-origin: 0px 0;
@@ -114,14 +159,14 @@ a {
 
 
 .digit-top{
-	line-height:200px;
+	line-height:100px;
 	top:0;
 	z-index: 10;
   
 }
 
 .digit-bottom{
-	top: 100px;
+	top: 50px;
 	line-height:0;
 	z-index: 0;
   background:lighten(#ededed,20);
@@ -133,8 +178,8 @@ a {
 background:#000000;
   opacity:0.04;
   position:absolute;
-  width:200px;
-  height:100px;
+  width:100px;
+  height:50px;
   top:0;
   left:0;
   z-index:9999;

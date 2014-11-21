@@ -2,22 +2,25 @@ var controller = angular.module('myLazyClock.controller.signin', []);
 
 controller.controller('myLazyClock.controller.signin', ['$scope', '$localStorage', '$interval', '$state', 'GApi',
     function signinCtl($scope, $localStorage, $interval, $state, GApi) {
+        var interval;
+
     	var goToHome = function(id) {
     		var check = function(id) {
-    			GApi.get('alarmClock.item', {alarmClockId: id}, function(resp) {
-						if(resp.user != undefined)
+    			GApi.execute('myLazyClock', 'alarmClock.item', {alarmClockId: id}).then( function(resp) {
+                        if(resp.user != undefined) {
+                            $interval.cancel(interval);
 							$state.go('webapp.home');
+                        }
 					});
     		}
     		check(id);
-    		$interval(function() {
+    		interval = $interval(function() {
 				check(id);
 			}, 4000);
     	}
     	if($localStorage.alarmClockId == undefined) {
-    		GApi.get('alarmClock.generate', function(resp) {
+    		GApi.execute('myLazyClock', 'alarmClock.generate').then( function(resp) {
                 $scope.alarmClockId = resp.id;
-                $scope.$apply($scope.alarmClockId);
                 $localStorage.alarmClockId = resp.id;
                 goToHome($scope.alarmClockId);
             });

@@ -1,5 +1,4 @@
-<h1>My Lazy Clock</h1>
-<div class="clock-wrap" ng-controller="myLazyClock.controller.clock">
+<div class="clock-wrap" ng-controller="myLazyClock.controller.clock" ng-style="{'color': alarmClock.color}">
 	<div class="hour-wrap">
 		<div class="digit-top">
 			<div class="front">00</div>
@@ -28,5 +27,18 @@
 		</div>
 	</div>
 </div>
-<p>{{alarmClock.id}}</p>
-<p>{{alarmClock.address}}</p>
+<div class="event" ng-style="{'color': alarmClock.color}">
+	<div class="date">
+		<p style="font-size: 20px; margin-top: 9px;">{{clockEvent.wakeUpDate | date : 'EEEE'}}</p>
+		<p style="font-size: 14px;">{{clockEvent.wakeUpDate | date : 'dd/MM/yyyy'}}</p>
+		<p style="font-size: 23px;"> {{clockEvent.wakeUpDate | date : 'HH:mm:ss'}}</p>
+	</div>
+	<div class="info">
+		<p style="font-size: 20px;">{{clockEvent.name}}</p>
+		<p style="font-size: 12px;">{{clockEvent.beginDateTime | date : 'HH:mm:ss'}}</p>
+		<p style="font-size: 10px;">{{clockEvent.address}}</p>
+		<p style="font-size: 10px;">{{clockEvent.travelDurationString}} de transport</p>
+		
+	</div>
+</div>
+<center class="white"><p style="margin-bottom: 0;"><span class="glyphicon glyphicon-dashboard" ></span> Durée pour se préparer : {{alarmClock.preparationTimeString}}</p></center>

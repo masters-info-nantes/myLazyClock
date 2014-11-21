@@ -1,8 +1,9 @@
 var app = angular.module('myLazyClock', [
 
     'ui.router',
-    'angular-cloud-endpoints',
+    'angular-google-gapi',
     'ngStorage',
+    'ngAudio',
 
     'myLazyClock.router',
     'myLazyClock.controller',
