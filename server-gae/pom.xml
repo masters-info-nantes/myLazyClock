@@ -141,19 +141,20 @@
             <dependency>
                 <groupId>org.datanucleus</groupId>
                 <artifactId>datanucleus-core</artifactId>
-                <version>4.0.4</version>
+                <version>3.1.1</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.datanucleus</groupId>
+                <artifactId>datanucleus-api-jdo</artifactId>
+                <version>3.1.1</version>
             </dependency>
 
             <dependency>
                 <groupId>com.google.appengine.orm</groupId>
                 <artifactId>datanucleus-appengine</artifactId>
                 <version>2.1.2</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.datanucleus</groupId>
-                <artifactId>datanucleus-api-jdo</artifactId>
-                <version>4.0.4</version>
             </dependency>
 
 
@@ -234,14 +235,6 @@
                             <manifest>
                                 <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                             </manifest>
-                            <manifestEntries>
-                                <url>${project.url}</url>
-                            </manifestEntries>
-                            <!-- cela fait bugger le chargement des service via ServiceLoader donc on desactive -->
-                            <!-- index>true</index-->
-                            <!--<manifest>-->
-                            <!--<mainClass>${maven.jar.main.class}</mainClass>-->
-                            <!--</manifest>-->
                         </archive>
                     </configuration>
                 </plugin>
