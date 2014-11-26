@@ -19,33 +19,51 @@
 
 package org.myLazyClock.model.model;
 
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Index;
+
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 
 /**
  * Created by Maxime on 22/10/14.
  */
-@Entity
+@PersistenceCapable
 public class AlarmClock {
 
-    @Id
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Long id;
 
-    @Index
+    @Persistent
     private String user;
 
+    @Persistent
     private String name;
 
+    @Persistent
     private String address;
 
+    @Persistent
     private String color;
 
+    @Persistent
     private int preparationTime;
+
+    //@Persistent
+    //private List<Calendar> calendars;
 
     public AlarmClock() {}
 
-    public Long getId() {
+    public AlarmClock(Long id, String user, String address, String color, int preparationTime) {
+        this.id = id;
+        this.user = user;
+        this.address = address;
+        this.color = color;
+        this.preparationTime = preparationTime;
+    }
+
+    public Long getId () {
         return id;
     }
 
@@ -103,5 +121,18 @@ public class AlarmClock {
     public void setColor(String color) {
         this.color = color;
     }
+
+    /*
+    public List<Calendar> getCalendars () {
+        if (calendars == null) {
+            return new ArrayList<Calendar>();
+        }
+        return calendars;
+    }
+
+    public void setCalendars (List<Calendar> calendars) {
+        this.calendars = calendars;
+    }
+    */
 
 }

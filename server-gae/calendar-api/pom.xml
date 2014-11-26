@@ -15,5 +15,18 @@
     <name>myLazyClock :: Calendar (API)</name>
     <description>Define the Calendar API for check the time of fist event</description>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
 </project>
 

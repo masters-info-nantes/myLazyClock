@@ -19,27 +19,41 @@
 
 package org.myLazyClock.model.model;
 
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
+
 /**
  * Created by Maxime on 16/11/14.
  */
+@PersistenceCapable
 public class Calendar {
 
+    @Persistent(valueStrategy = IdGeneratorStrategy.SEQUENCE)
+    @PrimaryKey
     private Long id; //id datastore
 
+    @Persistent
     private String name;
 
+    @Persistent
     private String param; // id du gcal ou url ics ...
 
+    @Persistent
     private String calendarType;
 
+    @Persistent
     private String travelMode;
 
+    @Persistent
     private String defaultEventLocation;
 
+    @Persistent
     private boolean useAlwaysDefaultLocation;
 
 
-    public Long getId() {
+    public Long getId () {
         return id;
     }
 

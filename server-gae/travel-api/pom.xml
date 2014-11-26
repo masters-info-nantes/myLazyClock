@@ -15,4 +15,16 @@
     <name>myLazyClock :: Travel (API)</name>
     <description>Define the Travel API for calculate the time of travel from home to job place</description>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
 </project>
