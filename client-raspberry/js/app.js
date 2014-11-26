@@ -4,6 +4,7 @@ var app = angular.module('myLazyClock', [
     'angular-google-gapi',
     'ngStorage',
     'ngAudio',
+    'cfp.hotkeys',
 
     'myLazyClock.router',
     'myLazyClock.controller',
