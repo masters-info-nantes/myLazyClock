@@ -77,7 +77,14 @@ public class AlarmClockRepository {
 
     public AlarmClock save(AlarmClock alarmClock) {
 
-        PersistenceManager pm = PMF.get().getPersistenceManager();
+        PersistenceManager pm = null;
+
+        if (alarmClock.getId() == null) {
+            pm = PMF.get().getPersistenceManager();
+        }
+        else {
+            pm = JDOHelper.getPersistenceManager(alarmClock);
+        }
 
         try {
             pm.makePersistent(alarmClock);
@@ -91,7 +98,7 @@ public class AlarmClockRepository {
     public void delete(AlarmClock alarmClock) {
         PersistenceManager pm = PMF.get().getPersistenceManager();
 
-        pm.deletePersistent(alarmClock);
+        pm.deletePersistent(alarmClock.getId());
     }
 
 }

@@ -89,6 +89,9 @@ public class AlarmClockAPI {
     @ApiMethod(name = "alarmClock.update", httpMethod = ApiMethod.HttpMethod.POST, path="alarmClock/update")
     public AlarmClock update(AlarmClock alarmClock, User user) throws ForbiddenException, NotFoundException{
         try {
+            if (user == null) {
+                throw new ForbiddenMyLazyClockException();
+            }
             return AlarmClockService.getInstance().update(alarmClock, user.getUserId());
         } catch (ForbiddenMyLazyClockException e) {
             throw new ForbiddenException("Forbidden");
