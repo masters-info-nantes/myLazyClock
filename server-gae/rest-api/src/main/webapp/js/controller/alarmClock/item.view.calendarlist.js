@@ -8,9 +8,9 @@ controller.controller('myLazyClock.controller.alarmClock.item.view.calendarlist'
                	$scope.calendars = resp.items;
                	for(var i= 0; i < $scope.calendars.length; i++){
                		angular.forEach(TRAVELS_MODE, function(value) {
-                	if (value.id == $scope.calendars[i]['travelMode'])
-                		$scope.calendars[i]['travelMode'] = value.name;
-					});
+                	   if (value.id == $scope.calendars[i]['travelMode'])
+                		    $scope.calendars[i]['travelMode'] = value.name;
+					         });
                	}
            }
         }); 

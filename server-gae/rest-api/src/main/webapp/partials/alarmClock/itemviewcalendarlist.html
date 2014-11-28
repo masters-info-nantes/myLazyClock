@@ -7,7 +7,8 @@
             
             <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
             <span ng-show="calendar.calendarType=='GOOGLE_CALENDAR'" class="pull-right label label-default google">Google Calendar</span>
-            <span ng-show="calendar.calendarType=='ICS_FILE'" class="pull-right label label-default">ICS</span>  
+            <span ng-show="calendar.calendarType=='ICS_FILE'" class="pull-right label label-default">ICS</span>
+            <span ng-show="calendar.calendarType=='EDT'" class="pull-right label label-default">EDT - Univ Nantes</span>  
         
         </accordion-heading>
         <p>Moyen de transport : {{calendar.travelMode}}</p>

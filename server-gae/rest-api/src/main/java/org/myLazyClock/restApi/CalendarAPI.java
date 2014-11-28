@@ -67,6 +67,14 @@ public class CalendarAPI {
         c2.setTravelMode("DRIVING");
         c2.setId(Long.decode("2"));
         list.add(c2);
+        Calendar c3 = new Calendar();
+        c3.setCalendarType("EDT");
+        c3.setName("UFR Sciences et Techniques - M1ALMA-GL");
+        c3.setDefaultEventLocation("UFR Sciences et Techniques Nantes");
+        c3.setParam("906");
+        c3.setTravelMode("DRIVING");
+        c3.setId(Long.decode("3"));
+        list.add(c3);
         return list;
     }
 

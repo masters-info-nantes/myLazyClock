@@ -1,12 +1,14 @@
 var controller = angular.module('myLazyClock.controller.alarmClock.item.view.calendarnew', []);
 
-controller.controller('myLazyClock.controller.alarmClock.item.view.calendarnew', ['$scope', 'GApi', '$stateParams', 'TRAVELS_MODE',
-    function homeCtl($scope, GApi, $stateParams, TRAVELS_MODE) {
+controller.controller('myLazyClock.controller.alarmClock.item.view.calendarnew', ['$scope', '$http', 'GApi', '$stateParams', 'TRAVELS_MODE',
+    function homeCtl($scope, $http, GApi, $stateParams, TRAVELS_MODE) {
         $scope.travelsMode = TRAVELS_MODE;
     	$scope.newCalendar = {}
 
         $scope.temp = {};
         $scope.tab = 'google';
+
+        delete $http.defaults.headers.common['X-Requested-With'];
         
         $scope.onTabSelect = function(tabName) {
             $scope.tab = tabName;
@@ -15,6 +17,16 @@ controller.controller('myLazyClock.controller.alarmClock.item.view.calendarnew',
         GApi.executeAuth('calendar', 'calendarList.list').then( function(resp) {
                $scope.googleCalendars = resp.items;
         });
+
+        GApi.execute('myLazyClock', 'edt.ufr.list').then( function(resp) {
+               $scope.edtUfr = resp.items;
+        });
+
+        $scope.edtUpdateGroups = function() {
+            GApi.execute('myLazyClock', 'edt.groups.list', {ufr : $scope.temp.edt.ufr.id}).then( function(resp) {
+               $scope.edtGroups = resp.items;
+            });
+        }
 
         $scope.submitAdd = function() {
             $scope.newCalendar.travelMode = $scope.temp.travelMode.id;
@@ -27,6 +39,11 @@ controller.controller('myLazyClock.controller.alarmClock.item.view.calendarnew',
                 $scope.newCalendar.name = $scope.temp.ics.name;
                 $scope.newCalendar.param = $scope.temp.ics.param;
                 $scope.newCalendar.calendarType = 'ICS_FILE';
+            }
+            if($scope.tab == 'edt') {
+                $scope.newCalendar.name = $scope.temp.edt.ufr.name+' - '+$scope.temp.edt.group.name;
+                $scope.newCalendar.param = $scope.temp.edt.group.id;
+                $scope.newCalendar.calendarType = 'EDT';
             }
             $scope.newCalendar.alarmClockId = $stateParams.id
             GApi.executeAuth('myLazyClock', 'calendar.add',  $scope.newCalendar).then( function(resp) {

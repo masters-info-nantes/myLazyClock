@@ -33,9 +33,16 @@
             </tab>
             <tab ng-click="onTabSelect('edt')">
                 <tab-heading>
-                    Emploi du temps (Univ)
+                    EDT (Univ Nantes)
                 </tab-heading>
-                pas encore possible désolé :(
+                <p>Choisir l'UFR</p>
+                <div class="form-group">
+                    <select class="form-control" ng-model="temp.edt.ufr" ng-options="ufr.name for ufr in edtUfr" ng-change="edtUpdateGroups()"><option value="">-- Choix de l'UFR --</option></select>
+                </div>
+                <p>Choisir du groupe</p>
+                <div class="form-group">
+                    <select class="form-control" ng-model="temp.edt.group" ng-options="group.name for group in edtGroups"><option value="">-- Choix du groupe --</option></select>
+                </div>
             </tab>
         </tabset>
                 <p>Moyen de transport utilisé pour se rendre aux événements</p>
