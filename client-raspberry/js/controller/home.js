@@ -2,7 +2,7 @@ var controller = angular.module('myLazyClock.controller.home', []);
 
 controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$localStorage', 'GApi', 'ngAudio', '$interval', 'hotkeys',
     function homeCtl($rootScope, $scope, $localStorage, GApi, ngAudio, $interval, hotkeys) {
-    	$scope.sound = ngAudio.load("sounds/ring.mp3");
+    	$scope.sound = ngAudio.load("sounds/ring42.mp3");
     	$scope.sound.loop = true;
         $scope.sound.volume = 1;
     	$scope.alarmClockEvents = [];
@@ -87,7 +87,7 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
     					if($scope.alarmClockEvents[i]['wakeUpDate'] < nextEvent.wakeUpDate)
     						nextEvent = $scope.alarmClockEvents[i];
     				}
-    				if (($scope.alarmClockEvents[i]['wakeUpDate']-now) <= -20000 || (($scope.alarmClockEvents[i]['wakeUpDate']-now) < -1000 && ($scope.alarmClockEvents[i]['wakeUpDate']-now) >= -20000) && $scope.soundStop) {
+    				if (($scope.alarmClockEvents[i]['wakeUpDate']-now) <= -600000 || (($scope.alarmClockEvents[i]['wakeUpDate']-now) < -1000 && ($scope.alarmClockEvents[i]['wakeUpDate']-now) >= -600000) && $scope.soundStop) {
                 		$scope.sound.stop();
                 		if (i > -1) {
                             $scope.alarmClockEvents.splice(i--, 1);
@@ -102,7 +102,7 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
                         $scope.sound.play();
                         $scope.soundStop = false;
                     }
-                	if (($scope.clockEvent.wakeUpDate-now) < -1000 && ($scope.clockEvent.wakeUpDate-now) > -20000) {
+                	if (($scope.clockEvent.wakeUpDate-now) < -1000 && ($scope.clockEvent.wakeUpDate-now) > -600000) {
                 		$scope.sound.play();
                 	}
                 	
