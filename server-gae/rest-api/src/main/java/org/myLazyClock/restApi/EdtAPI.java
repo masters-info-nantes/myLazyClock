@@ -32,12 +32,11 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.myLazyClock.model.model.EdtData;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.*;
 
 /**
  * Created by Maxime on 22/10/14.
@@ -51,22 +50,52 @@ import java.util.List;
 )
 public class EdtAPI {
 
-    private static String  url = "http://smart-edt.fr/android/data.php";
+    private static String  urlSmartEdt = "http://smart-edt.fr/android/data.php";
 
-    private static JsonElement getJson(List<NameValuePair> urlParameters) throws IOException {
-        HttpClient client = new DefaultHttpClient();
-        HttpPost post = new HttpPost(url);
-        post.setEntity(new UrlEncodedFormEntity(urlParameters));
-        HttpResponse response = client.execute(post);
-        BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+    private static JsonElement getJson(Map<String, String> params) throws IOException {
+        URL url = new URL(urlSmartEdt);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("POST");
+        conn.setDoInput(true);
+        conn.setDoOutput(true);
+
+        OutputStream os = conn.getOutputStream();
+        BufferedWriter writer = new BufferedWriter(
+                new OutputStreamWriter(os, "UTF-8"));
+        writer.write(getQuery(params));
+        writer.flush();
+        writer.close();
+        os.close();
+
+        conn.connect();
+
         JsonParser jp = new JsonParser();
-        return jp.parse(rd);
+        return jp.parse(new InputStreamReader((InputStream) conn.getContent()));
+    }
+
+    private static String getQuery(Map<String, String> params) throws UnsupportedEncodingException
+    {
+        StringBuilder result = new StringBuilder();
+        boolean first = true;
+        for (Map.Entry<String, String> pair : params.entrySet())
+        {
+            if (first)
+                first = false;
+            else
+                result.append("&");
+
+            result.append(URLEncoder.encode(pair.getKey(), "UTF-8"));
+            result.append("=");
+            result.append(URLEncoder.encode(pair.getValue(), "UTF-8"));
+        }
+
+        return result.toString();
     }
 
     @ApiMethod(name = "edt.groups.list", httpMethod = ApiMethod.HttpMethod.GET, path="edt/groups/")
     public Collection<EdtData> getGroupsList(@Named("ufr") String ufr) throws IOException {
-        List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
-        urlParameters.add(new BasicNameValuePair("getComp", ufr));
+        HashMap<String, String> urlParameters = new HashMap<>();
+        urlParameters.put("getComp", ufr);
 
         JsonObject root = getJson(urlParameters).getAsJsonArray().get(0).getAsJsonObject();
 
@@ -86,8 +115,8 @@ public class EdtAPI {
 
     @ApiMethod(name = "edt.ufr.list", httpMethod = ApiMethod.HttpMethod.GET, path="edt/ufr/")
     public Collection<EdtData> getUFRList() throws IOException {
-        List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
-        urlParameters.add(new BasicNameValuePair("getSchool", "1"));
+        HashMap<String, String> urlParameters = new HashMap<>();
+        urlParameters.put("getSchool", "1");
 
         JsonObject root = getJson(urlParameters).getAsJsonArray().get(0).getAsJsonObject();
 
