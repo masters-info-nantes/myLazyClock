@@ -24,9 +24,13 @@ import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by Maxime on 22/10/14.
+ * Created on 22/10/14.
+ *
+ * @author Maxime
  */
 @PersistenceCapable
 public class AlarmClock {
@@ -50,8 +54,8 @@ public class AlarmClock {
     @Persistent
     private int preparationTime;
 
-    //@Persistent
-    //private List<Calendar> calendars;
+    @Persistent
+    private List<Calendar> calendars;
 
     public AlarmClock() {}
 
@@ -122,7 +126,6 @@ public class AlarmClock {
         this.color = color;
     }
 
-    /*
     public List<Calendar> getCalendars () {
         if (calendars == null) {
             return new ArrayList<Calendar>();
@@ -133,6 +136,5 @@ public class AlarmClock {
     public void setCalendars (List<Calendar> calendars) {
         this.calendars = calendars;
     }
-    */
 
 }

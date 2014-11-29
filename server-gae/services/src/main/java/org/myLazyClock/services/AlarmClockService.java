@@ -21,13 +21,15 @@ package org.myLazyClock.services;
 
 import org.myLazyClock.model.model.AlarmClock;
 import org.myLazyClock.model.repository.AlarmClockRepository;
-import org.myLazyClock.services.exception.NotFoundMyLazyClockException;
 import org.myLazyClock.services.exception.ForbiddenMyLazyClockException;
+import org.myLazyClock.services.exception.NotFoundMyLazyClockException;
 
 import java.util.Collection;
 
 /**
- * Created by Maxime on 22/10/14.
+ * Created on 22/10/14.
+ *
+ * @author Maxime
  */
 public class AlarmClockService {
 
