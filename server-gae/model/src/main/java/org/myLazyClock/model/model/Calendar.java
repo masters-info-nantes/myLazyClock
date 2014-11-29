@@ -19,20 +19,27 @@
 
 package org.myLazyClock.model.model;
 
+import com.google.appengine.api.datastore.Key;
+
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 /**
- * Created by Maxime on 16/11/14.
+ * Created on 16/11/14.
+ *
+ * @author Maxime
  */
 @PersistenceCapable
 public class Calendar {
 
-    @Persistent(valueStrategy = IdGeneratorStrategy.SEQUENCE)
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     @PrimaryKey
-    private Long id; //id datastore
+    private Key id; //id datastore
+
+    @Persistent
+    private AlarmClock alarmClock;
 
     @Persistent
     private String name;
@@ -53,13 +60,23 @@ public class Calendar {
     private boolean useAlwaysDefaultLocation;
 
 
-    public Long getId () {
+    public Key getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Key id) {
         this.id = id;
     }
+
+/*
+    public AlarmClock getAlarmClock() {
+        return alarmClock;
+    }
+
+    public void setAlarmClock(AlarmClock alarmClock) {
+        this.alarmClock = alarmClock;
+    }
+*/
 
     public String getName() {
         return name;

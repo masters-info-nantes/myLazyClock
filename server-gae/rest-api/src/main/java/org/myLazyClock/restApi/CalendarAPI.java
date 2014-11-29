@@ -53,22 +53,28 @@ public class CalendarAPI {
         }
     }
 
+    //TODO dralagen 29/11/14 : Implement update
     @ApiMethod(name = "calendar.update", httpMethod = ApiMethod.HttpMethod.PUT, path="calendar")
     public Calendar update(Calendar calendar, User user) {
         return new Calendar();
     }
 
     @ApiMethod(name = "calendar.add", httpMethod = ApiMethod.HttpMethod.POST, path="calendar")
-    public Calendar add(@Named("alarmClockId") String alarmClockId, Calendar calendar, User user) {
-        CalendarService.getInstance().add(calendar, alarmClockId, user);
-        return calendar;
+    public Calendar add(@Named("alarmClockId") String alarmClockId, Calendar calendar, User user) throws ForbiddenException {
+        try {
+            return CalendarService.getInstance().add(calendar, alarmClockId, user);
+        } catch (ForbiddenMyLazyClockException e) {
+            throw new ForbiddenException("Forbidden");
+        }
     }
 
+    //TODO dralagen 29/11/14 : Implement delete
     @ApiMethod(name = "calendar.delete", httpMethod = ApiMethod.HttpMethod.DELETE, path="calendar")
     public void delete(@Named("calendarId") String calendarId, User user) {
 
     }
 
+    //TODO dralagen 29/11/14 : Implement get one calendar
     @ApiMethod(name = "calendar.item", httpMethod = ApiMethod.HttpMethod.GET, path="calendar/item")
     public Calendar item(@Named("calendarId") String calendarId, User user) {
         Calendar c1 = new Calendar();
@@ -77,7 +83,7 @@ public class CalendarAPI {
         c1.setDefaultEventLocation("j'habite ici à nantes");
         c1.setParam("#contacts@group.v.calendar.google.com");
         c1.setTravelMode("BICYCLING");
-        c1.setId(Long.decode("1"));
+        //c1.setId();
         return c1;
     }
 

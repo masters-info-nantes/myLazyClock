@@ -19,6 +19,7 @@
 
 package org.myLazyClock.services;
 
+import com.google.appengine.api.datastore.Key;
 import org.myLazyClock.model.model.AlarmClock;
 import org.myLazyClock.model.repository.AlarmClockRepository;
 import org.myLazyClock.services.exception.ForbiddenMyLazyClockException;

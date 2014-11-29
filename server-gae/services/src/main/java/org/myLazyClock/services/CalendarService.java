@@ -19,6 +19,7 @@
 
 package org.myLazyClock.services;
 
+import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.users.User;
 import org.myLazyClock.model.model.AlarmClock;
 import org.myLazyClock.model.model.Calendar;
@@ -57,8 +58,13 @@ public class CalendarService {
         return CalendarRepository.getInstance().findAll(alarm);
     }
 
-    public Calendar add (Calendar calendar, String alarmClockId, User user) {
+    public Calendar add (Calendar calendar, String alarmClockId, User user) throws ForbiddenMyLazyClockException {
+        AlarmClock alarm = AlarmClockRepository.getInstance().findOne(alarmClockId);
 
-        return calendar;
+        if (!alarm.getUser().equals(user.getUserId())) {
+            throw  new ForbiddenMyLazyClockException();
+        }
+
+        return CalendarRepository.getInstance().add(calendar, alarm);
     }
 }

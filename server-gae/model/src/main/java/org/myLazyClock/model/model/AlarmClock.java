@@ -54,7 +54,7 @@ public class AlarmClock {
     @Persistent
     private int preparationTime;
 
-    @Persistent
+    @Persistent(mappedBy = "alarmClock")
     private List<Calendar> calendars;
 
     public AlarmClock() {}

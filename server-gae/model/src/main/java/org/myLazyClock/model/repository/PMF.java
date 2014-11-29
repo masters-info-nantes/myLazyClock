@@ -9,12 +9,14 @@ import javax.jdo.PersistenceManagerFactory;
  * @author dralagen
  */
 public final class PMF {
-    private static final PersistenceManagerFactory pmfInstance =
-            JDOHelper.getPersistenceManagerFactory("transactions-optional");
+    private static PersistenceManagerFactory pmfInstance = null;
 
     private PMF() {}
 
     public static PersistenceManagerFactory get() {
+        if (pmfInstance == null) {
+            pmfInstance = JDOHelper.getPersistenceManagerFactory("transactions-optional");
+        }
         return pmfInstance;
     }
 }

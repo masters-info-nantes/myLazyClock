@@ -68,9 +68,7 @@ public class AlarmClockRepository {
     public AlarmClock findOne(Long id) {
         PersistenceManager pm = PMF.get().getPersistenceManager();
 
-        AlarmClock one = pm.getObjectById(AlarmClock.class, id);
-
-        return one;
+        return pm.getObjectById(AlarmClock.class, id);
     }
 
     public AlarmClock save(AlarmClock alarmClock) {
