@@ -1,14 +1,12 @@
 var controller = angular.module('myLazyClock.controller.alarmClock.item.view.calendarnew', []);
 
-controller.controller('myLazyClock.controller.alarmClock.item.view.calendarnew', ['$scope', '$http', 'GApi', '$stateParams', 'TRAVELS_MODE',
-    function homeCtl($scope, $http, GApi, $stateParams, TRAVELS_MODE) {
+controller.controller('myLazyClock.controller.alarmClock.item.view.calendarnew', ['$scope', '$state', 'GApi', '$stateParams', 'TRAVELS_MODE',
+    function homeCtl($scope, $state, GApi, $stateParams, TRAVELS_MODE) {
         $scope.travelsMode = TRAVELS_MODE;
     	$scope.newCalendar = {}
 
         $scope.temp = {};
         $scope.tab = 'google';
-
-        delete $http.defaults.headers.common['X-Requested-With'];
         
         $scope.onTabSelect = function(tabName) {
             $scope.tab = tabName;
@@ -48,6 +46,7 @@ controller.controller('myLazyClock.controller.alarmClock.item.view.calendarnew',
             $scope.newCalendar.alarmClockId = $stateParams.id
             GApi.executeAuth('myLazyClock', 'calendar.add',  $scope.newCalendar).then( function(resp) {
                 console.log(resp);
+                $state.go('webapp.alarmClockItem.view.calendarlist');
             });
         }
         
