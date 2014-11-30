@@ -10,7 +10,6 @@ import com.google.api.server.spi.config.Named;
 import com.google.api.server.spi.response.ForbiddenException;
 import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.users.User;
-import org.myLazyClock.model.model.AlarmClock;
 import org.myLazyClock.model.model.AlarmClockEvent;
 
 import java.util.ArrayList;

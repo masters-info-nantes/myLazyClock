@@ -22,24 +22,19 @@ package org.myLazyClock.restApi;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.Named;
-import com.google.appengine.api.oauth.OAuthRequestException;
+import com.google.api.server.spi.response.ForbiddenException;
 import com.google.appengine.api.users.User;
-import org.myLazyClock.calendarApi.CalendarEvent;
-import org.myLazyClock.calendarApi.CalendarStrategy;
-import org.myLazyClock.calendarApi.EventNotFoundException;
 import org.myLazyClock.model.model.Calendar;
-import org.myLazyClock.services.CalendarModulesService;
+import org.myLazyClock.services.CalendarService;
+import org.myLazyClock.services.exception.ForbiddenMyLazyClockException;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * Created by Jeremy on 15/11/14.
+ * Created on 15/11/14.
+ *
+ * @author Jeremy
  */
-
 @Api(
         name = Constants.NAME,
         version = Constants.VERSION,
@@ -49,100 +44,49 @@ import java.util.Collection;
 public class CalendarAPI {
 
     @ApiMethod(name = "calendar.list", httpMethod = ApiMethod.HttpMethod.GET, path="calendar")
-    public Collection<Calendar> list(@Named("alarmClockId") String alarmClockId, User user) {
-        ArrayList<Calendar> list = new ArrayList<Calendar>();
-        Calendar c1 = new Calendar();
-        c1.setCalendarType("GOOGLE_CALENDAR");
-        c1.setName("Anniversaires");
-        c1.setDefaultEventLocation("j'habite ici à nantes");
-        c1.setParam("#contacts@group.v.calendar.google.com");
-        c1.setTravelMode("BICYCLING");
-        c1.setId(Long.decode("1"));
-        list.add(c1);
-        Calendar c2 = new Calendar();
-        c2.setCalendarType("ICS_FILE");
-        c2.setName("Cours Escalade");
-        c2.setDefaultEventLocation("Gymnase grandmont tours");
-        c2.setParam("http://intranet.ect37.com/admin/2014/lessons/Perfectionnement%20%2812%20-%2017%20ans%29/calendar/ics/");
-        c2.setTravelMode("DRIVING");
-        c2.setId(Long.decode("2"));
-        list.add(c2);
-        Calendar c3 = new Calendar();
-        c3.setCalendarType("EDT");
-        c3.setName("UFR Sciences et Techniques - M1ALMA-GL");
-        c3.setDefaultEventLocation("UFR Sciences et Techniques Nantes");
-        c3.setParam("906");
-        c3.setTravelMode("DRIVING");
-        c3.setId(Long.decode("3"));
-        list.add(c3);
-        return list;
+    public Collection<Calendar> list(@Named("alarmClockId") String alarmClockId, User user) throws ForbiddenException {
+        try {
+            return CalendarService.getInstance().findAll(alarmClockId, user);
+        } catch (ForbiddenMyLazyClockException e) {
+            throw new ForbiddenException("Forbidden");
+        }
     }
 
     @ApiMethod(name = "calendar.update", httpMethod = ApiMethod.HttpMethod.PUT, path="calendar")
-    public Calendar update(Calendar calendar, User user) {
-        return new Calendar();
+    public Calendar update(@Named("calendarId") Long calendarId, @Named("alarmClockId") Long alarmClockId, Calendar calendar, User user) throws ForbiddenException {
+        try {
+            if (user == null) {
+                throw new ForbiddenMyLazyClockException();
+            }
+            return CalendarService.getInstance().update(calendarId, alarmClockId, calendar, user);
+        } catch (ForbiddenMyLazyClockException e) {
+            throw new ForbiddenException("Forbidden");
+        }
     }
 
     @ApiMethod(name = "calendar.add", httpMethod = ApiMethod.HttpMethod.POST, path="calendar")
-    public Calendar add(@Named("alarmClockId") String alarmClockId, Calendar calendar, User user) {
-        System.out.println(alarmClockId);
-        System.out.println(calendar.getName());
-        System.out.println(calendar.getParam());
-        System.out.println(calendar.getTravelMode());
-        return calendar;
+    public Calendar add(@Named("alarmClockId") String alarmClockId, Calendar calendar, User user) throws ForbiddenException {
+        try {
+            return CalendarService.getInstance().add(calendar, alarmClockId, user);
+        } catch (ForbiddenMyLazyClockException e) {
+            throw new ForbiddenException("Forbidden");
+        }
     }
 
+    //TODO dralagen 29/11/14 : Implement delete
     @ApiMethod(name = "calendar.delete", httpMethod = ApiMethod.HttpMethod.DELETE, path="calendar")
-    public void delete(@Named("calendarId") String calendarId, User user) {
+    public void delete(@Named("calendarId") Long calendarId, @Named("alarmClockId") Long alarmClockId, User user) {
 
     }
 
     @ApiMethod(name = "calendar.item", httpMethod = ApiMethod.HttpMethod.GET, path="calendar/item")
-    public Calendar item(@Named("calendarId") String calendarId, User user) {
-        Calendar c1 = new Calendar();
-        c1.setCalendarType("GOOGLE_CALENDAR");
-        c1.setName("Anniversaires");
-        c1.setDefaultEventLocation("j'habite ici à nantes");
-        c1.setParam("#contacts@group.v.calendar.google.com");
-        c1.setTravelMode("BICYCLING");
-        c1.setId(Long.decode("1"));
-        return c1;
+    public Calendar item(@Named("calendarId") Long calendarId, @Named("alarmClockId") Long alarmClockId, User user) throws ForbiddenException {
+
+        try {
+            return CalendarService.getInstance().findOne(calendarId, alarmClockId, user);
+        } catch (ForbiddenMyLazyClockException e) {
+            throw new ForbiddenException("Forbidden");
+        }
     }
 
-    /*@ApiMethod(name = "calendar.listAll", httpMethod = ApiMethod.HttpMethod.GET, path="calendar/list")
-    public Collection<CalendarStrategy> getAll() {
-        return CalendarModulesService.getInstance().listModule();
-    }*/
-
-
-    /*
-     * To do :
-     * - calendar scope not work for me
-     * - include Event object to remplace AlarmClock
-     */
-    /*@ApiMethod(name = "calendar.firstEvent", httpMethod = ApiMethod.HttpMethod.GET, path="calendar/firstEvent")
-    public CalendarEvent getFirstEvent(@Named("cal") String calendarStrategy, @Named("details") String calendarDetails,
-                                       @Named("day") String day, User user) throws ParseException, EventNotFoundException, OAuthRequestException {
-
-        CalendarModulesService serviceCalendar = CalendarModulesService.getInstance();
-        java.util.Calendar cal = java.util.Calendar.getInstance();
-        DateFormat dayEvent = new SimpleDateFormat("dd/MM/yyyy");
-
-        cal.setTime(dayEvent.parse(day));	// No offset (month+1) so no offset in getFirstEvent to compare
-
-        // To search any event before this one
-        cal.set(java.util.Calendar.HOUR_OF_DAY, 23);
-        cal.set(java.util.Calendar.MINUTE, 59);
-
-        // Get first event of the day
-        int strategy = (calendarStrategy.equals("google")) ? 3 : 2;
-
-        CalendarEvent nextEvent = serviceCalendar.getFirstEventOfDay(strategy, cal);
-
-        if(user == null){
-            throw new OAuthRequestException("Must be connected to access your calendar");
-        }
-
-        return nextEvent;
-    }*/
 }

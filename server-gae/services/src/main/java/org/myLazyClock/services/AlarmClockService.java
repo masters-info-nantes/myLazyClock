@@ -19,15 +19,18 @@
 
 package org.myLazyClock.services;
 
+import com.google.appengine.api.datastore.Key;
 import org.myLazyClock.model.model.AlarmClock;
 import org.myLazyClock.model.repository.AlarmClockRepository;
-import org.myLazyClock.services.exception.NotFoundMyLazyClockException;
 import org.myLazyClock.services.exception.ForbiddenMyLazyClockException;
+import org.myLazyClock.services.exception.NotFoundMyLazyClockException;
 
 import java.util.Collection;
 
 /**
- * Created by Maxime on 22/10/14.
+ * Created on 22/10/14.
+ *
+ * @author Maxime
  */
 public class AlarmClockService {
 
@@ -42,7 +45,7 @@ public class AlarmClockService {
         return service;
     }
 
-    private AlarmClock findOne(Long alarmClockId) throws NotFoundMyLazyClockException {
+    private AlarmClock findOne(String alarmClockId) throws NotFoundMyLazyClockException {
         if (alarmClockId == null)
             throw new NotFoundMyLazyClockException();
         AlarmClock alarmClock = AlarmClockRepository.getInstance().findOne(alarmClockId);
@@ -56,11 +59,11 @@ public class AlarmClockService {
     }
 
     public AlarmClock item(String alarmClockId) throws NotFoundMyLazyClockException {
-        return findOne(Long.parseLong(alarmClockId));
+        return findOne(alarmClockId);
     }
 
     public AlarmClock link(AlarmClock alarmClock, String userId) throws ForbiddenMyLazyClockException, NotFoundMyLazyClockException {
-        AlarmClock a = findOne(alarmClock.getId());
+        AlarmClock a = findOne(String.valueOf(alarmClock.getId()));
         if(a.getUser() != null)
             throw new ForbiddenMyLazyClockException();
         a.setUser(userId);
@@ -72,7 +75,7 @@ public class AlarmClockService {
     }
 
     public AlarmClock unlink(String alarmClockId, String userId) throws ForbiddenMyLazyClockException, NotFoundMyLazyClockException {
-        AlarmClock a = findOne(Long.parseLong(alarmClockId));
+        AlarmClock a = findOne(alarmClockId);
         if(!a.getUser().equals(userId))
             throw new ForbiddenMyLazyClockException();
         AlarmClock b = new AlarmClock();
@@ -82,7 +85,7 @@ public class AlarmClockService {
     }
 
     public AlarmClock update(AlarmClock alarmClock, String userId) throws ForbiddenMyLazyClockException, NotFoundMyLazyClockException {
-        AlarmClock a = findOne(alarmClock.getId());
+        AlarmClock a = findOne(String.valueOf(alarmClock.getId()));
         if(!a.getUser().equals(userId))
             throw new ForbiddenMyLazyClockException();
         a.setAddress(alarmClock.getAddress());

@@ -26,7 +26,6 @@ import com.google.api.server.spi.response.ForbiddenException;
 import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.users.User;
 import org.myLazyClock.model.model.AlarmClock;
-import org.myLazyClock.model.model.AlarmClockEvent;
 import org.myLazyClock.services.AlarmClockService;
 import org.myLazyClock.services.exception.ForbiddenMyLazyClockException;
 import org.myLazyClock.services.exception.NotFoundMyLazyClockException;
@@ -34,9 +33,10 @@ import org.myLazyClock.services.exception.NotFoundMyLazyClockException;
 import java.util.Collection;
 
 /**
- * Created by Maxime on 22/10/14.
+ * Created on 22/10/14.
+ *
+ * @author Maxime
  */
-
 @Api(
     name = Constants.NAME,
     version = Constants.VERSION,
@@ -89,6 +89,9 @@ public class AlarmClockAPI {
     @ApiMethod(name = "alarmClock.update", httpMethod = ApiMethod.HttpMethod.POST, path="alarmClock/update")
     public AlarmClock update(AlarmClock alarmClock, User user) throws ForbiddenException, NotFoundException{
         try {
+            if (user == null) {
+                throw new ForbiddenMyLazyClockException();
+            }
             return AlarmClockService.getInstance().update(alarmClock, user.getUserId());
         } catch (ForbiddenMyLazyClockException e) {
             throw new ForbiddenException("Forbidden");

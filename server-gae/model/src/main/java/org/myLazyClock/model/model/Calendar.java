@@ -19,25 +19,60 @@
 
 package org.myLazyClock.model.model;
 
+import com.google.appengine.api.datastore.Key;
+
+import javax.jdo.annotations.*;
+
 /**
- * Created by Maxime on 16/11/14.
+ * Created on 16/11/14.
+ *
+ * @author Maxime
  */
+@PersistenceCapable
 public class Calendar {
 
-    private Long id; //id datastore
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    @PrimaryKey
+    private Key key; //key datastore
 
+    @NotPersistent
+    private Long id;
+
+    @Persistent
+    private AlarmClock alarmClock;
+
+    @Persistent
     private String name;
 
-    private String param; // id du gcal ou url ics ...
+    @Persistent
+    private String param; // key du gcal ou url ics ...
 
+    @Persistent
     private String calendarType;
 
+    @Persistent
     private String travelMode;
 
+    @Persistent
     private String defaultEventLocation;
 
+    @Persistent
     private boolean useAlwaysDefaultLocation;
 
+    public Calendar() {
+        if (key != null) {
+            id = key.getId();
+        }
+    }
+
+    public Key getKey() {
+        return key;
+    }
+
+    public void setKey(Key key) {
+        this.key = key;
+        this.id = key.getId();
+    }
 
     public Long getId() {
         return id;
@@ -45,6 +80,14 @@ public class Calendar {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public AlarmClock alarmClock() {
+        return alarmClock;
+    }
+
+    public void alarmClock(AlarmClock alarmClock) {
+        this.alarmClock = alarmClock;
     }
 
     public String getName() {

@@ -13,15 +13,6 @@
         <url-pattern>/_ah/spi/*</url-pattern>
     </servlet-mapping>
 
-    <filter>
-        <filter-name>ObjectifyFilter</filter-name>
-        <filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>ObjectifyFilter</filter-name>
-        <url-pattern>/_ah/spi/*</url-pattern>
-    </filter-mapping>
-
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>

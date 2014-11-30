@@ -19,15 +19,14 @@
 
 package org.myLazyClock.services;
 
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.ArrayList;
-
 import org.myLazyClock.calendarApi.CalendarEvent;
 import org.myLazyClock.calendarApi.CalendarFactory;
 import org.myLazyClock.calendarApi.CalendarStrategy;
-
 import org.myLazyClock.calendarApi.EventNotFoundException;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
 
 /**
  * Created on 28/10/14.

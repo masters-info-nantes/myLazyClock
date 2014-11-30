@@ -1,27 +1,25 @@
 package org.myLazyClock.model.repository;
 
 /**
- * Created by Maxime on 22/10/14.
+ * Created on 22/10/14.
+ *
+ * @author Maxime, Dralagen
  */
 
-import com.googlecode.objectify.ObjectifyService;
-import com.googlecode.objectify.cmd.Query;
 import org.myLazyClock.model.model.AlarmClock;
 
+import javax.jdo.JDOHelper;
+import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 import java.util.Collection;
 import java.util.List;
-
-import static com.googlecode.objectify.ObjectifyService.ofy;
 
 public class AlarmClockRepository {
 
     private static AlarmClockRepository repo = null;
 
-    static {
-        ObjectifyService.register(AlarmClock.class);
+    private AlarmClockRepository() {
     }
-
-    private AlarmClockRepository() {}
 
     public static synchronized AlarmClockRepository getInstance() {
         if (null == repo) {
@@ -31,31 +29,76 @@ public class AlarmClockRepository {
     }
 
     public Collection<AlarmClock> findAll() {
-        List<AlarmClock> all = ofy().load().type(AlarmClock.class).list();
+        PersistenceManager pm = PMF.get().getPersistenceManager();
+
+        Query q = pm.newQuery(AlarmClock.class);
+
+        List<AlarmClock> all;
+
+        try {
+            all = (List<AlarmClock>) q.execute();
+        } finally {
+            q.closeAll();
+        }
+
         return all;
     }
 
     public Collection<AlarmClock> findAllByUserId(String userId) {
-        Query<AlarmClock> all = ofy().load().type(AlarmClock.class).filter("user", userId);
-        return all.list();
+        PersistenceManager pm = PMF.get().getPersistenceManager();
+
+        Query q = pm.newQuery(AlarmClock.class);
+        q.setFilter("user == userId");
+        q.declareParameters("String userId");
+        List<AlarmClock> all;
+
+        try {
+            all = (List<AlarmClock>) q.execute(userId);
+        } finally {
+            q.closeAll();
+        }
+
+        return all;
     }
 
     public AlarmClock findOne(String id) {
-        return findOne(Long.valueOf(id));
+        return findOne(Long.decode(id));
     }
 
     public AlarmClock findOne(Long id) {
-        AlarmClock one = ofy().load().type(AlarmClock.class).id(id).now();
-        return one;
+        PersistenceManager pm = PMF.get().getPersistenceManager();
+
+        return pm.getObjectById(AlarmClock.class, id);
     }
 
     public AlarmClock save(AlarmClock alarmClock) {
-        ofy().save().entity(alarmClock).now();
+
+        PersistenceManager pm = null;
+
+        if (alarmClock.getId() == null) {
+            pm = PMF.get().getPersistenceManager();
+        }
+        else {
+            pm = JDOHelper.getPersistenceManager(alarmClock);
+        }
+
+        try {
+            pm.makePersistent(alarmClock);
+        } finally {
+            pm.close();
+        }
+
         return alarmClock;
     }
 
     public void delete(AlarmClock alarmClock) {
-        ofy().delete().entity(alarmClock).now();
+        PersistenceManager pm = PMF.get().getPersistenceManager();
+
+        try {
+            pm.deletePersistent(alarmClock.getId());
+        } finally {
+            pm.close();
+        }
     }
 
 }
