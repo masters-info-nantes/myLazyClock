@@ -20,14 +20,19 @@
 package org.myLazyClock.services;
 
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.User;
 import org.myLazyClock.model.model.AlarmClock;
 import org.myLazyClock.model.model.Calendar;
 import org.myLazyClock.model.repository.AlarmClockRepository;
 import org.myLazyClock.model.repository.CalendarRepository;
+import org.myLazyClock.model.repository.PMF;
 import org.myLazyClock.services.exception.ForbiddenMyLazyClockException;
 
+import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created on 28/10/14.
@@ -66,5 +71,16 @@ public class CalendarService {
         }
 
         return CalendarRepository.getInstance().add(calendar, alarm);
+    }
+
+    public Calendar findOne(Long calendarId, Long alarmClockId, User user) {
+        //Key calendarKey = KeyFactory.createKey(Calendar.class.getSimpleName(), calendarId);
+        Key calendarKey = new KeyFactory.Builder(AlarmClock.class.getSimpleName(), alarmClockId)
+                .addChild(Calendar.class.getSimpleName(), calendarId)
+                .getKey();
+
+        Calendar calendar = CalendarRepository.getInstance().findOne(calendarKey);
+        calendar.setId(calendar.getKey().getId());
+        return calendar;
     }
 }

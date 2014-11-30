@@ -5,7 +5,7 @@ controller.controller('myLazyClock.controller.alarmClock.item.view.calendaredit'
 
         $scope.travelsMode = TRAVELS_MODE;
 
-        GApi.executeAuth('myLazyClock', 'calendar.item', {'calendarId': $stateParams.calendar}).then( function(resp) {
+        GApi.executeAuth('myLazyClock', 'calendar.item', {'calendarId': $stateParams.calendar, 'alarmClockId':$stateParams.id}).then( function(resp) {
                 $scope.calendar = resp;
                 angular.forEach($scope.travelsMode, function(value) {
                     if (value.id == $scope.calendar.travelMode) {

@@ -94,7 +94,11 @@ public class AlarmClockRepository {
     public void delete(AlarmClock alarmClock) {
         PersistenceManager pm = PMF.get().getPersistenceManager();
 
-        pm.deletePersistent(alarmClock.getId());
+        try {
+            pm.deletePersistent(alarmClock.getId());
+        } finally {
+            pm.close();
+        }
     }
 
 }

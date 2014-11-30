@@ -20,10 +20,7 @@
 package org.myLazyClock.model.model;
 
 
-import javax.jdo.annotations.IdGeneratorStrategy;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
+import javax.jdo.annotations.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,17 +52,10 @@ public class AlarmClock {
     private int preparationTime;
 
     @Persistent(mappedBy = "alarmClock")
+    @Element(dependent = "true")
     private List<Calendar> calendars;
 
     public AlarmClock() {}
-
-    public AlarmClock(Long id, String user, String address, String color, int preparationTime) {
-        this.id = id;
-        this.user = user;
-        this.address = address;
-        this.color = color;
-        this.preparationTime = preparationTime;
-    }
 
     public Long getId () {
         return id;
