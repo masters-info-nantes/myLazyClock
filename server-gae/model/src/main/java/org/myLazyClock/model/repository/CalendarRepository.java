@@ -67,4 +67,14 @@ public class CalendarRepository {
 
         return pm.getObjectById(Calendar.class, calendarKey);
     }
+
+    public void delete(Calendar calendar) {
+        PersistenceManager pm = PMF.get().getPersistenceManager();
+
+        try {
+            pm.deletePersistent(calendar);
+        } finally {
+            pm.close();
+        }
+    }
 }

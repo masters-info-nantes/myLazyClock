@@ -26,11 +26,8 @@ import org.myLazyClock.model.model.AlarmClock;
 import org.myLazyClock.model.model.Calendar;
 import org.myLazyClock.model.repository.AlarmClockRepository;
 import org.myLazyClock.model.repository.CalendarRepository;
-import org.myLazyClock.model.repository.PMF;
 import org.myLazyClock.services.exception.ForbiddenMyLazyClockException;
 
-import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
 import java.util.Collection;
 import java.util.List;
 
@@ -98,5 +95,24 @@ public class CalendarService {
         toSave.setUseAlwaysDefaultLocation(calendar.isUseAlwaysDefaultLocation());
 
         return CalendarRepository.getInstance().save(toSave);
+    }
+
+    public void delete(Long calendarId, Long alarmClockId, User user) throws ForbiddenMyLazyClockException {
+        AlarmClock alarmClock = AlarmClockRepository.getInstance().findOne(alarmClockId);
+
+        if (!alarmClock.getUser().equals(user.getUserId())) {
+            throw new ForbiddenMyLazyClockException();
+        }
+
+        Key calendarKey = new KeyFactory.Builder(AlarmClock.class.getSimpleName(), alarmClockId)
+                                .addChild(Calendar.class.getSimpleName(), calendarId)
+                                .getKey();
+        Calendar calendar = CalendarRepository.getInstance().findOne(calendarKey);
+
+
+        List<Calendar> calendars = alarmClock.getCalendars();
+        calendars.remove(calendar);
+
+        AlarmClockRepository.getInstance().save(alarmClock);
     }
 }

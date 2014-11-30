@@ -137,4 +137,13 @@ public class Calendar {
     public void setUseAlwaysDefaultLocation(boolean useAlwaysDefaultLocation) {
         this.useAlwaysDefaultLocation = useAlwaysDefaultLocation;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Calendar) {
+            Calendar cal = (Calendar) obj;
+            return cal.key.equals(this.key);
+        }
+        return false;
+    }
 }
