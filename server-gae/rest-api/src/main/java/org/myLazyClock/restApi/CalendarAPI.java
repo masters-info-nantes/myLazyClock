@@ -54,8 +54,15 @@ public class CalendarAPI {
 
     //TODO dralagen 29/11/14 : Implement update
     @ApiMethod(name = "calendar.update", httpMethod = ApiMethod.HttpMethod.PUT, path="calendar")
-    public Calendar update(Calendar calendar, User user) {
-        return new Calendar();
+    public Calendar update(@Named("calendarId") Long calendarId, @Named("alarmClockId") Long alarmClockId, Calendar calendar, User user) throws ForbiddenException {
+        try {
+            if (user == null) {
+                throw new ForbiddenMyLazyClockException();
+            }
+            return CalendarService.getInstance().update(calendarId, alarmClockId, calendar, user);
+        } catch (ForbiddenMyLazyClockException e) {
+            throw new ForbiddenException("Forbidden");
+        }
     }
 
     @ApiMethod(name = "calendar.add", httpMethod = ApiMethod.HttpMethod.POST, path="calendar")
@@ -73,11 +80,14 @@ public class CalendarAPI {
 
     }
 
-    //TODO dralagen 29/11/14 : Implement get one calendar
     @ApiMethod(name = "calendar.item", httpMethod = ApiMethod.HttpMethod.GET, path="calendar/item")
-    public Calendar item(@Named("calendarId") Long calendarId, @Named("alarmClockId") Long alarmClockId, User user) {
+    public Calendar item(@Named("calendarId") Long calendarId, @Named("alarmClockId") Long alarmClockId, User user) throws ForbiddenException {
 
-        return CalendarService.getInstance().findOne(calendarId, alarmClockId, user);
+        try {
+            return CalendarService.getInstance().findOne(calendarId, alarmClockId, user);
+        } catch (ForbiddenMyLazyClockException e) {
+            throw new ForbiddenException("Forbidden");
+        }
     }
 
 }

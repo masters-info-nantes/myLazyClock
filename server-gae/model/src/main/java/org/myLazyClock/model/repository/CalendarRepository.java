@@ -4,6 +4,7 @@ import com.google.appengine.api.datastore.Key;
 import org.myLazyClock.model.model.AlarmClock;
 import org.myLazyClock.model.model.Calendar;
 
+import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import java.util.Collection;
 import java.util.List;
@@ -43,8 +44,14 @@ public class CalendarRepository {
         return calendar;
     }
 
-    private Calendar save(Calendar calendar) {
-        PersistenceManager pm = PMF.get().getPersistenceManager();
+    public Calendar save(Calendar calendar) {
+        PersistenceManager pm;
+
+        if (calendar.getKey() == null) {
+            pm = PMF.get().getPersistenceManager();
+        } else {
+            pm = JDOHelper.getPersistenceManager(calendar);
+        }
 
         try {
             pm.makePersistent(calendar);
@@ -58,14 +65,6 @@ public class CalendarRepository {
     public Calendar findOne(Key calendarKey) {
         PersistenceManager pm = PMF.get().getPersistenceManager();
 
-        Calendar cal;
-
-        try {
-            cal = pm.getObjectById(Calendar.class, calendarKey);
-        } finally {
-            pm.close();
-        }
-
-        return cal;
+        return pm.getObjectById(Calendar.class, calendarKey);
     }
 }

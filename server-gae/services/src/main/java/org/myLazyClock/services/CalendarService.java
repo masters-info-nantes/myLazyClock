@@ -73,8 +73,8 @@ public class CalendarService {
         return CalendarRepository.getInstance().add(calendar, alarm);
     }
 
-    public Calendar findOne(Long calendarId, Long alarmClockId, User user) {
-        //Key calendarKey = KeyFactory.createKey(Calendar.class.getSimpleName(), calendarId);
+    public Calendar findOne(Long calendarId, Long alarmClockId, User user) throws ForbiddenMyLazyClockException {
+
         Key calendarKey = new KeyFactory.Builder(AlarmClock.class.getSimpleName(), alarmClockId)
                 .addChild(Calendar.class.getSimpleName(), calendarId)
                 .getKey();
@@ -82,5 +82,21 @@ public class CalendarService {
         Calendar calendar = CalendarRepository.getInstance().findOne(calendarKey);
         calendar.setId(calendar.getKey().getId());
         return calendar;
+    }
+
+    public Calendar update(Long calendarId, Long alarmClockId, Calendar calendar, User user) {
+        Key calendarKey = new KeyFactory.Builder(AlarmClock.class.getSimpleName(), alarmClockId)
+                                    .addChild(Calendar.class.getSimpleName(), calendarId)
+                                    .getKey();
+        Calendar toSave = CalendarRepository.getInstance().findOne(calendarKey);
+
+        toSave.setName(calendar.getName());
+        toSave.setParam(calendar.getParam());
+        toSave.setCalendarType(calendar.getCalendarType());
+        toSave.setTravelMode(calendar.getTravelMode());
+        toSave.setDefaultEventLocation(calendar.getDefaultEventLocation());
+        toSave.setUseAlwaysDefaultLocation(calendar.isUseAlwaysDefaultLocation());
+
+        return CalendarRepository.getInstance().save(toSave);
     }
 }

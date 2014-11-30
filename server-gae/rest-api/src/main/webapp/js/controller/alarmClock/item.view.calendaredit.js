@@ -16,8 +16,12 @@ controller.controller('myLazyClock.controller.alarmClock.item.view.calendaredit'
         });
 
         $scope.submitEdit = function() {
-            $scope.calendar.travelMode = $scope.calendar.id;
-            GApi.executeAuth('myLazyClock', 'calendar.update', {'calendar': $scope.calendar}).then( function(resp) {
+            console.log($scope.calendar.travelMode.id);
+            $scope.calendar.travelMode = $scope.calendar.travelMode.id;
+            var calendar = angular.copy($scope.calendar);
+            calendar.calendarId =  $stateParams.calendar;
+            calendar.alarmClockId = $stateParams.id;
+            GApi.executeAuth('myLazyClock', 'calendar.update', calendar).then( function(resp) {
                 $state.go('webapp.alarmClockItem.view.calendarlist');
             });
 
