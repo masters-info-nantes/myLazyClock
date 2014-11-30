@@ -1,7 +1,9 @@
-package org.myLazyClock.model.model;
+package org.myLazyClock.model.bean;
 
 /**
- * Created by Maxime on 27/11/14.
+ * Created on 27/11/14.
+ *
+ * @author Maxime
  */
 public class EdtData {
 

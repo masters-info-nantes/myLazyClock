@@ -17,12 +17,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.myLazyClock.model.model;
+package org.myLazyClock.model.bean;
 
 import java.util.Date;
 
 /**
- * Created by Maxime on 16/11/14.
+ * Created on 16/11/14.
+ *
+ * @author Maxime
  */
 public class AlarmClockEvent {
 

@@ -22,19 +22,17 @@ package org.myLazyClock.restApi;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.Named;
-import com.google.gson.*;
-import org.myLazyClock.model.model.EdtData;
+import org.myLazyClock.model.bean.EdtData;
+import org.myLazyClock.services.EdtService;
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.*;
+import java.io.IOException;
+import java.util.Collection;
 
 /**
- * Created by Maxime on 22/10/14.
+ * Created on 22/10/14.
+ *
+ * @author Maxime
  */
-
 @Api(
     name = Constants.NAME,
     version = Constants.VERSION,
@@ -43,87 +41,15 @@ import java.util.*;
 )
 public class EdtAPI {
 
-    private static String  urlSmartEdt = "http://smart-edt.fr/android/data.php";
-
-    private static JsonElement getJson(Map<String, String> params) throws IOException {
-        URL url = new URL(urlSmartEdt);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("POST");
-        conn.setDoInput(true);
-        conn.setDoOutput(true);
-
-        OutputStream os = conn.getOutputStream();
-        BufferedWriter writer = new BufferedWriter(
-                new OutputStreamWriter(os, "UTF-8"));
-        writer.write(getQuery(params));
-        writer.flush();
-        writer.close();
-        os.close();
-
-        conn.connect();
-
-        JsonParser jp = new JsonParser();
-        return jp.parse(new InputStreamReader((InputStream) conn.getContent()));
-    }
-
-    private static String getQuery(Map<String, String> params) throws UnsupportedEncodingException
-    {
-        StringBuilder result = new StringBuilder();
-        boolean first = true;
-        for (Map.Entry<String, String> pair : params.entrySet())
-        {
-            if (first)
-                first = false;
-            else
-                result.append("&");
-
-            result.append(URLEncoder.encode(pair.getKey(), "UTF-8"));
-            result.append("=");
-            result.append(URLEncoder.encode(pair.getValue(), "UTF-8"));
-        }
-
-        return result.toString();
-    }
-
     @ApiMethod(name = "edt.groups.list", httpMethod = ApiMethod.HttpMethod.GET, path="edt/groups/")
     public Collection<EdtData> getGroupsList(@Named("ufr") String ufr) throws IOException {
-        HashMap<String, String> urlParameters = new HashMap<>();
-        urlParameters.put("getComp", ufr);
-
-        JsonObject root = getJson(urlParameters).getAsJsonArray().get(0).getAsJsonObject();
-
-        JsonArray array = root.get("groups").getAsJsonArray();
-
-        ArrayList<EdtData> edts = new ArrayList<EdtData>();
-        for(int i = 0; i<array.size(); i++) {
-            JsonObject a = array.get(i).getAsJsonObject();
-            EdtData edtData = new EdtData();
-            edtData.setId(a.get("id").getAsString());
-            edtData.setName(a.get("name").getAsString());
-            edts.add(edtData);
-        }
-        return edts;
+        return EdtService.getInstance().getGroupsList(ufr);
 
     }
 
     @ApiMethod(name = "edt.ufr.list", httpMethod = ApiMethod.HttpMethod.GET, path="edt/ufr/")
     public Collection<EdtData> getUFRList() throws IOException {
-        HashMap<String, String> urlParameters = new HashMap<>();
-        urlParameters.put("getSchool", "1");
-
-        JsonObject root = getJson(urlParameters).getAsJsonArray().get(0).getAsJsonObject();
-
-        JsonArray array = root.get("comps").getAsJsonArray();
-
-        ArrayList<EdtData> edts = new ArrayList<EdtData>();
-        for(int i = 0; i<array.size(); i++) {
-            JsonObject a = array.get(i).getAsJsonObject();
-            EdtData edtData = new EdtData();
-            edtData.setId(a.get("id").getAsString());
-            edtData.setName(a.get("name").getAsString());
-            edts.add(edtData);
-        }
-        return edts;
+        return EdtService.getInstance().getUFRList();
 
     }
 

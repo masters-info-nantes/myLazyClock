@@ -3,14 +3,16 @@ package org.myLazyClock.services;
 import org.myLazyClock.calendarApi.CalendarEvent;
 import org.myLazyClock.calendarApi.EventNotFoundException;
 import org.myLazyClock.model.model.AlarmClock;
-import org.myLazyClock.model.model.AlarmClockEvent;
+import org.myLazyClock.model.bean.AlarmClockEvent;
 import org.myLazyClock.model.model.Calendar;
 import org.myLazyClock.model.repository.CalendarRepository;
 
 import java.util.*;
 
 /**
- * Created by jeremy on 30/11/14.
+ * Created on 30/11/14.
+ *
+ * @author jeremy
  */
 public class ClockEventService {
     private static ClockEventService service = null;
