@@ -49,16 +49,27 @@ public class CalendarModulesService {
 	/**
 	 * Return the first event in specified day on online schedule
 	 * 
-	 * @param strategyId Calendar strategy used
+	 * @param calendar Calendar to use with settings (strategy, url)
 	 * @param date Day where to search event
 	 * @return First event of day if exist, null otherwise
 	 */
-	public CalendarEvent getFirstEventOfDay(int strategyId, Calendar date) throws EventNotFoundException{
-		CalendarStrategy strategy = CalendarFactory.getInstance().get(strategyId);
+	public CalendarEvent getFirstEventOfDay(org.myLazyClock.model.model.Calendar calendar, java.util.Calendar date) throws EventNotFoundException{
+
+        int strategyId = 1; // ICS_FILE
+
+        String calendarType = calendar.getCalendarType();
+
+        if(calendarType.equals("EDT")) {
+            strategyId = 2;
+        }
+        else if(calendarType.equals("GOOGLE_CALENDAR")){
+            strategyId = 3;
+        }
+        CalendarStrategy strategy = CalendarFactory.getInstance().get(strategyId);
 		
 		// Get ICS file and first event of the day
 		CalendarEvent nextEvent = null;
-		nextEvent = strategy.getFirstEvent("https://edt.univ-nantes.fr/staps/g93108.ics", date);
+		nextEvent = strategy.getFirstEvent(calendar.getParam(), date);
 			
 		return nextEvent;
 	}

@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.HashMap;
 
 /**
 * Send request to get schedule and returns the first
@@ -55,6 +56,11 @@ import java.net.URL;
 public class CalendarEdtUnivNantesStrategy implements CalendarStrategy {
 
     public static final int ID = 2;
+    //private HashMap<String, String> icsFiles;
+
+    public CalendarEdtUnivNantesStrategy(){
+    //    this.icsFiles = new HashMap<String, String>();
+    }
 
     @Override
     public Integer getId() {
@@ -65,6 +71,7 @@ public class CalendarEdtUnivNantesStrategy implements CalendarStrategy {
     public String getName() {
         return "Calendar edt univ-nantes";
     }
+
 
     /**
      * Get ICS file on the given server
@@ -77,6 +84,12 @@ public class CalendarEdtUnivNantesStrategy implements CalendarStrategy {
      */
     private String getEdt(URL edtUrl) throws IOException {
 
+        /*
+        if(this.icsFiles.containsKey(edtUrl.toString())){
+            return this.icsFiles.get(edtUrl.toString());
+        }
+        */
+
   		BufferedReader reader = new BufferedReader(new InputStreamReader(edtUrl.openStream()));
   		
   		String line;
@@ -87,7 +100,8 @@ public class CalendarEdtUnivNantesStrategy implements CalendarStrategy {
   		    page.append("\r\n");
   		}
   		reader.close();
-  				   
+
+        //this.icsFiles.put(edtUrl.toString(), page.toString());
   		return page.toString();
      
   	}
@@ -105,6 +119,7 @@ public class CalendarEdtUnivNantesStrategy implements CalendarStrategy {
 
         String icsFile = null;
         try {
+            url = "https://edt.univ-nantes.fr/staps/g" + url + ".ics";
             icsFile = getEdt(new URL(url));
         } catch (IOException e) {
             e.printStackTrace();

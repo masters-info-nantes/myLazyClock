@@ -26,7 +26,7 @@ import java.util.Date;
  *
  * @author dralagen
  */
-public class CalendarEvent {
+public class CalendarEvent implements Comparable<CalendarEvent>{
 
     private Date beginDate;
     private Date endDate;
@@ -55,5 +55,10 @@ public class CalendarEvent {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public int compareTo(CalendarEvent o) {
+        return this.beginDate.compareTo(o.beginDate);
     }
 }

@@ -10,11 +10,19 @@ import com.google.api.server.spi.config.Named;
 import com.google.api.server.spi.response.ForbiddenException;
 import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.users.User;
+import org.myLazyClock.calendarApi.CalendarEvent;
+import org.myLazyClock.calendarApi.CalendarStrategy;
+import org.myLazyClock.calendarApi.EventNotFoundException;
+import org.myLazyClock.model.model.AlarmClock;
 import org.myLazyClock.model.model.AlarmClockEvent;
+import org.myLazyClock.model.repository.AlarmClockRepository;
+import org.myLazyClock.model.repository.CalendarRepository;
+import org.myLazyClock.services.CalendarModulesService;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
+import java.lang.reflect.Array;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Api(
         name = Constants.NAME,
@@ -26,23 +34,59 @@ public class ClockEventAPI {
 
     @ApiMethod(name = "clockevent.list", httpMethod = ApiMethod.HttpMethod.GET, path="clockevent")
     public Collection<AlarmClockEvent> list(@Named("alarmClockId") String alarmClockId, User user) throws ForbiddenException, NotFoundException {
-        ArrayList<AlarmClockEvent> a = new ArrayList<AlarmClockEvent>();
-        AlarmClockEvent e = new AlarmClockEvent();
-        e.setAddress("15, rue kervegan, 44000 Nantes");
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(cal.getTimeInMillis()+30000);
-        e.setBeginDate(cal.getTime());
-        e.setTravelDuration(new Long(5));
-        e.setName("Cours à la fac");
-        AlarmClockEvent e1 = new AlarmClockEvent();
-        e1.setAddress("15, rue kervegan, 44000 Nantes");
-        cal.setTimeInMillis(cal.getTimeInMillis()+120000);
-        e1.setBeginDate(cal.getTime());
-        e1.setTravelDuration(new Long(5));
-        e1.setName("Cours à la fac 2");
-        a.add(e);
-        a.add(e1);
-        return a;
-    }
 
+        // Retrieve alarm and calendars
+        AlarmClock alarm = AlarmClockRepository.getInstance().findOne(alarmClockId);
+        Collection<org.myLazyClock.model.model.Calendar> calendarList = CalendarRepository.getInstance().findAll(alarm);
+
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Paris")); // For new Date()
+        java.util.Calendar currentCal = java.util.Calendar.getInstance();
+        currentCal.setTime(new Date());
+
+        // To search any event before this one
+        currentCal.set(java.util.Calendar.HOUR_OF_DAY, 23);
+        currentCal.set(java.util.Calendar.MINUTE, 59);
+
+        CalendarModulesService serviceCalendar = CalendarModulesService.getInstance();
+        Collection<AlarmClockEvent> eventsInWeek = new ArrayList<AlarmClockEvent>();
+
+        // Search first event for each day of week
+        for(int i = 0; i < 7; i++){
+
+            ArrayList<CalendarEvent> eventsInDay = new ArrayList<CalendarEvent>();
+            for(org.myLazyClock.model.model.Calendar cal: calendarList){
+                try {
+                    CalendarEvent eventOfDay = serviceCalendar.getFirstEventOfDay(cal, currentCal);
+                    eventsInDay.add(eventOfDay);
+                }
+                catch(EventNotFoundException e){
+                    // No event for this day in this calendar
+                }
+            }
+
+            // Add sooner event of day in list
+            AlarmClockEvent alarmEvent = new AlarmClockEvent();
+
+            if(eventsInDay.isEmpty()){
+                alarmEvent.setBeginDate(currentCal.getTime());
+                alarmEvent.setName("No event today");
+                alarmEvent.setAddress("Default Address");
+                alarmEvent.setTravelDuration(new Long(6876));
+            }
+            else {
+                CalendarEvent soonerEvent = Collections.min(eventsInDay);
+                alarmEvent.setBeginDate(soonerEvent.getBeginDate());
+                alarmEvent.setName(soonerEvent.getName());
+                alarmEvent.setAddress("Default Address");
+                alarmEvent.setTravelDuration(new Long(6876));
+            }
+
+            eventsInWeek.add(alarmEvent);
+
+            // Next day
+            currentCal.setTimeInMillis(currentCal.getTimeInMillis() + (24 * 60 * 60 * 1000));
+        }
+
+        return eventsInWeek;
+    }
 }
