@@ -16,8 +16,8 @@
     <description>Aggregator of all implementation of calendar-api</description>
 
     <modules>
-        <module>../calendar-manual</module>
-        <module>../calendar-edt-univ-nantes</module>
+        <module>../calendar-ics</module>
+        <module>../calendar-smart-edt</module>
         <module>../calendar-google</module>
     </modules>
 
@@ -25,7 +25,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>calendar-manual</artifactId>
+            <artifactId>calendar-ics</artifactId>
             <version>${project.version}</version>
         </dependency>
 

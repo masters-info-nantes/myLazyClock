@@ -21,46 +21,22 @@ package org.myLazyClock.calendarApi;
 
 import net.fortuna.ical4j.data.CalendarBuilder;
 import net.fortuna.ical4j.data.ParserException;
-import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.Component;
 import net.fortuna.ical4j.model.ComponentList;
 import net.fortuna.ical4j.model.component.VEvent;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URL;
-import java.util.HashMap;
 
 /**
-* Send request to get schedule and returns the first
-* event of the given day
-* 
-* Parameters
-*  - day in which search first event
-* 	- ics file's url
-*  - login
-*  - password
-*  
-* @author Jeremy
-* 
-* @warning Caution with offsets and calendar and see getEdt warning
-* 
-* External library iCal4j (http://build.mnode.org/projects/ical4j/apidocs/): 
-*   - put in eclipse projet (add jar) for local use
-*   - in war/WEB-INF/lib to deploy
-*   
-*/
-public class CalendarEdtUnivNantesStrategy implements CalendarStrategy {
+ * Created on 28/10/14.
+ *
+ * @author dralagen
+ */
+public class CalendarIcsStrategy implements CalendarStrategy {
 
-    public static final int ID = 2;
+    public static final int ID = 1;
     //private HashMap<String, String> icsFiles;
-
-    public CalendarEdtUnivNantesStrategy(){
-    //    this.icsFiles = new HashMap<String, String>();
-    }
 
     @Override
     public Integer getId() {
@@ -69,16 +45,19 @@ public class CalendarEdtUnivNantesStrategy implements CalendarStrategy {
 
     @Override
     public String getName() {
-        return "Calendar edt univ-nantes";
+        return "Calendar ICS";
     }
 
+    public CalendarIcsStrategy(){
+        //    this.icsFiles = new HashMap<String, String>();
+    }
 
     /**
      * Get ICS file on the given server
      * @param edtUrl Path to get ics file in schedule
      * @return ICS file as string
-     * @throws IOException
-     * 
+     * @throws java.io.IOException
+     *
      * @warning Not working with science schedule because of login but
      * 		  working well with staps
      */
@@ -90,22 +69,22 @@ public class CalendarEdtUnivNantesStrategy implements CalendarStrategy {
         }
         */
 
-  		BufferedReader reader = new BufferedReader(new InputStreamReader(edtUrl.openStream()));
-  		
-  		String line;
-  		StringBuilder page = new StringBuilder("");
-  		
-  		while ((line = reader.readLine()) != null) {
-  		    page.append(line);
-  		    page.append("\r\n");
-  		}
-  		reader.close();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(edtUrl.openStream()));
+
+        String line;
+        StringBuilder page = new StringBuilder("");
+
+        while ((line = reader.readLine()) != null) {
+            page.append(line);
+            page.append("\r\n");
+        }
+        reader.close();
 
         //this.icsFiles.put(edtUrl.toString(), page.toString());
-  		return page.toString();
-     
-  	}
-    
+        return page.toString();
+
+    }
+
     /**
      * Construct calendar from given ICS file
      * and return first event of given day
@@ -116,10 +95,8 @@ public class CalendarEdtUnivNantesStrategy implements CalendarStrategy {
      */
     @Override
     public CalendarEvent getFirstEvent (String url, java.util.Calendar day) throws EventNotFoundException {
-
         String icsFile = null;
         try {
-            url = "https://edt.univ-nantes.fr/staps/g" + url + ".ics";
             icsFile = getEdt(new URL(url));
         } catch (IOException e) {
             e.printStackTrace();
@@ -128,7 +105,7 @@ public class CalendarEdtUnivNantesStrategy implements CalendarStrategy {
         // Construct calendar from ICS file
         InputStream is = new ByteArrayInputStream(icsFile.getBytes());
         CalendarBuilder builder = new CalendarBuilder();
-        Calendar calendar = null;
+        net.fortuna.ical4j.model.Calendar calendar = null;
         try {
             calendar = builder.build(is);
         } catch (IOException e) {
@@ -140,13 +117,13 @@ public class CalendarEdtUnivNantesStrategy implements CalendarStrategy {
         // Looking for first event of the day
         ComponentList events = calendar.getComponents(Component.VEVENT);
         VEvent nextEvent = null;
-  	  
+
         for(Object event: events){
             VEvent currEvent = (VEvent)event;
-  		  
+
             java.util.Calendar calCurr = java.util.Calendar.getInstance();
             calCurr.setTime(currEvent.getStartDate().getDate());
-  		  
+
             boolean sameDay = calCurr.get(java.util.Calendar.YEAR) == day.get(java.util.Calendar.YEAR) &&
                     calCurr.get(java.util.Calendar.DAY_OF_YEAR) == day.get(java.util.Calendar.DAY_OF_YEAR);
 

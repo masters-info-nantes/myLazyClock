@@ -22,13 +22,21 @@ package org.myLazyClock.calendarApi;
 import java.util.Calendar;
 
 /**
- * Created on 28/10/14.
- *
- * @author dralagen
- */
-public class CalendarManualStrategy implements CalendarStrategy {
+* Send request to get schedule and returns the first
+* event of the given day
+*  
+* @author Jeremy
+* 
+* @warning Caution with offsets and calendar and see getEdt warning
+* 
+* External library iCal4j (http://build.mnode.org/projects/ical4j/apidocs/): 
+*   - put in eclipse projet (add jar) for local use
+*   - in war/WEB-INF/lib to deploy
+*   
+*/
+public class CalendarSmartEdtStrategy implements CalendarStrategy {
 
-    public static final int ID = 1;
+    public static final int ID = 2;
 
     @Override
     public Integer getId() {
@@ -37,9 +45,9 @@ public class CalendarManualStrategy implements CalendarStrategy {
 
     @Override
     public String getName() {
-        return "Calendar Manual";
+        return "Calendar edt univ-nantes";
     }
-    
+
     @Override
     public CalendarEvent getFirstEvent(String url, Calendar day) throws EventNotFoundException {
         if (day == null) {
