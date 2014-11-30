@@ -31,7 +31,7 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>calendar-edt-univ-nantes</artifactId>
+            <artifactId>calendar-smart-edt</artifactId>
             <version>${project.version}</version>
         </dependency>
 
