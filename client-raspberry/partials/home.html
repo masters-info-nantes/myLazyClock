@@ -1,29 +1,29 @@
-<div class="clock-wrap" ng-controller="myLazyClock.controller.clock" ng-style="{'color': alarmClock.color}">
-	<div class="hour-wrap">
+<div class="clock-wrap" ng-controller="myLazyClock.controller.clock" style="color: {{alarmClock.color}};">
+              <div class="hour-wrap">
 		<div class="digit-top">
-			<div class="front">00</div>
-			<div class="back">00</div>
+			<div class="front">{{ clock  | date:'HH'}}</div>
+			<div class="back">{{ clock  | date:'HH'}}</div>
 		</div>
 		<div class="digit-bottom">
-			<div class="front">00</div>
+			<div class="front">{{ clock  | date:'HH'}}</div>
 		</div>
 	</div>
 	<div class="min-wrap">
 		<div class="digit-top">
-			<div class="front">00</div>
-			<div class="back">00</div>
+			<div class="front">{{ clock  | date:'mm'}}</div>
+			<div class="back">{{ clock  | date:'mm'}}</div>
 		</div>
 		<div class="digit-bottom">
-			<div class="front">00</div>
+			<div class="front">{{ clock  | date:'mm'}}</div>
 		</div>
 	</div>
 	<div class="sec-wrap">
 		<div class="digit-top">
-			<div class="front">00</div>
-			<div class="back">00</div>
+			<div class="front">{{ clock  | date:'ss'}}</div>
+			<div class="back">{{ clock  | date:'ss'}}</div>
 		</div>
 		<div class="digit-bottom">
-			<div class="front">00</div>
+			<div class="front">{{ clock  | date:'ss'}}</div>
 		</div>
 	</div>
 </div>

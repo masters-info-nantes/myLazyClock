@@ -28,13 +28,30 @@
 <p>Temps que vous voulez pour vous préparer</p>
 <!-- Text input-->
 <div class="form-group">
-  <input ng-model="alarmClockTemp.preparationTime" name="textinput" type="text" placeholder="" class="form-control input-md">
+  <select class="form-control input-md" ng-model="alarmClockTemp.preparationTime" ng-options="preparationTime.name for preparationTime in preparationTimes"><option value="">-- Choix de la durée pour vous préparer --</option></select>
 </div>
 
 <p>Couleur du réveil</p>
 <!-- Text input-->
-<div class="form-group">
-  <input ng-model="alarmClockTemp.color" name="textinput" type="text" placeholder="" class="form-control input-md">
+<div class="row colorSelect">
+  <div class="col-md-2">
+    <div class="well wellBtn" ng-model="alarmClockTemp.color" btn-radio="'#2196F3'" style="background: #2196F3;"></div>
+  </div>
+  <div class="col-md-2">
+    <div class="well wellBtn" ng-model="alarmClockTemp.color" btn-radio="'#3F51B5'" style="background: #3F51B5;"></div>
+  </div>
+  <div class="col-md-2">
+    <div class="well wellBtn" ng-model="alarmClockTemp.color" btn-radio="'#4CAF50'" style="background: #4CAF50;"></div>
+  </div>
+  <div class="col-md-2">
+    <div class="well wellBtn" ng-model="alarmClockTemp.color" btn-radio="'#9C27B0'" style="background: #9C27B0;"></div>
+  </div>
+  <div class="col-md-2">
+    <div class="well wellBtn" ng-model="alarmClockTemp.color" btn-radio="'#F44336'" style="background: #F44336;"></div>
+  </div>
+  <div class="col-md-2">
+    <div class="well wellBtn" ng-model="alarmClockTemp.color" btn-radio="'#607D8B'" style="background: #607D8B;"></div>
+  </div>
 </div>
 
 <button type="submit" class="btn btn-white btn-rad btn-trans" ng-class="{'disabled' : !addAlarmClock.$valid}">Valider</button>

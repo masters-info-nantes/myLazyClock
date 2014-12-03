@@ -16,6 +16,12 @@ app.constant('TRAVELS_MODE',[
     {'name' : 'En vélo', 'id' : 'BICYCLING'}
 ]);
 
+app.constant('PREPARATION_TIMES',[
+    {'name' : '5 minutes', 'time' : '300'},
+    {'name' : '15 minutes', 'time' : '900'},
+    {'name' : '20 minutes', 'time' : '1200'}
+]);
+
 app.config(function ($provide) {
   $provide.decorator('$uiViewScroll', function ($delegate) {
     return function (uiViewElement) {
@@ -33,10 +39,10 @@ app.run(['GAuth', 'GApi', '$state',
         if(window.location.hostname == 'localhost') {
             if(window.location.port == '8080') {
                 CLIENT = '1072024627812-kgv1uou2btdphtvb2l2bbh14n6u2n2mg.apps.googleusercontent.com';
-                BASE = 'http://localhost:8080/_ah/api';
+                BASE = '//localhost:8080/_ah/api';
             } else {
                 CLIENT = '1072024627812-69lrpihiunbo6rrpqpnkho7djdl5fu74.apps.googleusercontent.com';
-                BASE = 'http://localhost:8080/_ah/api';
+                BASE = '//localhost:8080/_ah/api';
             } 
         } else {
             CLIENT = '1072024627812-oh4jdt3mo6rihojkt480tqfsja2706b4.apps.googleusercontent.com';

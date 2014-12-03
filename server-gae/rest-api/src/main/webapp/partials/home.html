@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" ng-controller="myLazyClock.controller.clock">
       
       <div class="col-md-6" ui-sref="webapp.alarmClockItem.view.calendarlist({ id: a.id })" ng-repeat="a in alarmClocks">
         <div class="block-flat dark-box" style="background: {{a.color}};">
@@ -51,4 +51,12 @@
         </div>
         </div>
 
+      </div>
+
+      <div class="row">
+      	<div class="block-flat white-box">
+      		<center>
+      		Vous souhaitez créé votre réveil connecter, rendez-vous sur le <a href="https://github.com/masterALMA2016/myLazyClock/tree/develop/client-raspberry">guide d'instalation.</a><br>A défaut, vous pouvez tester dans votre navigateur <a href="http://masterALMA2016.github.io/myLazyClock">ici</a>.
+      	</center>
+      	</div>
       </div>
