@@ -16,17 +16,10 @@
     <description>Aggregator of all implementation of travel-api</description>
 
     <modules>
-        <module>../travel-manual</module>
         <module>../travel-gmap</module>
     </modules>
 
     <dependencies>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>travel-manual</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>${parent.groupId}</groupId>
             <artifactId>travel-gmap</artifactId>

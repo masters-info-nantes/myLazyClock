@@ -13,9 +13,10 @@ import java.util.Date;
 import java.util.Map;
 
 /**
- * Created by david on 03/12/14.
+ * Created on 03/12/14.
+ *
+ * @author david
  */
-
 public class travelGmapStrategy implements TravelStrategy {
 
     public static final int ID = 1;
