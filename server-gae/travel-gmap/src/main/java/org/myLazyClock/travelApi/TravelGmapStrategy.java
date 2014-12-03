@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -75,8 +76,8 @@ public class TravelGmapStrategy implements TravelStrategy {
      */
 
     private String constructGoogleRequestURI (String from, String to, Date dateArrival, Map<String, String> param){
-        from=from.replaceAll("\\s","");
-        to=to.replaceAll("\\s","");
+        from=from.replaceAll("\\s","%20");
+        to=to.replaceAll("\\s","%20");
 
         String googleUri = "https://maps.googleapis.com/maps/api/directions/json?"
                                     + "origin=" + from
