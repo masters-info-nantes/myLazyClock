@@ -73,10 +73,13 @@ public class CalendarAPI {
         }
     }
 
-    //TODO dralagen 29/11/14 : Implement delete
     @ApiMethod(name = "calendar.delete", httpMethod = ApiMethod.HttpMethod.DELETE, path="calendar")
-    public void delete(@Named("calendarId") Long calendarId, @Named("alarmClockId") Long alarmClockId, User user) {
-
+    public void delete(@Named("calendarId") Long calendarId, @Named("alarmClockId") Long alarmClockId, User user) throws ForbiddenException {
+        try {
+            CalendarService.getInstance().delete(calendarId, alarmClockId, user);
+        } catch (ForbiddenMyLazyClockException e) {
+            throw new ForbiddenException("Forbidden");
+        }
     }
 
     @ApiMethod(name = "calendar.item", httpMethod = ApiMethod.HttpMethod.GET, path="calendar/item")

@@ -19,6 +19,9 @@
 
 package org.myLazyClock.travelApi;
 
+import java.util.Date;
+import java.util.Map;
+
 /**
  * Created on 28/10/14.
  *
@@ -42,4 +45,6 @@ public interface TravelStrategy {
      * @return Name of the TravelStrategy
      */
     public String getName();
+
+    public TravelDuration getDuration(String from, String to, Date date, Map<String,String> param);
 }
