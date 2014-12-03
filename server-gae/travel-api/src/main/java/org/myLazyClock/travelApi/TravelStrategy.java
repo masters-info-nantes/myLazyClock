@@ -46,5 +46,5 @@ public interface TravelStrategy {
      */
     public String getName();
 
-    public TravelDuration getDuration(String from,String to,Date dateArrival, Map<String,String> param );
+    public TravelDuration getDuration(String from, String to, Date date, Map<String,String> param);
 }

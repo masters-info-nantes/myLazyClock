@@ -32,6 +32,7 @@ public class CalendarEvent implements Comparable<CalendarEvent>{
     private Date endDate;
 
     private String name;
+    private String address;
 
     public Date getBeginDate() {
         return beginDate;
@@ -55,6 +56,14 @@ public class CalendarEvent implements Comparable<CalendarEvent>{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAddress () {
+        return address;
+    }
+
+    public void setAddress (String address) {
+        this.address = address;
     }
 
     @Override

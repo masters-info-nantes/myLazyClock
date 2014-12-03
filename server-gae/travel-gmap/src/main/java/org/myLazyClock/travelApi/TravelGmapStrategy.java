@@ -1,9 +1,9 @@
+package org.myLazyClock.travelApi;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.myLazyClock.travelApi.TravelDuration;
-import org.myLazyClock.travelApi.TravelStrategy;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -17,7 +17,7 @@ import java.util.Map;
  *
  * @author david
  */
-public class travelGmapStrategy implements TravelStrategy {
+public class TravelGmapStrategy implements TravelStrategy {
 
     public static final int ID = 1;
 
@@ -34,7 +34,7 @@ public class travelGmapStrategy implements TravelStrategy {
     @Override
     public TravelDuration getDuration(String from, String to, Date dateArrival, Map<String, String> param) {
 
-        String requestURI=this.constructGoogleRequestURI(from,to,param);
+        String requestURI= constructGoogleRequestURI(from, to, dateArrival, param);
         int travelTime=0;
 
         try {
@@ -74,13 +74,14 @@ public class travelGmapStrategy implements TravelStrategy {
      * @return void;
      */
 
-    private String constructGoogleRequestURI(String from,String to,Map<String,String> param){
+    private String constructGoogleRequestURI (String from, String to, Date dateArrival, Map<String, String> param){
         from=from.replaceAll("\\s","");
         to=to.replaceAll("\\s","");
 
         String googleUri = "https://maps.googleapis.com/maps/api/directions/json?"
                                     + "origin=" + from
-                                    + "&destination="+ to;
+                                    + "&destination="+ to
+                                    + "&arrival_time="+ dateArrival.getTime();
 
         for(String key:param.keySet()){
             googleUri+="&"+key+"="+param.get(key);

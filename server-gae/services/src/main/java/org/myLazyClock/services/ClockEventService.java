@@ -6,6 +6,9 @@ import org.myLazyClock.model.model.AlarmClock;
 import org.myLazyClock.model.bean.AlarmClockEvent;
 import org.myLazyClock.model.model.Calendar;
 import org.myLazyClock.model.repository.CalendarRepository;
+import org.myLazyClock.travelApi.TravelDuration;
+import org.myLazyClock.travelApi.TravelFactory;
+import org.myLazyClock.travelApi.TravelStrategy;
 
 import java.util.*;
 
@@ -47,6 +50,11 @@ public class ClockEventService {
             for(org.myLazyClock.model.model.Calendar cal: calendarList){
                 try {
                     CalendarEvent eventOfDay = serviceCalendar.getFirstEventOfDay(cal, currentCal);
+                    if (cal.isUseAlwaysDefaultLocation()) {
+                        eventOfDay.setAddress(cal.getDefaultEventLocation());
+                    } else if (eventOfDay.getAddress() == null || eventOfDay.equals("")) {
+                        eventOfDay.setAddress(cal.getDefaultEventLocation());
+                    }
                     eventsInDay.add(eventOfDay);
                 }
                 catch(EventNotFoundException e){
@@ -61,14 +69,14 @@ public class ClockEventService {
                 alarmEvent.setBeginDate(currentCal.getTime());
                 alarmEvent.setName("No event today");
                 alarmEvent.setAddress("Default Address");
-                alarmEvent.setTravelDuration(new Long(6876));
+                alarmEvent.setTravelDuration(0l);
             }
             else {
                 CalendarEvent soonerEvent = Collections.min(eventsInDay);
                 alarmEvent.setBeginDate(soonerEvent.getBeginDate());
                 alarmEvent.setName(soonerEvent.getName());
-                alarmEvent.setAddress("Default Address");
-                alarmEvent.setTravelDuration(new Long(6876));
+                alarmEvent.setAddress(soonerEvent.getAddress());
+                alarmEvent.setTravelDuration(getDuration(alarmClock, alarmEvent.getAddress(), soonerEvent.getBeginDate()));
             }
 
             eventsInWeek.add(alarmEvent);
@@ -78,5 +86,18 @@ public class ClockEventService {
         }
 
         return eventsInWeek;
+    }
+
+    private Long getDuration (AlarmClock alarmClock, String to, Date when) {
+        TravelStrategy strategy = null;
+
+        strategy = TravelFactory.getInstance().get(1);
+
+        Map<String, String> params = new HashMap<String, String>();
+
+        TravelDuration travel = strategy.getDuration(alarmClock.getAddress(), to, when, params);
+
+
+        return travel.getTimeMin();
     }
 }
