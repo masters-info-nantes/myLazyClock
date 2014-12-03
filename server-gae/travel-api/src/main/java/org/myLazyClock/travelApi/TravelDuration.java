@@ -6,19 +6,19 @@ package org.myLazyClock.travelApi;
  * @author david
  */
 public class TravelDuration {
-    private long TimeMin;
+    private long time;
 
-    public TravelDuration(int timeMin){
+    public TravelDuration(int time){
 
-        this.TimeMin=timeMin;
+        this.time = time;
     }
 
-    public long getTimeMin() {
+    public long getTime() {
 
-        return TimeMin;
+        return time;
     }
 
-    public void setTimeMin(long timeMin) {
-        TimeMin = timeMin;
+    public void setTime(long time) {
+        this.time = time;
     }
 }

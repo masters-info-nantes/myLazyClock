@@ -46,8 +46,8 @@ public class ClockEventService {
         // Search first event for each day of week
         for(int i = 0; i < 7; i++){
 
-            ArrayList<CalendarEvent> eventsInDay = new ArrayList<CalendarEvent>();
-            for(org.myLazyClock.model.model.Calendar cal: calendarList){
+            ArrayList<AlarmClockEvent> eventsInDay = new ArrayList<AlarmClockEvent>();
+            for(Calendar cal: calendarList){
                 try {
                     CalendarEvent eventOfDay = serviceCalendar.getFirstEventOfDay(cal, currentCal);
                     if (cal.isUseAlwaysDefaultLocation()) {
@@ -55,7 +55,10 @@ public class ClockEventService {
                     } else if (eventOfDay.getAddress() == null || eventOfDay.equals("")) {
                         eventOfDay.setAddress(cal.getDefaultEventLocation());
                     }
-                    eventsInDay.add(eventOfDay);
+                    AlarmClockEvent alarmClockEventOfDay = calendarEventToAlarmClockEvent(eventOfDay);
+                    alarmClockEventOfDay.setTravelMode(cal.getTravelMode());
+
+                    eventsInDay.add(alarmClockEventOfDay);
                 }
                 catch(EventNotFoundException e){
                     // No event for this day in this calendar
@@ -63,20 +66,20 @@ public class ClockEventService {
             }
 
             // Add sooner event of day in list
-            AlarmClockEvent alarmEvent = new AlarmClockEvent();
+            AlarmClockEvent alarmEvent = null;
 
             if(eventsInDay.isEmpty()){
+                alarmEvent = new AlarmClockEvent();
                 alarmEvent.setBeginDate(currentCal.getTime());
                 alarmEvent.setName("No event today");
                 alarmEvent.setAddress("Default Address");
                 alarmEvent.setTravelDuration(0l);
             }
             else {
-                CalendarEvent soonerEvent = Collections.min(eventsInDay);
-                alarmEvent.setBeginDate(soonerEvent.getBeginDate());
-                alarmEvent.setName(soonerEvent.getName());
-                alarmEvent.setAddress(soonerEvent.getAddress());
-                alarmEvent.setTravelDuration(getDuration(alarmClock, alarmEvent.getAddress(), soonerEvent.getBeginDate()));
+                alarmEvent = Collections.min(eventsInDay);
+                alarmEvent.setTravelDuration(
+                        getDuration(alarmClock, alarmEvent)
+                );
             }
 
             eventsInWeek.add(alarmEvent);
@@ -88,16 +91,44 @@ public class ClockEventService {
         return eventsInWeek;
     }
 
-    private Long getDuration (AlarmClock alarmClock, String to, Date when) {
-        TravelStrategy strategy = null;
+    private AlarmClockEvent calendarEventToAlarmClockEvent(CalendarEvent calendarEvent) {
+        AlarmClockEvent event = new AlarmClockEvent();
 
-        strategy = TravelFactory.getInstance().get(1);
+        event.setBeginDate(calendarEvent.getBeginDate());
+        event.setEndDate(calendarEvent.getEndDate());
+
+        event.setName(calendarEvent.getName());
+        event.setAddress(calendarEvent.getAddress());
+
+        return event;
+    }
+
+    private Long getDuration (AlarmClock alarmClock, AlarmClockEvent event) {
+        TravelStrategy strategy;
 
         Map<String, String> params = new HashMap<String, String>();
 
-        TravelDuration travel = strategy.getDuration(alarmClock.getAddress(), to, when, params);
+        switch (event.getTravelMode()) {
+            case BICYCLING:
+                strategy = TravelFactory.getInstance().get(1);
+                params.put("mode", "bicycling");
+                break;
+            case TRANSIT:
+                strategy = TravelFactory.getInstance().get(1);
+                params.put("mode", "transit");
+                break;
+            case WALKING:
+                strategy = TravelFactory.getInstance().get(1);
+                params.put("mode", "walking");
+                break;
 
+            case DRIVING:
+            default:
+                strategy = TravelFactory.getInstance().get(1);
+        }
 
-        return travel.getTimeMin();
+        TravelDuration travel = strategy.getDuration(alarmClock.getAddress(), event.getAddress(), event.getBeginDate(), params);
+
+        return travel.getTime();
     }
 }
