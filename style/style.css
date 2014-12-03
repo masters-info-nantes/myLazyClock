@@ -1,0 +1,186 @@
+@import url(http://fonts.googleapis.com/css?family=Pathway+Gothic+One);
+
+body{
+  padding:0px;
+  margin:0px;
+  background-color:#2196F3;
+  -webkit-font-smoothing: antialiased;
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  text-align:center;
+  color: #2196F3;
+}
+
+.signin {
+
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight:300;
+  font-size:30px;
+  color:#ffffff;
+  margin: 0;
+  text-align:center;
+}
+
+a {
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  color:#fff;
+  text-decoration:none;
+  display:block;
+  margin:15px auto 0 auto;
+  text-align:center;
+}
+
+.white {
+	  color:#ffffff;
+}
+
+.alarmClock {
+	width: 320px;
+	height: 240px;
+	top: 50%;
+	left: 50%;
+	margin-top: -120px;
+	margin-left: -160px;
+	position: absolute;
+	padding: 5px;
+}
+
+.event {
+	height:100px;
+	margin-bottom:5px;
+}
+
+.info,
+.date {
+	background-color:#ffffff;
+	height:100px;
+	float:left;
+	position: relative;
+	overflow: hidden;
+}
+
+.info{
+	margin-left: 5px;
+	width:205px;
+}
+
+.date{
+	width:100px;
+}
+
+.event h5 {
+	margin-top: 2px;
+}
+
+.event p {
+	margin: 0px;
+	padding: 0px;
+	text-align: center;
+}
+
+.clock-wrap{
+  font-family: 'Pathway Gothic One', sans-serif;
+	height:100px;
+	margin-bottom:5px;
+}
+
+.min-wrap,
+.hour-wrap, .sec-wrap{
+	width:100px;
+	height:100px;
+	
+	float:left;
+	position: relative;
+}
+
+.min-wrap, .sec-wrap{
+	margin-left: 5px;
+}
+
+
+.digit-top, 
+.digit-bottom{
+	width:100px;
+	height:50px;
+	position: absolute;
+}
+
+.clock-wrap .front, .clock-wrap .back{
+	width: 100px;
+	height: 50px;
+	position: absolute;
+	overflow: hidden;
+  	background:#ffffff;
+	text-align: center;
+	font-size: 75px;
+
+	transition: transform 800ms, z-index 800ms;
+	-moz-transition: -moz-transform 800ms, z-index 800ms;
+	-webkit-transition: -webkit-transform 800ms, z-index 800ms;
+	-o-transition: -o-transform 800ms, z-index 800ms;
+
+	
+
+	-webkit-transform-style: preserve-3d;
+}
+
+.clock-wrap .front{
+	z-index: 30;
+	
+
+	transform-origin: 0px 50px;
+	-webkit-transform-origin: 0px 50px;
+	-moz-transform-origin: 0px 50px;
+	-o-transform-origin: 0px 50px;
+
+	transform: rotateX(0deg);
+	-webkit-transform: rotateX(0deg);
+	-moz-transform: rotateX(0deg); 
+	-o-transform: rotateX(0deg); 
+    backface-visibility: hidden;
+}
+
+.clock-wrap .back{
+	z-index: 20;
+	top:50px;
+
+	transform-origin: 0px 0;
+	-webkit-transform-origin: 0px 0;
+	-moz-transform-origin: 0px 0;
+	-o-transform-origin: 0px 0;
+
+	transform: rotateX(180deg);
+	-webkit-transform: rotateX(180deg);
+	-moz-transform: rotateX(180deg); 
+	-o-transform: rotateX(180deg);
+    backface-visibility: hidden;
+
+    line-height:0;
+}
+
+
+.digit-top{
+	line-height:100px;
+	top:0;
+	z-index: 10;
+  
+}
+
+.digit-bottom{
+	top: 50px;
+	line-height:0;
+	z-index: 0;
+  background:lighten(#ededed,20);
+}
+
+
+.hour-wrap:before, .min-wrap:before, .sec-wrap:before {
+  content:"";
+background:#000000;
+  opacity:0.04;
+  position:absolute;
+  width:100px;
+  height:50px;
+  top:0;
+  left:0;
+  z-index:9999;
+}
