@@ -49,11 +49,12 @@
                 <div class="form-group">
                     <select class="form-control" ng-model="temp.travelMode" ng-options="travelMode.name for travelMode in travelsMode"><option value="">-- Choix du moyen de transport --</option></select>
                 </div>
+
                 <p>Si un évenement du calendrier ne comporte pas de lieu, quel lieu doit être choisit</p>
                 <div class="form-group">
-                    <input ng-model="newCalendar.defaultEventLocation" name="textinput" type="text" placeholder="lieu par défaut" class="form-control input-md">
+                    <input ng-model="newCalendar.defaultEventLocation" id="" name="textinput" type="text" placeholder="lieu par défaut" class="form-control input-md">
                 </div>
-                <p><input type="checkbox" ng-model="newCalendar.useAlwaysDefaultLocation"> Forcer à utiliser ce lieu pour tout les événements</label></p>
+                <label><input type="checkbox" ng-model="newCalendar.useAlwaysDefaultLocation"> Forcer à utiliser ce lieu pour tout les événements</label>
         <button type="submit" class="btn btn-primary btn-block" ng-click="submitAdd()">Ajouter au réveil</button>
   </div>
 </div>
