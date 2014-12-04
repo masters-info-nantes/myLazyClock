@@ -78,6 +78,7 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
     		var updateRing = function() {
     			var nextEvent;
     			var now = new Date().getTime();
+                if($scope.alarmClockEvents != undefined) {
     			for(var i= 0; i < $scope.alarmClockEvents.length; i++){
     				if($scope.alarmClockEvents[i]['wakeUpDate'] == undefined )
     					$scope.alarmClockEvents[i]['wakeUpDate'] = $scope.alarmClockEvents[i]['beginDateTime']-$scope.alarmClockEvents[i]['travelDuration']*1000-$rootScope.alarmClock.preparationTime*1000;
@@ -94,6 +95,7 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
                         }
                 	}
                 };
+                }
                 if (nextEvent != undefined) {
                 	
                 	$scope.clockEvent = nextEvent;
