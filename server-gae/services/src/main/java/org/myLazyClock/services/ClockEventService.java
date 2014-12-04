@@ -68,21 +68,14 @@ public class ClockEventService {
             // Add sooner event of day in list
             AlarmClockEvent alarmEvent = null;
 
-            if(eventsInDay.isEmpty()){
-                alarmEvent = new AlarmClockEvent();
-                alarmEvent.setBeginDate(currentCal.getTime());
-                alarmEvent.setName("No event today");
-                alarmEvent.setAddress("Default Address");
-                alarmEvent.setTravelDuration(0l);
-            }
-            else {
+            if(!eventsInDay.isEmpty()){
                 alarmEvent = Collections.min(eventsInDay);
                 alarmEvent.setTravelDuration(
                         getDuration(alarmClock, alarmEvent)
                 );
-            }
 
-            eventsInWeek.add(alarmEvent);
+                eventsInWeek.add(alarmEvent);
+            }
 
             // Next day
             currentCal.setTimeInMillis(currentCal.getTimeInMillis() + (24 * 60 * 60 * 1000));
