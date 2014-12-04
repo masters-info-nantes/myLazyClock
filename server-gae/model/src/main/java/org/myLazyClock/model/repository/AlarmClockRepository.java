@@ -87,14 +87,4 @@ public class AlarmClockRepository {
         return alarmClock;
     }
 
-    public void delete(AlarmClock alarmClock) {
-        PersistenceManager pm = PMF.get().getPersistenceManager();
-
-        try {
-            pm.deletePersistent(alarmClock.getId());
-        } finally {
-            pm.close();
-        }
-    }
-
 }

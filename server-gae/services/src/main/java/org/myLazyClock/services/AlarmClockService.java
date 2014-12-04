@@ -97,12 +97,17 @@ public class AlarmClockService {
 
     public AlarmClockBean unlink(String alarmClockId, String userId) throws ForbiddenMyLazyClockException, NotFoundMyLazyClockException {
         AlarmClock a = findOne_(alarmClockId);
-        if(!a.getUser().equals(userId))
+        if(!a.getUser().equals(userId)) {
             throw new ForbiddenMyLazyClockException();
-        AlarmClock b = new AlarmClock();
-        b.setId(a.getId());
-        AlarmClockRepository.getInstance().delete(a);
-        return AlarmClockBean.EntityToBean(AlarmClockRepository.getInstance().save(b));
+        }
+
+        a.setUser("");
+        a.setName("");
+        a.setAddress("");
+        a.setColor("");
+        a.setPreparationTime(0);
+        a.setCalendars(null);
+        return AlarmClockBean.EntityToBean(AlarmClockRepository.getInstance().save(a));
     }
 
     public AlarmClockBean update(AlarmClockBean alarmClock, String userId) throws ForbiddenMyLazyClockException, NotFoundMyLazyClockException {

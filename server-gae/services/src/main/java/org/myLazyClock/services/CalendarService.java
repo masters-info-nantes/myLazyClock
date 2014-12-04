@@ -31,7 +31,6 @@ import org.myLazyClock.services.exception.ForbiddenMyLazyClockException;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Created on 28/10/14.
@@ -126,10 +125,6 @@ public class CalendarService {
                                 .getKey();
         Calendar calendar = CalendarRepository.getInstance().findOne(calendarKey);
 
-
-        List<Calendar> calendars = alarmClock.getCalendars();
-        calendars.remove(calendar);
-
-        AlarmClockRepository.getInstance().save(alarmClock);
+        CalendarRepository.getInstance().delete(calendar);
     }
 }
