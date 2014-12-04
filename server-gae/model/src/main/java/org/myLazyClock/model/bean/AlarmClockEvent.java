@@ -19,6 +19,8 @@
 
 package org.myLazyClock.model.bean;
 
+import org.myLazyClock.model.model.TravelMode;
+
 import java.util.Date;
 
 /**
@@ -26,10 +28,12 @@ import java.util.Date;
  *
  * @author Maxime
  */
-public class AlarmClockEvent {
+public class AlarmClockEvent implements Comparable<AlarmClockEvent> {
 
     private Date beginDate;
+    private Date endDate;
     private Long travelDuration;
+    private TravelMode travelMode;
     private String name;
     private String address;
 
@@ -44,6 +48,14 @@ public class AlarmClockEvent {
 
     public void setBeginDate(Date beginDate) {
         this.beginDate = beginDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public Long getTravelDuration() {
@@ -65,6 +77,14 @@ public class AlarmClockEvent {
         this.travelDuration = travelDuration;
     }
 
+    public TravelMode getTravelMode() {
+        return travelMode;
+    }
+
+    public void setTravelMode(TravelMode travelMode) {
+        this.travelMode = travelMode;
+    }
+
     public String getName() {
         return name;
     }
@@ -79,5 +99,10 @@ public class AlarmClockEvent {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    @Override
+    public int compareTo(AlarmClockEvent o) {
+        return beginDate.compareTo(o.beginDate);
     }
 }

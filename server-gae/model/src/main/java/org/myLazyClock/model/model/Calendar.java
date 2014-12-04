@@ -51,7 +51,7 @@ public class Calendar {
     private String calendarType;
 
     @Persistent
-    private String travelMode;
+    private TravelMode travelMode;
 
     @Persistent
     private String defaultEventLocation;
@@ -114,11 +114,11 @@ public class Calendar {
         this.calendarType = calendarType;
     }
 
-    public String getTravelMode() {
+    public TravelMode getTravelMode() {
         return travelMode;
     }
 
-    public void setTravelMode(String travelMode) {
+    public void setTravelMode(TravelMode travelMode) {
         this.travelMode = travelMode;
     }
 

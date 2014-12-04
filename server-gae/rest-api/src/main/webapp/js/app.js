@@ -13,7 +13,8 @@ var app = angular.module('myLazyClock', [
 app.constant('TRAVELS_MODE',[
     {'name' : 'A pied', 'id' : 'WALKING'},
     {'name' : 'En voiture', 'id' : 'DRIVING'},
-    {'name' : 'En vélo', 'id' : 'BICYCLING'}
+    {'name' : 'En vélo', 'id' : 'BICYCLING'},
+    {'name' : 'En Transport', 'id' : 'TRANSIT'}
 ]);
 
 app.constant('PREPARATION_TIMES',[

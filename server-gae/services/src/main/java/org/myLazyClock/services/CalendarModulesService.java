@@ -23,9 +23,9 @@ import org.myLazyClock.calendarApi.CalendarEvent;
 import org.myLazyClock.calendarApi.CalendarFactory;
 import org.myLazyClock.calendarApi.CalendarStrategy;
 import org.myLazyClock.calendarApi.EventNotFoundException;
+import org.myLazyClock.model.model.Calendar;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 
 /**
@@ -53,7 +53,7 @@ public class CalendarModulesService {
 	 * @param date Day where to search event
 	 * @return First event of day if exist, null otherwise
 	 */
-	public CalendarEvent getFirstEventOfDay(org.myLazyClock.model.model.Calendar calendar, java.util.Calendar date) throws EventNotFoundException{
+	public CalendarEvent getFirstEventOfDay(Calendar calendar, java.util.Calendar date) throws EventNotFoundException{
 
         int strategyId = 1; // ICS_FILE
 
