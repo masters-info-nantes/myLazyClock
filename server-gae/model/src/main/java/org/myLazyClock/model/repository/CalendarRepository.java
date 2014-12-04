@@ -65,7 +65,7 @@ public class CalendarRepository {
     }
 
     public void delete(Calendar calendar) {
-        PersistenceManager pm = PMF.get().getPersistenceManager();
+        PersistenceManager pm = JDOHelper.getPersistenceManager(calendar);
 
         try {
             pm.deletePersistent(calendar);
