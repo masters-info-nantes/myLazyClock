@@ -28,10 +28,6 @@ public class CalendarRepository {
     }
 
     public Collection<Calendar> findAll(AlarmClock alarm) {
-        List<Calendar> calendars = alarm.getCalendars();
-        for (Calendar cal : calendars) {
-            cal.setId(cal.getKey().getId());
-        }
         return alarm.getCalendars();
     }
 

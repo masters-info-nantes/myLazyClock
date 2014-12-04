@@ -6,12 +6,10 @@ import com.google.api.server.spi.config.Named;
 import com.google.api.server.spi.response.ForbiddenException;
 import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.users.User;
-import org.myLazyClock.model.model.AlarmClock;
-import org.myLazyClock.model.bean.AlarmClockEvent;
-import org.myLazyClock.model.repository.AlarmClockRepository;
 import org.myLazyClock.services.ClockEventService;
+import org.myLazyClock.services.bean.AlarmClockEvent;
 
-import java.util.*;
+import java.util.Collection;
 
 /**
  * Created on 17/11/14.
@@ -28,7 +26,6 @@ public class ClockEventAPI {
 
     @ApiMethod(name = "clockevent.list", httpMethod = ApiMethod.HttpMethod.GET, path="clockevent")
     public Collection<AlarmClockEvent> list(@Named("alarmClockId") String alarmClockId, User user) throws ForbiddenException, NotFoundException {
-        AlarmClock alarm = AlarmClockRepository.getInstance().findOne(alarmClockId);
-        return ClockEventService.getInstance().listEventForWeek(alarm);
+        return ClockEventService.getInstance().listEventForWeek(alarmClockId);
     }
 }

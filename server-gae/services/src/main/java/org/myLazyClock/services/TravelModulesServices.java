@@ -19,11 +19,8 @@
 
 package org.myLazyClock.services;
 
-import org.myLazyClock.travelApi.TravelFactory;
+import org.myLazyClock.model.model.TravelMode;
 import org.myLazyClock.travelApi.TravelStrategy;
-
-import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * Created on 28/10/14.
@@ -37,15 +34,7 @@ public class TravelModulesServices {
      *
      * @return a Collection of all Travel modules
      */
-    public Collection<TravelStrategy> listModule() {
-        Collection<TravelStrategy> result = new ArrayList<TravelStrategy>();
-
-        TravelFactory factory = TravelFactory.getInstance();
-
-        for ( TravelStrategy strategy : factory) {
-            result.add(strategy);
-        }
-
-        return result;
+    public TravelMode[] listMode() {
+        return TravelMode.values();
     }
 }

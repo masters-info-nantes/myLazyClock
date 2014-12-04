@@ -26,6 +26,7 @@ import com.google.api.server.spi.response.ForbiddenException;
 import com.google.appengine.api.users.User;
 import org.myLazyClock.model.model.Calendar;
 import org.myLazyClock.services.CalendarService;
+import org.myLazyClock.services.bean.CalendarBean;
 import org.myLazyClock.services.exception.ForbiddenMyLazyClockException;
 
 import java.util.Collection;
@@ -44,7 +45,7 @@ import java.util.Collection;
 public class CalendarAPI {
 
     @ApiMethod(name = "calendar.list", httpMethod = ApiMethod.HttpMethod.GET, path="calendar")
-    public Collection<Calendar> list(@Named("alarmClockId") String alarmClockId, User user) throws ForbiddenException {
+    public Collection<CalendarBean> list(@Named("alarmClockId") String alarmClockId, User user) throws ForbiddenException {
         try {
             return CalendarService.getInstance().findAll(alarmClockId, user);
         } catch (ForbiddenMyLazyClockException e) {
@@ -53,7 +54,7 @@ public class CalendarAPI {
     }
 
     @ApiMethod(name = "calendar.update", httpMethod = ApiMethod.HttpMethod.PUT, path="calendar")
-    public Calendar update(@Named("calendarId") Long calendarId, @Named("alarmClockId") Long alarmClockId, Calendar calendar, User user) throws ForbiddenException {
+    public CalendarBean update(@Named("calendarId") Long calendarId, @Named("alarmClockId") Long alarmClockId, Calendar calendar, User user) throws ForbiddenException {
         try {
             if (user == null) {
                 throw new ForbiddenMyLazyClockException();
@@ -65,7 +66,7 @@ public class CalendarAPI {
     }
 
     @ApiMethod(name = "calendar.add", httpMethod = ApiMethod.HttpMethod.POST, path="calendar")
-    public Calendar add(@Named("alarmClockId") String alarmClockId, Calendar calendar, User user) throws ForbiddenException {
+    public CalendarBean add(@Named("alarmClockId") String alarmClockId, CalendarBean calendar, User user) throws ForbiddenException {
         try {
             return CalendarService.getInstance().add(calendar, alarmClockId, user);
         } catch (ForbiddenMyLazyClockException e) {
@@ -83,7 +84,7 @@ public class CalendarAPI {
     }
 
     @ApiMethod(name = "calendar.item", httpMethod = ApiMethod.HttpMethod.GET, path="calendar/item")
-    public Calendar item(@Named("calendarId") Long calendarId, @Named("alarmClockId") Long alarmClockId, User user) throws ForbiddenException {
+    public CalendarBean item(@Named("calendarId") Long calendarId, @Named("alarmClockId") Long alarmClockId, User user) throws ForbiddenException {
 
         try {
             return CalendarService.getInstance().findOne(calendarId, alarmClockId, user);

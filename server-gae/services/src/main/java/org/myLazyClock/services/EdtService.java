@@ -22,7 +22,7 @@ package org.myLazyClock.services;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.myLazyClock.calendarApi.JsonConverter;
-import org.myLazyClock.model.bean.EdtData;
+import org.myLazyClock.services.bean.EdtData;
 
 import java.io.IOException;
 import java.util.ArrayList;

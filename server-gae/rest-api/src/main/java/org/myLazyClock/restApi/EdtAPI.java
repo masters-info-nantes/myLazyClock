@@ -22,8 +22,8 @@ package org.myLazyClock.restApi;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.Named;
-import org.myLazyClock.model.bean.EdtData;
 import org.myLazyClock.services.EdtService;
+import org.myLazyClock.services.bean.EdtData;
 
 import java.io.IOException;
 import java.util.Collection;
