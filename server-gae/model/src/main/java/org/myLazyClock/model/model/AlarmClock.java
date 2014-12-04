@@ -93,17 +93,6 @@ public class AlarmClock {
         return preparationTime;
     }
 
-    public String getPreparationTimeString() {
-        int h = preparationTime/3600;
-        int m = (preparationTime-(h*3600))/60;
-        int s = preparationTime-(h*3600+m*60);
-        if (h != 0)
-            return h+" heure(s) et "+m+" minute(s)";
-        else {
-            return m+" minute(s)";
-        }
-    }
-
     public void setPreparationTime(int preparationTime) {
         this.preparationTime = preparationTime;
     }

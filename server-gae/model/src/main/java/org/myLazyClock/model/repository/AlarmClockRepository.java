@@ -61,10 +61,6 @@ public class AlarmClockRepository {
         return all;
     }
 
-    public AlarmClock findOne(String id) {
-        return findOne(Long.decode(id));
-    }
-
     public AlarmClock findOne(Long id) {
         PersistenceManager pm = PMF.get().getPersistenceManager();
 

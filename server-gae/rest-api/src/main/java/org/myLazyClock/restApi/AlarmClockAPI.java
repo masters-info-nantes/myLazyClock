@@ -27,6 +27,7 @@ import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.users.User;
 import org.myLazyClock.model.model.AlarmClock;
 import org.myLazyClock.services.AlarmClockService;
+import org.myLazyClock.services.bean.AlarmClockBean;
 import org.myLazyClock.services.exception.ForbiddenMyLazyClockException;
 import org.myLazyClock.services.exception.NotFoundMyLazyClockException;
 
@@ -46,26 +47,26 @@ import java.util.Collection;
 public class AlarmClockAPI {
 
     @ApiMethod(name = "alarmClock.list", httpMethod = ApiMethod.HttpMethod.GET, path="alarmClock/list")
-    public Collection<AlarmClock> getAllByUser(User user) {
+    public Collection<AlarmClockBean> getAllByUser(User user) {
         return AlarmClockService.getInstance().findAll(user.getUserId());
     }
 
     @ApiMethod(name = "alarmClock.item", httpMethod = ApiMethod.HttpMethod.GET, path="alarmClock/item")
-    public AlarmClock item(@Named("alarmClockId") String alarmClockId) throws NotFoundException{
+    public AlarmClockBean item(@Named("alarmClockId") String alarmClockId) throws NotFoundException{
         try {
-            return AlarmClockService.getInstance().item(alarmClockId);
+            return AlarmClockService.getInstance().findOne(alarmClockId);
         } catch (NotFoundMyLazyClockException e) {
             throw new NotFoundException("NotFound");
         }
     }
 
     @ApiMethod(name = "alarmClock.generate", httpMethod = ApiMethod.HttpMethod.GET, path="alarmClock/generate")
-    public AlarmClock generate() {
+    public AlarmClockBean generate() {
         return AlarmClockService.getInstance().generate();
     }
 
     @ApiMethod(name = "alarmClock.link", httpMethod = ApiMethod.HttpMethod.POST, path="alarmClock/link")
-    public AlarmClock link(AlarmClock alarmClock, User user) throws ForbiddenException, NotFoundException{
+    public AlarmClockBean link(AlarmClockBean alarmClock, User user) throws ForbiddenException, NotFoundException{
         try {
             return AlarmClockService.getInstance().link(alarmClock, user.getUserId());
         } catch (ForbiddenMyLazyClockException e) {
@@ -76,7 +77,7 @@ public class AlarmClockAPI {
     }
 
     @ApiMethod(name = "alarmClock.unlink", httpMethod = ApiMethod.HttpMethod.POST, path="alarmClock/unlink")
-    public AlarmClock unlink(@Named("alarmClockId") String alarmClockId, User user) throws ForbiddenException, NotFoundException{
+    public AlarmClockBean unlink(@Named("alarmClockId") String alarmClockId, User user) throws ForbiddenException, NotFoundException{
         try {
             return AlarmClockService.getInstance().unlink(alarmClockId, user.getUserId());
         } catch (ForbiddenMyLazyClockException e) {
@@ -87,7 +88,7 @@ public class AlarmClockAPI {
     }
 
     @ApiMethod(name = "alarmClock.update", httpMethod = ApiMethod.HttpMethod.POST, path="alarmClock/update")
-    public AlarmClock update(AlarmClock alarmClock, User user) throws ForbiddenException, NotFoundException{
+    public AlarmClockBean update(AlarmClockBean alarmClock, User user) throws ForbiddenException, NotFoundException{
         try {
             if (user == null) {
                 throw new ForbiddenMyLazyClockException();

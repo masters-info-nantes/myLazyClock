@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.myLazyClock.model.bean;
+package org.myLazyClock.services.bean;
 
 import org.myLazyClock.model.model.TravelMode;
 

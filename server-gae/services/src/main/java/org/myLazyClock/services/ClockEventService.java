@@ -3,9 +3,10 @@ package org.myLazyClock.services;
 import org.myLazyClock.calendarApi.CalendarEvent;
 import org.myLazyClock.calendarApi.EventNotFoundException;
 import org.myLazyClock.model.model.AlarmClock;
-import org.myLazyClock.model.bean.AlarmClockEvent;
 import org.myLazyClock.model.model.Calendar;
+import org.myLazyClock.model.repository.AlarmClockRepository;
 import org.myLazyClock.model.repository.CalendarRepository;
+import org.myLazyClock.services.bean.AlarmClockEvent;
 import org.myLazyClock.travelApi.TravelDuration;
 import org.myLazyClock.travelApi.TravelFactory;
 import org.myLazyClock.travelApi.TravelStrategy;
@@ -29,7 +30,8 @@ public class ClockEventService {
         return service;
     }
 
-    public Collection<AlarmClockEvent> listEventForWeek(AlarmClock alarmClock){
+    public Collection<AlarmClockEvent> listEventForWeek(String alarmClockId){
+        AlarmClock alarmClock = AlarmClockRepository.getInstance().findOne(Long.decode(alarmClockId));
         Collection<Calendar> calendarList = CalendarRepository.getInstance().findAll(alarmClock);
 
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/Paris")); // For new Date()
