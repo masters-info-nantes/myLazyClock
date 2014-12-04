@@ -39,6 +39,6 @@
 		<p style="font-size: 10px;">{{clockEvent.address}}</p>
 		<p style="font-size: 10px;">{{clockEvent.travelDurationString}} de transport</p>
 	</div>
-	<h3 class="white" style="padding-top: 20px;">Pas d'alarmes pour les prochains jours</h3>
+	<h3 class="white" style="padding-top: 20px;" ng-hide="clockEvent">Pas d'alarmes pour les prochains jours</h3>
 </div>
 <center class="white"><p style="margin-bottom: 0;"><span class="glyphicon glyphicon-dashboard" ></span> Durée de préparation : {{alarmClock.preparationTimeString}}</p></center>
