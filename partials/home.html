@@ -28,17 +28,17 @@
 	</div>
 </div>
 <div class="event" ng-style="{'color': alarmClock.color}">
-	<div class="date">
+	<div class="date" ng-show="clockEvent">
 		<p style="font-size: 20px; margin-top: 9px;">{{clockEvent.wakeUpDate | date : 'EEEE'}}</p>
 		<p style="font-size: 14px;">{{clockEvent.wakeUpDate | date : 'dd/MM/yyyy'}}</p>
-		<p style="font-size: 23px;"> {{clockEvent.wakeUpDate | date : 'HH:mm:ss'}}</p>
+		<p style="font-size: 23px;"> {{clockEvent.wakeUpDate | date : 'HH:mm'}}</p>
 	</div>
-	<div class="info">
+	<div class="info" ng-show="clockEvent">
 		<p style="font-size: 20px;">{{clockEvent.name}}</p>
-		<p style="font-size: 12px;">{{clockEvent.beginDateTime | date : 'HH:mm:ss'}}</p>
+		<p style="font-size: 12px;">{{clockEvent.beginDateTime | date : 'HH:mm'}}</p>
 		<p style="font-size: 10px;">{{clockEvent.address}}</p>
 		<p style="font-size: 10px;">{{clockEvent.travelDurationString}} de transport</p>
-		
 	</div>
+	<h3 class="white" style="padding-top: 20px;">Pas d'alarmes pour les prochains jours</h3>
 </div>
-<center class="white"><p style="margin-bottom: 0;"><span class="glyphicon glyphicon-dashboard" ></span> Durée pour se préparer : {{alarmClock.preparationTimeString}}</p></center>
+<center class="white"><p style="margin-bottom: 0;"><span class="glyphicon glyphicon-dashboard" ></span> Durée de préparation : {{alarmClock.preparationTimeString}}</p></center>
