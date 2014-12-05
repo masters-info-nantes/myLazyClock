@@ -102,16 +102,19 @@ public class CalendarIcsStrategy implements CalendarStrategy {
             e.printStackTrace();
         }
 
+        if (icsFile == null) {
+            throw new EventNotFoundException();
+        }
+
         // Construct calendar from ICS file
         InputStream is = new ByteArrayInputStream(icsFile.getBytes());
         CalendarBuilder builder = new CalendarBuilder();
         net.fortuna.ical4j.model.Calendar calendar = null;
         try {
             calendar = builder.build(is);
-        } catch (IOException e) {
+        } catch (IOException | ParserException e) {
             e.printStackTrace();
-        } catch (ParserException e) {
-            e.printStackTrace();
+            throw new EventNotFoundException();
         }
 
         // Looking for first event of the day
