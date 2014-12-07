@@ -53,7 +53,7 @@ app.run(['GAuth', 'GApi', '$state',
         GApi.load('myLazyClock','v1',BASE);
         GApi.load('calendar','v3');
         GAuth.setClient(CLIENT);
-        GAuth.setScopes(['https://www.googleapis.com/auth/userinfo.email','https://www.googleapis.com/auth/calendar.readonly']);
+        GAuth.setScopes('https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/calendar.readonly');
         GAuth.checkAuth().then(
             function () {
                 if($state.includes('login'))
@@ -63,5 +63,8 @@ app.run(['GAuth', 'GApi', '$state',
                 $state.go('login');
             }
         );
+        GAuth.offline().then( function(code){
+            console.log(code);
+        });
     }
 ]);
