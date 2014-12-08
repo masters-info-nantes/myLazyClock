@@ -11,16 +11,16 @@ controller.controller('myLazyClock.controller.alarmClock.item.view.calendarnew',
         $scope.googleOfflineOk = false;
 
         GApi.executeAuth('myLazyClock', 'myLazyClockUser.get').then( function(resp) {
-            console.log(resp);
-            $scope.googleOfflineOk = false;
+            if(resp.valide)
+                $scope.googleOfflineOk = false;
         });
 
         $scope.offlineGoogle = function() {
             GAuth.offline().then( function(code){
                 console.log(code);
                 GApi.executeAuth('myLazyClock', 'myLazyClockUser.link', {code : code}).then( function(resp) {
-                    console.log(resp);
-                    $scope.googleOfflineOk = true;
+                    if(resp.valide)
+                        $scope.googleOfflineOk = true;
                 });
             });
         }
