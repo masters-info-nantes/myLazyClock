@@ -34,17 +34,39 @@ For launch the google app engine dev serveur
 mvn -pl rest-api appengine:devserver
 ```
 
-For deploy on google app engine
+How To deploy
+-------------
+
+Add  profile in ~/.m2/settings.xml, all information of api key are in your [admin console](https://console.developers.google.com) in credential part
 
 ```
-mvn -pl rest-api appengine:update
+<settings>
+    ...
+    <profiles>
+        <profile>
+            <id>myLazyClockProd</id>
+            <properties>
+                <api.id>API_Client_Id</api.id>
+                <api.secret>API_Client_Secret</api.secret>
+            </properties>
+        </profile>
+    </profiles>
+    ...
+</settings>
+```
+And execute this command for recompile the project with good profile, and déploy the project
+```
+mvn clean install -P myLazyClockProd && mvn -pl rest-api, appengine:update
 ```
 
 Contribute
 ----------
 
-We use git with [git-flow](http://nvie.com/posts/a-successful-git-branching-model/)
+We use git with this [git-flow](http://nvie.com/posts/a-successful-git-branching-model/)
 
+Clone the project with this command
 ```
 git clone https://github.com/masterALMA2016/myLazyClock.git -b develop
 ```
+
+or fork-it
