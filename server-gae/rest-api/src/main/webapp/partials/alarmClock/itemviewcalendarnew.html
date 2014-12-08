@@ -13,9 +13,15 @@
                 <tab-heading>
                     Google Calendar
                 </tab-heading>
+                <div ng-show="googleOfflineOk">
                 <p>Choisir votre Calendrier Google</p>
                 <div class="form-group">
                     <select class="form-control" ng-model="temp.google" ng-options="cal.summary for cal in googleCalendars"><option value="">-- Choix du calendrier --</option></select>
+                </div>
+                </div>
+                <div ng-hide="googleOfflineOk">
+                    <p>Afin de pouvoir ajouter un calendrier google sur votre réveil, vous devez valider l'accès hors connexion aux données à l'application</p>
+                    <button class="btn btn-primary btn-block" ng-click="offlineGoogle()">Validation accès hors connexion</button>
                 </div>
             </tab>
             <tab ng-click="onTabSelect('ics')">

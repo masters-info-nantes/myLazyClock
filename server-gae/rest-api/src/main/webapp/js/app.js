@@ -63,8 +63,5 @@ app.run(['GAuth', 'GApi', '$state',
                 $state.go('login');
             }
         );
-        GAuth.offline().then( function(code){
-            console.log(code);
-        });
     }
 ]);
