@@ -259,5 +259,17 @@
             </plugins>
         </pluginManagement>
     </build>
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <api.id>1072024627812-kgv1uou2btdphtvb2l2bbh14n6u2n2mg.apps.googleusercontent.com</api.id>
+                <api.secret>K645ivQD06Ll2ELmhN9zlGU_</api.secret>
+            </properties>
+        </profile>
+    </profiles>
 </project>
 

@@ -25,14 +25,11 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.calendar.Calendar;
-import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 
-import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 
@@ -68,14 +65,10 @@ public class CalendarGoogleStrategy implements CalendarStrategy {
             HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
             JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
 
-            String emailAddress = "1072024627812-1be21gic6j8vcudtcst04al9lbdo4516@developer.gserviceaccount.com";
-
             GoogleCredential credential = new GoogleCredential.Builder()
                     .setTransport(httpTransport)
                     .setJsonFactory(jsonFactory)
-                    .setServiceAccountId(emailAddress)
-                    .setServiceAccountScopes(Arrays.asList(CalendarScopes.CALENDAR_READONLY))
-                    .setServiceAccountPrivateKeyFromP12File(new File("WEB-INF/myLazyClock.p12"))
+                    .setClientSecrets(params.get("apiId"),params.get("apiSecret"))
                     .build().setRefreshToken(params.get("tokenRequest"));
 
             Calendar service = new Calendar.Builder(httpTransport, jsonFactory, null)
@@ -99,7 +92,7 @@ public class CalendarGoogleStrategy implements CalendarStrategy {
 
         } catch (GeneralSecurityException | IOException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw new EventNotFoundException();
         }
 
     	return returnEvent;

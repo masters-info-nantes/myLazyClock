@@ -19,7 +19,6 @@
 
 package org.myLazyClock.services;
 
-import com.google.appengine.api.users.User;
 import org.myLazyClock.calendarApi.CalendarEvent;
 import org.myLazyClock.calendarApi.CalendarFactory;
 import org.myLazyClock.calendarApi.CalendarStrategy;
@@ -75,6 +74,9 @@ public class CalendarModulesService {
                 strategyId = 3;
                 params.put("gCalId", calendar.getParam());
                 params.put("tokenRequest", token);
+
+                params.put("apiId", ConstantAPI.API_ID);
+                params.put("apiSecret", ConstantAPI.API_SECRET);
                 break;
             default:
                 strategyId = 1; // URL of ICS file

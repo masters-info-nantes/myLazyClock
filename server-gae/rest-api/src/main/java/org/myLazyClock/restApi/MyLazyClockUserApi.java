@@ -31,6 +31,7 @@ import com.google.api.server.spi.config.Named;
 import com.google.api.server.spi.response.UnauthorizedException;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.appengine.api.users.User;
+import org.myLazyClock.services.ConstantAPI;
 import org.myLazyClock.services.MyLazyClockUserService;
 import org.myLazyClock.services.bean.MyLazyClockUserValide;
 
@@ -63,8 +64,8 @@ public class MyLazyClockUserApi {
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
                 httpTransport,
                 jsonFactory,
-                "1072024627812-kgv1uou2btdphtvb2l2bbh14n6u2n2mg.apps.googleusercontent.com",
-                "K645ivQD06Ll2ELmhN9zlGU_",
+                ConstantAPI.API_ID,
+                ConstantAPI.API_SECRET,
                 Arrays.asList(CalendarScopes.CALENDAR_READONLY)
         ).build();
 
