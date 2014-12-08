@@ -24,6 +24,7 @@ import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
@@ -58,6 +59,13 @@ public class CalendarGoogleStrategy implements CalendarStrategy {
             throw new EventNotFoundException();
         }
 
+        DateTime startTime = new DateTime(day.getTime());
+        java.util.Calendar endDay = (java.util.Calendar) day.clone();
+        endDay.add(java.util.Calendar.DATE, 1);
+        DateTime endTime = new DateTime(endDay.getTime());
+
+
+
         CalendarEvent returnEvent = new CalendarEvent();
 
         try {
@@ -76,8 +84,11 @@ public class CalendarGoogleStrategy implements CalendarStrategy {
                     .setHttpRequestInitializer(credential).build();
 
 
-            Events events = service.events().list(params.get("gCalId")).execute();
-                    //.setTimeMin(new DateTime(day.getTime())).setOrderBy("startTime").execute();
+            Events events = service.events().list(params.get("gCalId"))
+                    .setTimeMin(startTime)
+                    .setTimeMax(endTime)
+                    .setOrderBy("startTime")
+                    .setSingleEvents(true).execute();
 
             if (events.getItems().isEmpty()) {
                 throw new EventNotFoundException();
