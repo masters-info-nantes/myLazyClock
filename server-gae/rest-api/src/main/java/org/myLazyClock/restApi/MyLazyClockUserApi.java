@@ -19,13 +19,24 @@
 
 package org.myLazyClock.restApi;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
+import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.Named;
 import com.google.api.server.spi.response.UnauthorizedException;
+import com.google.api.services.calendar.CalendarScopes;
 import com.google.appengine.api.users.User;
 import org.myLazyClock.model.model.MyLazyClockUser;
 import org.myLazyClock.services.MyLazyClockUserService;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.Arrays;
 
 /**
  * Created on 08/12/14.
@@ -41,13 +52,33 @@ import org.myLazyClock.services.MyLazyClockUserService;
 public class MyLazyClockUserApi {
 
     @ApiMethod(name = "myLazyClockUser.link", httpMethod = ApiMethod.HttpMethod.POST, path = "myLazyClockUser")
-    public MyLazyClockUser linkUser(@Named("token") String token, User user) throws UnauthorizedException {
+    public MyLazyClockUser linkUser(@Named("code") String code, User user) throws UnauthorizedException, GeneralSecurityException, IOException {
         if (user == null) {
             throw new UnauthorizedException("Login Required");
         }
 
-        MyLazyClockUser myLazyClockUser = MyLazyClockUserService.getInstance().add(user, token);
+        HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+        JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
 
-        return myLazyClockUser;
+        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
+                httpTransport,
+                jsonFactory,
+                "1072024627812-kgv1uou2btdphtvb2l2bbh14n6u2n2mg.apps.googleusercontent.com",
+                "K645ivQD06Ll2ELmhN9zlGU_",
+                Arrays.asList(CalendarScopes.CALENDAR_READONLY)
+        ).build();
+
+        GoogleTokenResponse response=flow.newTokenRequest(code).setRedirectUri("http://localhost").execute();
+
+        return MyLazyClockUserService.getInstance().add(user, response.getRefreshToken());
+    }
+
+    @ApiMethod(name = "myLazyClockUser.get", httpMethod = ApiMethod.HttpMethod.GET, path = "myLazyClockUser")
+    public MyLazyClockUser findOne(User user) throws UnauthorizedException {
+        if (user == null) {
+            throw new UnauthorizedException("Login Required");
+        }
+
+        return MyLazyClockUserService.getInstance().findOne(user.getUserId());
     }
 }

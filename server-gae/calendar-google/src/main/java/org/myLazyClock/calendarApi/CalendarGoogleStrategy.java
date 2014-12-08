@@ -19,9 +19,7 @@
 
 package org.myLazyClock.calendarApi;
 
-import com.google.api.client.auth.oauth2.Credential;
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
-import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
@@ -31,6 +29,7 @@ import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 
+import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
@@ -69,17 +68,15 @@ public class CalendarGoogleStrategy implements CalendarStrategy {
             HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
             JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
 
-            GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-                    httpTransport,
-                    jsonFactory,
-                    "1072024627812-kgv1uou2btdphtvb2l2bbh14n6u2n2mg.apps.googleusercontent.com",
-                    "K645ivQD06Ll2ELmhN9zlGU_",
-                    Arrays.asList(CalendarScopes.CALENDAR_READONLY)
-            ).build();
-            GoogleTokenResponse response=flow.newTokenRequest(params.get("tokenRequest")).setRedirectUri("http://localhost").execute();
+            String emailAddress = "1072024627812-1be21gic6j8vcudtcst04al9lbdo4516@developer.gserviceaccount.com";
 
-
-            Credential credential = flow.createAndStoreCredential(response, null);
+            GoogleCredential credential = new GoogleCredential.Builder()
+                    .setTransport(httpTransport)
+                    .setJsonFactory(jsonFactory)
+                    .setServiceAccountId(emailAddress)
+                    .setServiceAccountScopes(Arrays.asList(CalendarScopes.CALENDAR_READONLY))
+                    .setServiceAccountPrivateKeyFromP12File(new File("WEB-INF/myLazyClock.p12"))
+                    .build().setRefreshToken(params.get("tokenRequest"));
 
             Calendar service = new Calendar.Builder(httpTransport, jsonFactory, null)
                     .setApplicationName("myLazyClock")
@@ -88,11 +85,16 @@ public class CalendarGoogleStrategy implements CalendarStrategy {
 
             Events events = service.events().list(params.get("gCalId")).execute();
                     //.setTimeMin(new DateTime(day.getTime())).setOrderBy("startTime").execute();
+
+            if (events.getItems().isEmpty()) {
+                throw new EventNotFoundException();
+            }
+
             Event event = events.getItems().get(0);
 
             returnEvent.setName(event.getSummary());
-            returnEvent.setBeginDate(new Date(event.getStart().getDate().getValue()));
-            returnEvent.setEndDate(new Date(event.getEnd().getDate().getValue()));
+            returnEvent.setBeginDate(new Date(event.getStart().getDateTime().getValue()));
+            returnEvent.setEndDate(new Date(event.getEnd().getDateTime().getValue()));
             returnEvent.setAddress(event.getLocation());
 
         } catch (GeneralSecurityException | IOException e) {

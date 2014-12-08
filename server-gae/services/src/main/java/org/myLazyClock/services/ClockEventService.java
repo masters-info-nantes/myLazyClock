@@ -4,6 +4,7 @@ import org.myLazyClock.calendarApi.CalendarEvent;
 import org.myLazyClock.calendarApi.EventNotFoundException;
 import org.myLazyClock.model.model.AlarmClock;
 import org.myLazyClock.model.model.Calendar;
+import org.myLazyClock.model.model.MyLazyClockUser;
 import org.myLazyClock.model.repository.AlarmClockRepository;
 import org.myLazyClock.model.repository.CalendarRepository;
 import org.myLazyClock.services.bean.AlarmClockEvent;
@@ -32,6 +33,10 @@ public class ClockEventService {
 
     public Collection<AlarmClockEvent> listEventForWeek(String alarmClockId){
         AlarmClock alarmClock = AlarmClockRepository.getInstance().findOne(Long.decode(alarmClockId));
+        MyLazyClockUser user = MyLazyClockUserService.getInstance().findOne(alarmClock.getUser());
+
+        String userToken = (user != null) ? user.getToken() : "";
+
         Collection<Calendar> calendarList = CalendarRepository.getInstance().findAll(alarmClock);
 
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/Paris")); // For new Date()
@@ -52,7 +57,7 @@ public class ClockEventService {
             for(Calendar cal: calendarList){
                 try {
 
-                    CalendarEvent eventOfDay = serviceCalendar.getFirstEventOfDay(cal, currentCal, alarmClock.getUser().getToken());
+                    CalendarEvent eventOfDay = serviceCalendar.getFirstEventOfDay(cal, currentCal, userToken);
                     if (cal.isUseAlwaysDefaultLocation()) {
                         eventOfDay.setAddress(cal.getDefaultEventLocation());
                     } else if (eventOfDay.getAddress() == null || eventOfDay.equals("")) {

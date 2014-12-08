@@ -21,7 +21,6 @@ package org.myLazyClock.services;
 
 import com.google.appengine.api.users.User;
 import org.myLazyClock.model.model.AlarmClock;
-import org.myLazyClock.model.model.MyLazyClockUser;
 import org.myLazyClock.model.repository.AlarmClockRepository;
 import org.myLazyClock.services.bean.AlarmClockBean;
 import org.myLazyClock.services.exception.ForbiddenMyLazyClockException;
@@ -91,13 +90,7 @@ public class AlarmClockService {
             throw new ForbiddenMyLazyClockException();
         }
 
-        MyLazyClockUser lazyClockUser = MyLazyClockUserService.getInstance().findOne(user.getUserId());
-
-        if (lazyClockUser == null) {
-            lazyClockUser = MyLazyClockUserService.getInstance().add(user, "");
-        }
-        a.setUserId(user.getUserId());
-        a.setUser(lazyClockUser);
+        a.setUser(user.getUserId());
         a.setAddress(alarmClock.getAddress());
         a.setName(alarmClock.getName());
         a.setPreparationTime(alarmClock.getPreparationTime());
@@ -107,11 +100,10 @@ public class AlarmClockService {
 
     public AlarmClockBean unlink(String alarmClockId, String userId) throws ForbiddenMyLazyClockException, NotFoundMyLazyClockException {
         AlarmClock a = findOne_(alarmClockId);
-        if(!a.getUserId().equals(userId)) {
+        if(!a.getUser().equals(userId)) {
             throw new ForbiddenMyLazyClockException();
         }
 
-        a.setUserId(null);
         a.setUser(null);
         a.setName(null);
         a.setAddress(null);
@@ -123,7 +115,7 @@ public class AlarmClockService {
 
     public AlarmClockBean update(AlarmClockBean alarmClock, String userId) throws ForbiddenMyLazyClockException, NotFoundMyLazyClockException {
         AlarmClock a = findOne_(String.valueOf(alarmClock.getId()));
-        if(!a.getUserId().equals(userId))
+        if(!a.getUser().equals(userId))
             throw new ForbiddenMyLazyClockException();
         a.setAddress(alarmClock.getAddress());
         a.setName(alarmClock.getName());

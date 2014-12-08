@@ -37,10 +37,7 @@ public class AlarmClock {
     private Long id;
 
     @Persistent
-    private String userId;
-
-    @Persistent
-    private MyLazyClockUser user;
+    private String user;
 
     @Persistent
     private String name;
@@ -77,20 +74,12 @@ public class AlarmClock {
     }
 
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public MyLazyClockUser getUser() {
+    public String getUser() {
         return user;
     }
 
-    public void setUser(MyLazyClockUser user) {
-        this.user = user;
+    public void setUser(String userId) {
+        this.user = userId;
     }
 
     public String getAddress() {
