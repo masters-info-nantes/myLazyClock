@@ -90,7 +90,7 @@ module.factory('GAuth', ['$rootScope', '$q', 'GClient', 'GApi', '$interval',
         function offline() {
 
             var deferred = $q.defer();
-            var win =  window.open('https://accounts.google.com/o/oauth2/auth?scope='+encodeURI(SCOPES)+'&redirect_uri=http://localhost&response_type=code&client_id='+CLIENT_ID+'&access_type=offline', null, 'width=800, height=600'); 
+            var win =  window.open('https://accounts.google.com/o/oauth2/auth?scope='+encodeURI(SCOPES)+'&redirect_uri=http://localhost&response_type=code&client_id='+CLIENT_ID+'&access_type=offline&approval_prompt=force', null, 'width=800, height=600'); 
 
             var pollTimer   =   $interval(function() { 
                 try {
