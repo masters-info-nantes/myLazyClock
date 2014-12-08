@@ -30,8 +30,6 @@ public class AlarmClockBean {
 
     private Long id;
 
-    private String user;
-
     private String name;
 
     private String address;
@@ -46,14 +44,6 @@ public class AlarmClockBean {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
     }
 
     public String getName() {
@@ -103,7 +93,6 @@ public class AlarmClockBean {
         AlarmClock alarmClock = new AlarmClock();
 
         alarmClock.setId(getId());
-        alarmClock.setUser(getUser());
         alarmClock.setName(getName());
         alarmClock.setAddress(getAddress());
         alarmClock.setColor(getColor());
@@ -114,7 +103,6 @@ public class AlarmClockBean {
 
     public void fromEntity(AlarmClock alarmClock) {
         setId(alarmClock.getId());
-        setUser(alarmClock.getUser());
         setName(alarmClock.getName());
         setAddress(alarmClock.getAddress());
         setColor(alarmClock.getColor());

@@ -27,6 +27,7 @@ import net.fortuna.ical4j.model.component.VEvent;
 
 import java.io.*;
 import java.net.URL;
+import java.util.Map;
 
 /**
  * Created on 28/10/14.
@@ -94,7 +95,7 @@ public class CalendarIcsStrategy implements CalendarStrategy {
      * @throws EventNotFoundException if no event found
      */
     @Override
-    public CalendarEvent getFirstEvent (String url, java.util.Calendar day) throws EventNotFoundException {
+    public CalendarEvent getFirstEvent (String url, java.util.Calendar day, Map<String, String> params) throws EventNotFoundException {
         String icsFile = null;
         try {
             icsFile = getEdt(new URL(url));

@@ -65,7 +65,7 @@ public class CalendarService {
     private Collection<Calendar> findAll_(String alarmClockId, User user) throws ForbiddenMyLazyClockException {
         AlarmClock alarm = AlarmClockRepository.getInstance().findOne(Long.decode(alarmClockId));
 
-        if (!alarm.getUser().equals(user.getUserId())) {
+        if (!alarm.getUserId().equals(user.getUserId())) {
             throw new ForbiddenMyLazyClockException();
         }
 
@@ -75,7 +75,7 @@ public class CalendarService {
     public CalendarBean add (CalendarBean calendar, String alarmClockId, User user) throws ForbiddenMyLazyClockException {
         AlarmClock alarm = AlarmClockRepository.getInstance().findOne(Long.decode(alarmClockId));
 
-        if (!alarm.getUser().equals(user.getUserId())) {
+        if (!alarm.getUserId().equals(user.getUserId())) {
             throw  new ForbiddenMyLazyClockException();
         }
 
@@ -116,7 +116,7 @@ public class CalendarService {
     public void delete(Long calendarId, Long alarmClockId, User user) throws ForbiddenMyLazyClockException {
         AlarmClock alarmClock = AlarmClockRepository.getInstance().findOne(alarmClockId);
 
-        if (!alarmClock.getUser().equals(user.getUserId())) {
+        if (!alarmClock.getUserId().equals(user.getUserId())) {
             throw new ForbiddenMyLazyClockException();
         }
 

@@ -51,7 +51,8 @@ public class ClockEventService {
             ArrayList<AlarmClockEvent> eventsInDay = new ArrayList<AlarmClockEvent>();
             for(Calendar cal: calendarList){
                 try {
-                    CalendarEvent eventOfDay = serviceCalendar.getFirstEventOfDay(cal, currentCal);
+
+                    CalendarEvent eventOfDay = serviceCalendar.getFirstEventOfDay(cal, currentCal, alarmClock.getUser().getToken());
                     if (cal.isUseAlwaysDefaultLocation()) {
                         eventOfDay.setAddress(cal.getDefaultEventLocation());
                     } else if (eventOfDay.getAddress() == null || eventOfDay.equals("")) {

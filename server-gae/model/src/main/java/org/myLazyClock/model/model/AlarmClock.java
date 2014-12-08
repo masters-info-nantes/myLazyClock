@@ -37,7 +37,10 @@ public class AlarmClock {
     private Long id;
 
     @Persistent
-    private String user;
+    private String userId;
+
+    @Persistent
+    private MyLazyClockUser user;
 
     @Persistent
     private String name;
@@ -73,11 +76,20 @@ public class AlarmClock {
         this.name = name;
     }
 
-    public String getUser() {
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public MyLazyClockUser getUser() {
         return user;
     }
 
-    public void setUser(String user) {
+    public void setUser(MyLazyClockUser user) {
         this.user = user;
     }
 

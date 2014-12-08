@@ -48,8 +48,8 @@ public class AlarmClockRepository {
         PersistenceManager pm = PMF.get().getPersistenceManager();
 
         Query q = pm.newQuery(AlarmClock.class);
-        q.setFilter("user == userId");
-        q.declareParameters("String userId");
+        q.setFilter("userId == paramUserId");
+        q.declareParameters("String paramUserId");
         List<AlarmClock> all;
 
         try {

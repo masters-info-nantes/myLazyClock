@@ -25,7 +25,6 @@ import com.google.api.server.spi.config.Named;
 import com.google.api.server.spi.response.ForbiddenException;
 import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.users.User;
-import org.myLazyClock.model.model.AlarmClock;
 import org.myLazyClock.services.AlarmClockService;
 import org.myLazyClock.services.bean.AlarmClockBean;
 import org.myLazyClock.services.exception.ForbiddenMyLazyClockException;
@@ -68,7 +67,7 @@ public class AlarmClockAPI {
     @ApiMethod(name = "alarmClock.link", httpMethod = ApiMethod.HttpMethod.POST, path="alarmClock/link")
     public AlarmClockBean link(AlarmClockBean alarmClock, User user) throws ForbiddenException, NotFoundException{
         try {
-            return AlarmClockService.getInstance().link(alarmClock, user.getUserId());
+            return AlarmClockService.getInstance().link(alarmClock, user);
         } catch (ForbiddenMyLazyClockException e) {
             throw new ForbiddenException("Forbidden");
         } catch (NotFoundMyLazyClockException e) {
