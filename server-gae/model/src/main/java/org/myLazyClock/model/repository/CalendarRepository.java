@@ -28,10 +28,6 @@ public class CalendarRepository {
     }
 
     public Collection<Calendar> findAll(AlarmClock alarm) {
-        List<Calendar> calendars = alarm.getCalendars();
-        for (Calendar cal : calendars) {
-            cal.setId(cal.getKey().getId());
-        }
         return alarm.getCalendars();
     }
 
@@ -69,7 +65,7 @@ public class CalendarRepository {
     }
 
     public void delete(Calendar calendar) {
-        PersistenceManager pm = PMF.get().getPersistenceManager();
+        PersistenceManager pm = JDOHelper.getPersistenceManager(calendar);
 
         try {
             pm.deletePersistent(calendar);

@@ -17,62 +17,51 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.myLazyClock.model.model;
+package org.myLazyClock.services.bean;
 
 import com.google.appengine.api.datastore.Key;
-
-import javax.jdo.annotations.*;
+import com.google.appengine.api.datastore.KeyFactory;
+import org.myLazyClock.model.model.AlarmClock;
+import org.myLazyClock.model.model.Calendar;
+import org.myLazyClock.model.model.TravelMode;
 
 /**
- * Created on 16/11/14.
+ * Created on 04/12/14.
  *
- * @author Maxime
+ * @author dralagen
  */
-@PersistenceCapable
-public class Calendar {
+public class CalendarBean {
 
-    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    @PrimaryKey
-    private Key key; //key datastore
+    private Long id;
 
-    @Persistent
-    private AlarmClock alarmClock;
+    private Long alarmClockId;
 
-    @Persistent
     private String name;
 
-    @Persistent
-    private String param; // key du gcal ou url ics ...
+    private String param;
 
-    @Persistent
     private String calendarType;
 
-    @Persistent
     private TravelMode travelMode;
 
-    @Persistent
     private String defaultEventLocation;
 
-    @Persistent
     private boolean useAlwaysDefaultLocation;
 
-    public Calendar() {
+    public Long getId() {
+        return id;
     }
 
-    public Key getKey() {
-        return key;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setKey(Key key) {
-        this.key = key;
+    public Long getAlarmClockId() {
+        return alarmClockId;
     }
 
-    public AlarmClock alarmClock() {
-        return alarmClock;
-    }
-
-    public void alarmClock(AlarmClock alarmClock) {
-        this.alarmClock = alarmClock;
+    public void setAlarmClockId(Long alarmClockId) {
+        this.alarmClockId = alarmClockId;
     }
 
     public String getName() {
@@ -121,14 +110,48 @@ public class Calendar {
 
     public void setUseAlwaysDefaultLocation(boolean useAlwaysDefaultLocation) {
         this.useAlwaysDefaultLocation = useAlwaysDefaultLocation;
+   }
+
+    public Calendar toEntity() {
+
+        Calendar newEntity = new Calendar();
+
+        if (id != null) {
+            Key calendarKey = new KeyFactory.Builder(AlarmClock.class.getSimpleName(), getAlarmClockId())
+                    .addChild(Calendar.class.getSimpleName(), getId())
+                    .getKey();
+
+            newEntity.setKey(calendarKey);
+        }
+
+        newEntity.setName(getName());
+        newEntity.setParam(getParam());
+        newEntity.setCalendarType(getCalendarType());
+        newEntity.setTravelMode(getTravelMode());
+        newEntity.setDefaultEventLocation(getDefaultEventLocation());
+        newEntity.setUseAlwaysDefaultLocation(isUseAlwaysDefaultLocation());
+
+        return newEntity;
+
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Calendar) {
-            Calendar cal = (Calendar) obj;
-            return cal.key.equals(this.key);
-        }
-        return false;
+    public void fromEntity(Calendar calendar) {
+        setId(calendar.getKey().getId());
+        setAlarmClockId(calendar.getKey().getParent().getId());
+
+        setName(calendar.getName());
+        setParam(calendar.getParam());
+        setCalendarType(calendar.getCalendarType());
+        setTravelMode(calendar.getTravelMode());
+        setDefaultEventLocation(calendar.getDefaultEventLocation());
+        setUseAlwaysDefaultLocation(calendar.isUseAlwaysDefaultLocation());
+    }
+
+    public static CalendarBean EntityToBean(Calendar calendar) {
+        CalendarBean newBean = new CalendarBean();
+
+        newBean.fromEntity(calendar);
+
+        return newBean;
     }
 }

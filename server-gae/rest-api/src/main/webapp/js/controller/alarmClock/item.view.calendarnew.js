@@ -1,12 +1,29 @@
 var controller = angular.module('myLazyClock.controller.alarmClock.item.view.calendarnew', []);
 
-controller.controller('myLazyClock.controller.alarmClock.item.view.calendarnew', ['$scope', '$state', 'GApi', '$stateParams', 'TRAVELS_MODE',
-    function homeCtl($scope, $state, GApi, $stateParams, TRAVELS_MODE) {
+controller.controller('myLazyClock.controller.alarmClock.item.view.calendarnew', ['$scope', '$state', 'GApi', '$stateParams', 'TRAVELS_MODE', 'GAuth',
+    function homeCtl($scope, $state, GApi, $stateParams, TRAVELS_MODE, GAuth) {
         $scope.travelsMode = TRAVELS_MODE;
     	$scope.newCalendar = {}
 
         $scope.temp = {};
         $scope.tab = 'google';
+
+        $scope.googleOfflineOk = false;
+
+        GApi.executeAuth('myLazyClock', 'myLazyClockUser.get').then( function(resp) {
+            if(resp.valide)
+                $scope.googleOfflineOk = true;
+        });
+
+        $scope.offlineGoogle = function() {
+            GAuth.offline().then( function(code){
+                console.log(code);
+                GApi.executeAuth('myLazyClock', 'myLazyClockUser.link', {code : code}).then( function(resp) {
+                    if(resp.valide)
+                        $scope.googleOfflineOk = true;
+                });
+            });
+        }
         
         $scope.onTabSelect = function(tabName) {
             $scope.tab = tabName;

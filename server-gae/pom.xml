@@ -153,6 +153,19 @@
                 <version>2.2.4</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.google.apis</groupId>
+                <artifactId>google-api-services-calendar</artifactId>
+                <version>v3-rev109-1.19.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.api-client</groupId>
+                <artifactId>google-api-client-appengine</artifactId>
+                <version>1.18.0-rc</version>
+            </dependency>
+
+
             <!-- Test Dependencies -->
             <dependency>
                 <groupId>com.google.appengine</groupId>
@@ -206,6 +219,16 @@
                 </plugin>
 
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.2</version>
+                    <configuration>
+                        <source>1.7</source>
+                        <target>1.7</target>
+                    </configuration>
+                </plugin>
+
+                <plugin>
                     <artifactId>maven-dependency-plugin</artifactId>
                     <version>2.3</version>
                     <configuration>
@@ -236,5 +259,17 @@
             </plugins>
         </pluginManagement>
     </build>
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <api.id>1072024627812-kgv1uou2btdphtvb2l2bbh14n6u2n2mg.apps.googleusercontent.com</api.id>
+                <api.secret>K645ivQD06Ll2ELmhN9zlGU_</api.secret>
+            </properties>
+        </profile>
+    </profiles>
 </project>
 

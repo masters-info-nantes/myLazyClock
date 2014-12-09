@@ -27,6 +27,8 @@ import org.myLazyClock.model.model.Calendar;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created on 28/10/14.
@@ -53,23 +55,39 @@ public class CalendarModulesService {
 	 * @param date Day where to search event
 	 * @return First event of day if exist, null otherwise
 	 */
-	public CalendarEvent getFirstEventOfDay(Calendar calendar, java.util.Calendar date) throws EventNotFoundException{
+
+	public CalendarEvent getFirstEventOfDay(Calendar calendar, java.util.Calendar date, String token) throws EventNotFoundException{
+
 
         int strategyId = 1; // ICS_FILE
 
         String calendarType = calendar.getCalendarType();
 
-        if(calendarType.equals("EDT")) {
-            strategyId = 2;
-        }
-        else if(calendarType.equals("GOOGLE_CALENDAR")){
-            strategyId = 3;
+        Map<String, String> params = new HashMap<>();
+
+        switch (calendarType) {
+            case "EDT":
+                strategyId = 2;
+                params.put("groupId", calendar.getParam());
+                break;
+            case "GOOGLE_CALENDAR":
+                strategyId = 3;
+                params.put("gCalId", calendar.getParam());
+                params.put("tokenRequest", token);
+
+                params.put("apiId", ConstantAPI.API_ID);
+                params.put("apiSecret", ConstantAPI.API_SECRET);
+                break;
+            default:
+                strategyId = 1; // URL of ICS file
+                params.put("url", calendar.getParam());
+                break;
         }
         CalendarStrategy strategy = CalendarFactory.getInstance().get(strategyId);
 		
 		// Get ICS file and first event of the day
 		CalendarEvent nextEvent = null;
-		nextEvent = strategy.getFirstEvent(calendar.getParam(), date);
+		nextEvent = strategy.getFirstEvent(calendar.getParam(), date, params);
 			
 		return nextEvent;
 	}

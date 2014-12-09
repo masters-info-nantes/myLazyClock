@@ -19,14 +19,14 @@
 
 package org.myLazyClock.calendarApi;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.HashMap;
-
-import com.google.gson.JsonObject;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonArray;
-import org.myLazyClock.calendarApi.JsonConverter;
+import java.util.Map;
 
 /**
  * Send request to get schedule and returns the first
@@ -56,9 +56,9 @@ public class CalendarSmartEdtStrategy implements CalendarStrategy {
     }
 
     @Override
-    public CalendarEvent getFirstEvent(String url, Calendar day) throws EventNotFoundException {
+    public CalendarEvent getFirstEvent(String url, Calendar day, Map<String,String> params) throws EventNotFoundException {
 
-        HashMap<String, String> urlParameters = new HashMap<String, String>();
+        Map<String, String> urlParameters = new HashMap<String, String>();
         urlParameters.put("getWeek", url);
         urlParameters.put("year", String.valueOf(day.get(Calendar.YEAR)));
         urlParameters.put("week", String.valueOf(day.get(Calendar.WEEK_OF_YEAR) - 1));

@@ -3,9 +3,11 @@ package org.myLazyClock.services;
 import org.myLazyClock.calendarApi.CalendarEvent;
 import org.myLazyClock.calendarApi.EventNotFoundException;
 import org.myLazyClock.model.model.AlarmClock;
-import org.myLazyClock.model.bean.AlarmClockEvent;
 import org.myLazyClock.model.model.Calendar;
+import org.myLazyClock.model.model.MyLazyClockUser;
+import org.myLazyClock.model.repository.AlarmClockRepository;
 import org.myLazyClock.model.repository.CalendarRepository;
+import org.myLazyClock.services.bean.AlarmClockEvent;
 import org.myLazyClock.travelApi.TravelDuration;
 import org.myLazyClock.travelApi.TravelFactory;
 import org.myLazyClock.travelApi.TravelStrategy;
@@ -29,7 +31,12 @@ public class ClockEventService {
         return service;
     }
 
-    public Collection<AlarmClockEvent> listEventForWeek(AlarmClock alarmClock){
+    public Collection<AlarmClockEvent> listEventForWeek(String alarmClockId){
+        AlarmClock alarmClock = AlarmClockRepository.getInstance().findOne(Long.decode(alarmClockId));
+        MyLazyClockUser user = MyLazyClockUserService.getInstance().findOne(alarmClock.getUser());
+
+        String userToken = (user != null) ? user.getToken() : "";
+
         Collection<Calendar> calendarList = CalendarRepository.getInstance().findAll(alarmClock);
 
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/Paris")); // For new Date()
@@ -49,7 +56,8 @@ public class ClockEventService {
             ArrayList<AlarmClockEvent> eventsInDay = new ArrayList<AlarmClockEvent>();
             for(Calendar cal: calendarList){
                 try {
-                    CalendarEvent eventOfDay = serviceCalendar.getFirstEventOfDay(cal, currentCal);
+
+                    CalendarEvent eventOfDay = serviceCalendar.getFirstEventOfDay(cal, currentCal, userToken);
                     if (cal.isUseAlwaysDefaultLocation()) {
                         eventOfDay.setAddress(cal.getDefaultEventLocation());
                     } else if (eventOfDay.getAddress() == null || eventOfDay.equals("")) {
@@ -68,21 +76,14 @@ public class ClockEventService {
             // Add sooner event of day in list
             AlarmClockEvent alarmEvent = null;
 
-            if(eventsInDay.isEmpty()){
-                alarmEvent = new AlarmClockEvent();
-                alarmEvent.setBeginDate(currentCal.getTime());
-                alarmEvent.setName("No event today");
-                alarmEvent.setAddress("Default Address");
-                alarmEvent.setTravelDuration(0l);
-            }
-            else {
+            if(!eventsInDay.isEmpty()){
                 alarmEvent = Collections.min(eventsInDay);
                 alarmEvent.setTravelDuration(
                         getDuration(alarmClock, alarmEvent)
                 );
-            }
 
-            eventsInWeek.add(alarmEvent);
+                eventsInWeek.add(alarmEvent);
+            }
 
             // Next day
             currentCal.setTimeInMillis(currentCal.getTimeInMillis() + (24 * 60 * 60 * 1000));

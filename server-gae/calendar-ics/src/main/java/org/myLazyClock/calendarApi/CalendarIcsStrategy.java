@@ -27,6 +27,7 @@ import net.fortuna.ical4j.model.component.VEvent;
 
 import java.io.*;
 import java.net.URL;
+import java.util.Map;
 
 /**
  * Created on 28/10/14.
@@ -94,12 +95,16 @@ public class CalendarIcsStrategy implements CalendarStrategy {
      * @throws EventNotFoundException if no event found
      */
     @Override
-    public CalendarEvent getFirstEvent (String url, java.util.Calendar day) throws EventNotFoundException {
+    public CalendarEvent getFirstEvent (String url, java.util.Calendar day, Map<String, String> params) throws EventNotFoundException {
         String icsFile = null;
         try {
             icsFile = getEdt(new URL(url));
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        if (icsFile == null) {
+            throw new EventNotFoundException();
         }
 
         // Construct calendar from ICS file
@@ -108,10 +113,9 @@ public class CalendarIcsStrategy implements CalendarStrategy {
         net.fortuna.ical4j.model.Calendar calendar = null;
         try {
             calendar = builder.build(is);
-        } catch (IOException e) {
+        } catch (IOException | ParserException e) {
             e.printStackTrace();
-        } catch (ParserException e) {
-            e.printStackTrace();
+            throw new EventNotFoundException();
         }
 
         // Looking for first event of the day

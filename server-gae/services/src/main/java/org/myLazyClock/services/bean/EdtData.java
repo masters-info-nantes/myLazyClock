@@ -1,4 +1,4 @@
-package org.myLazyClock.model.bean;
+package org.myLazyClock.services.bean;
 
 /**
  * Created on 27/11/14.

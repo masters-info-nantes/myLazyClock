@@ -27,10 +27,8 @@ package org.myLazyClock.restApi;
 
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
+import org.myLazyClock.model.model.TravelMode;
 import org.myLazyClock.services.TravelModulesServices;
-import org.myLazyClock.travelApi.TravelStrategy;
-
-import java.util.Collection;
 
 @Api(
         name = Constants.NAME,
@@ -41,9 +39,9 @@ import java.util.Collection;
 public class TravelAPI {
 
     @ApiMethod(name = "travel.listAll", httpMethod = ApiMethod.HttpMethod.GET, path = "travel/list")
-    public Collection<TravelStrategy> getAll() {
+    public TravelMode[] getAll() {
         TravelModulesServices services = new TravelModulesServices();
 
-        return services.listModule();
+        return services.listMode();
     }
 }

@@ -19,22 +19,14 @@
 
 package org.myLazyClock.services;
 
-import org.myLazyClock.model.model.TravelMode;
-import org.myLazyClock.travelApi.TravelStrategy;
-
 /**
- * Created on 28/10/14.
+ * Created on 08/12/14.
  *
  * @author dralagen
  */
-public class TravelModulesServices {
+public class ConstantAPI {
 
-    /**
-     * List all module who implement {@link TravelStrategy}
-     *
-     * @return a Collection of all Travel modules
-     */
-    public TravelMode[] listMode() {
-        return TravelMode.values();
-    }
+    public static final String API_ID = "${api.id}";
+
+    public static final String API_SECRET = "${api.secret}";
 }

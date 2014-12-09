@@ -1,12 +1,15 @@
 var controller = angular.module('myLazyClock.controller.home', []);
 
-controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$localStorage', 'GApi', 'ngAudio', '$interval', 'hotkeys',
-    function homeCtl($rootScope, $scope, $localStorage, GApi, ngAudio, $interval, hotkeys) {
+controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$state', '$localStorage', 'GApi', 'ngAudio', '$interval', 'hotkeys',
+    function homeCtl($rootScope, $scope, $state, $localStorage, GApi, ngAudio, $interval, hotkeys) {
     	$scope.sound = ngAudio.load("sounds/ring42.mp3");
     	$scope.sound.loop = true;
         $scope.sound.volume = 1;
     	$scope.alarmClockEvents = [];
         $scope.soundStop = false;
+
+        var interval1;
+        var interval2;
 
         hotkeys.add({
             combo: 's',
@@ -49,7 +52,13 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
 			secondsSinceLastReload = 0;
     		GApi.execute('myLazyClock', 'alarmClock.item', {alarmClockId: $localStorage.alarmClockId}).then(function(resp) {
 				$rootScope.alarmClock = resp;
-				console.log($rootScope.alarmClock);
+                console.log(resp);
+				if(resp.user == undefined) {
+                    console.log('l')
+                    $interval.cancel(interval1);
+                    $interval.cancel(interval2);
+                    $state.go('webapp.signin');
+                }
 				GApi.execute('myLazyClock', 'clockevent.list', {alarmClockId: $localStorage.alarmClockId}).then(function(resp) {
 					$scope.alarmClockEvents = resp.items;
 				});
@@ -69,7 +78,7 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
     			secondsSinceLastReload++;
     		}
     		update();
-    		$interval(function() {
+    		interval1 = $interval(function() {
 				update();
 			}, 60000);
     	}
@@ -78,6 +87,7 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
     		var updateRing = function() {
     			var nextEvent;
     			var now = new Date().getTime();
+                if($scope.alarmClockEvents != undefined) {
     			for(var i= 0; i < $scope.alarmClockEvents.length; i++){
     				if($scope.alarmClockEvents[i]['wakeUpDate'] == undefined )
     					$scope.alarmClockEvents[i]['wakeUpDate'] = $scope.alarmClockEvents[i]['beginDateTime']-$scope.alarmClockEvents[i]['travelDuration']*1000-$rootScope.alarmClock.preparationTime*1000;
@@ -94,6 +104,7 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
                         }
                 	}
                 };
+                }
                 if (nextEvent != undefined) {
                 	
                 	$scope.clockEvent = nextEvent;
@@ -109,7 +120,7 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
                 }
     		}
     		updateRing();
-    		$interval(function() {
+    		interval2 = $interval(function() {
 				updateRing();
 			}, 1000);
     	}

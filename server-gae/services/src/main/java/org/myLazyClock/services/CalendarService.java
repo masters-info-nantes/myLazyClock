@@ -26,10 +26,11 @@ import org.myLazyClock.model.model.AlarmClock;
 import org.myLazyClock.model.model.Calendar;
 import org.myLazyClock.model.repository.AlarmClockRepository;
 import org.myLazyClock.model.repository.CalendarRepository;
+import org.myLazyClock.services.bean.CalendarBean;
 import org.myLazyClock.services.exception.ForbiddenMyLazyClockException;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Created on 28/10/14.
@@ -49,9 +50,20 @@ public class CalendarService {
         return service;
     }
 
+    public Collection<CalendarBean> findAll(String alarmClockId, User user) throws ForbiddenMyLazyClockException {
+        Collection<Calendar> allCalendar =  findAll_(alarmClockId, user);
 
-    public Collection<Calendar> findAll (String alarmClockId, User user) throws ForbiddenMyLazyClockException {
-        AlarmClock alarm = AlarmClockRepository.getInstance().findOne(alarmClockId);
+        Collection<CalendarBean> allBean = new ArrayList<CalendarBean>();
+
+        for(Calendar oneCal: allCalendar) {
+            allBean.add(CalendarBean.EntityToBean(oneCal));
+        }
+
+        return allBean;
+    }
+
+    private Collection<Calendar> findAll_(String alarmClockId, User user) throws ForbiddenMyLazyClockException {
+        AlarmClock alarm = AlarmClockRepository.getInstance().findOne(Long.decode(alarmClockId));
 
         if (!alarm.getUser().equals(user.getUserId())) {
             throw new ForbiddenMyLazyClockException();
@@ -60,28 +72,32 @@ public class CalendarService {
         return CalendarRepository.getInstance().findAll(alarm);
     }
 
-    public Calendar add (Calendar calendar, String alarmClockId, User user) throws ForbiddenMyLazyClockException {
-        AlarmClock alarm = AlarmClockRepository.getInstance().findOne(alarmClockId);
+    public CalendarBean add (CalendarBean calendar, String alarmClockId, User user) throws ForbiddenMyLazyClockException {
+        AlarmClock alarm = AlarmClockRepository.getInstance().findOne(Long.decode(alarmClockId));
 
         if (!alarm.getUser().equals(user.getUserId())) {
             throw  new ForbiddenMyLazyClockException();
         }
 
-        return CalendarRepository.getInstance().add(calendar, alarm);
+        return CalendarBean.EntityToBean(
+                CalendarRepository.getInstance().add(calendar.toEntity(), alarm)
+        );
     }
 
-    public Calendar findOne(Long calendarId, Long alarmClockId, User user) throws ForbiddenMyLazyClockException {
+    public CalendarBean findOne(Long calendarId, Long alarmClockId, User user) throws ForbiddenMyLazyClockException {
+        return CalendarBean.EntityToBean(findOne_(calendarId, alarmClockId, user));
+    }
+
+    private Calendar findOne_(Long calendarId, Long alarmClockId, User user) throws ForbiddenMyLazyClockException {
 
         Key calendarKey = new KeyFactory.Builder(AlarmClock.class.getSimpleName(), alarmClockId)
                 .addChild(Calendar.class.getSimpleName(), calendarId)
                 .getKey();
 
-        Calendar calendar = CalendarRepository.getInstance().findOne(calendarKey);
-        calendar.setId(calendar.getKey().getId());
-        return calendar;
+        return CalendarRepository.getInstance().findOne(calendarKey);
     }
 
-    public Calendar update(Long calendarId, Long alarmClockId, Calendar calendar, User user) {
+    public CalendarBean update(Long calendarId, Long alarmClockId, Calendar calendar, User user) {
         Key calendarKey = new KeyFactory.Builder(AlarmClock.class.getSimpleName(), alarmClockId)
                                     .addChild(Calendar.class.getSimpleName(), calendarId)
                                     .getKey();
@@ -94,7 +110,7 @@ public class CalendarService {
         toSave.setDefaultEventLocation(calendar.getDefaultEventLocation());
         toSave.setUseAlwaysDefaultLocation(calendar.isUseAlwaysDefaultLocation());
 
-        return CalendarRepository.getInstance().save(toSave);
+        return CalendarBean.EntityToBean(CalendarRepository.getInstance().save(toSave));
     }
 
     public void delete(Long calendarId, Long alarmClockId, User user) throws ForbiddenMyLazyClockException {
@@ -109,10 +125,6 @@ public class CalendarService {
                                 .getKey();
         Calendar calendar = CalendarRepository.getInstance().findOne(calendarKey);
 
-
-        List<Calendar> calendars = alarmClock.getCalendars();
-        calendars.remove(calendar);
-
-        AlarmClockRepository.getInstance().save(alarmClock);
+        CalendarRepository.getInstance().delete(calendar);
     }
 }

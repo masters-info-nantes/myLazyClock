@@ -19,7 +19,20 @@
 
 package org.myLazyClock.calendarApi;
 
-import java.util.Calendar;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.DateTime;
+import com.google.api.services.calendar.Calendar;
+import com.google.api.services.calendar.model.Event;
+import com.google.api.services.calendar.model.Events;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.Date;
+import java.util.Map;
 
 /**
  * Created on 28/10/14.
@@ -41,14 +54,57 @@ public class CalendarGoogleStrategy implements CalendarStrategy {
     }
     
     @Override
-    public CalendarEvent getFirstEvent(String url, Calendar day) throws EventNotFoundException {
-        if (day == null) {
+    public CalendarEvent getFirstEvent(String url, java.util.Calendar day, Map<String, String> params) throws EventNotFoundException {
+        if (day == null || params == null || params.get("tokenRequest") == null || params.get("tokenRequest").equals("")) {
             throw new EventNotFoundException();
         }
 
+        DateTime startTime = new DateTime(day.getTime());
+        java.util.Calendar endDay = (java.util.Calendar) day.clone();
+        endDay.add(java.util.Calendar.DATE, 1);
+        DateTime endTime = new DateTime(endDay.getTime());
+
+
+
         CalendarEvent returnEvent = new CalendarEvent();
 
-        returnEvent.setBeginDate(day.getTime());
+        try {
+
+            HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+            JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+
+            GoogleCredential credential = new GoogleCredential.Builder()
+                    .setTransport(httpTransport)
+                    .setJsonFactory(jsonFactory)
+                    .setClientSecrets(params.get("apiId"),params.get("apiSecret"))
+                    .build().setRefreshToken(params.get("tokenRequest"));
+
+            Calendar service = new Calendar.Builder(httpTransport, jsonFactory, null)
+                    .setApplicationName("myLazyClock")
+                    .setHttpRequestInitializer(credential).build();
+
+
+            Events events = service.events().list(params.get("gCalId"))
+                    .setTimeMin(startTime)
+                    .setTimeMax(endTime)
+                    .setOrderBy("startTime")
+                    .setSingleEvents(true).execute();
+
+            if (events.getItems().isEmpty()) {
+                throw new EventNotFoundException();
+            }
+
+            Event event = events.getItems().get(0);
+
+            returnEvent.setName(event.getSummary());
+            returnEvent.setBeginDate(new Date(event.getStart().getDateTime().getValue()));
+            returnEvent.setEndDate(new Date(event.getEnd().getDateTime().getValue()));
+            returnEvent.setAddress(event.getLocation());
+
+        } catch (GeneralSecurityException | IOException e) {
+            e.printStackTrace();
+            throw new EventNotFoundException();
+        }
 
     	return returnEvent;
     }

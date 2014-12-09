@@ -57,12 +57,12 @@ module.factory('GClient', ['$document', '$q', '$timeout', '$interval',
     }]);
 
 
-module.factory('GAuth', ['$rootScope', '$q', 'GClient', 'GApi',
-    function($rootScope, $q, GClient, GApi){
+module.factory('GAuth', ['$rootScope', '$q', 'GClient', 'GApi', '$interval',
+    function($rootScope, $q, GClient, GApi, $interval){
         var isLoad = false;
 
         var CLIENT_ID;
-        var SCOPES = ['https://www.googleapis.com/auth/userinfo.email'];
+        var SCOPES = 'https://www.googleapis.com/auth/userinfo.email';
         var RESPONSE_TYPE = 'token id_token';
 
         function load(calback){
@@ -85,6 +85,36 @@ module.factory('GAuth', ['$rootScope', '$q', 'GClient', 'GApi',
             load(function (){
                 gapi.auth.authorize({client_id: CLIENT_ID, scope: SCOPES, immediate: mode, response_type : RESPONSE_TYPE}, authorizeCallback);
             });
+        }
+
+        function offline() {
+
+            var deferred = $q.defer();
+            var win =  window.open('https://accounts.google.com/o/oauth2/auth?scope='+encodeURI(SCOPES)+'&redirect_uri=http://localhost&response_type=code&client_id='+CLIENT_ID+'&access_type=offline&approval_prompt=force', null, 'width=800, height=600'); 
+
+            var pollTimer   =   $interval(function() { 
+                try {
+                    if (win.document.URL.indexOf('http://localhost') != -1) {
+                        $interval.cancel(pollTimer);
+                        var code =   gup(win.document.URL, 'code');
+                        win.close();
+                        deferred.resolve(code);
+                    }
+                } catch(e) {
+                }
+            }, 100);
+            return deferred.promise;
+        }
+                   
+        function gup(url, name) {
+            name = name.replace(/[[]/,"\[").replace(/[]]/,"\]");
+            var regexS = "[\?&]"+name+"=([^&#]*)";
+            var regex = new RegExp( regexS );
+            var results = regex.exec( url );
+            if( results == null )
+                return "";
+            else
+                return results[1];
         }
 
         function getUser() {
@@ -154,6 +184,14 @@ module.factory('GAuth', ['$rootScope', '$q', 'GClient', 'GApi',
                         deferred.reject();
                     });
                 });
+                return deferred.promise;
+            },
+
+            offline: function(){
+                var deferred = $q.defer();
+                offline().then( function(code){
+                        deferred.resolve(code);
+                    });
                 return deferred.promise;
             },
 

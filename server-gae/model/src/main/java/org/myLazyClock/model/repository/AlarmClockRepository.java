@@ -48,8 +48,8 @@ public class AlarmClockRepository {
         PersistenceManager pm = PMF.get().getPersistenceManager();
 
         Query q = pm.newQuery(AlarmClock.class);
-        q.setFilter("user == userId");
-        q.declareParameters("String userId");
+        q.setFilter("user == paramUserId");
+        q.declareParameters("String paramUserId");
         List<AlarmClock> all;
 
         try {
@@ -59,10 +59,6 @@ public class AlarmClockRepository {
         }
 
         return all;
-    }
-
-    public AlarmClock findOne(String id) {
-        return findOne(Long.decode(id));
     }
 
     public AlarmClock findOne(Long id) {
@@ -89,16 +85,6 @@ public class AlarmClockRepository {
         }
 
         return alarmClock;
-    }
-
-    public void delete(AlarmClock alarmClock) {
-        PersistenceManager pm = PMF.get().getPersistenceManager();
-
-        try {
-            pm.deletePersistent(alarmClock.getId());
-        } finally {
-            pm.close();
-        }
     }
 
 }
