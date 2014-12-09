@@ -33,7 +33,7 @@ public class TravelTanStrategy implements TravelStrategy {
     @Override
     public TravelDuration getDuration(String from, String to, Date dateArrival, Map<String, String> param)  {
 
-        int travelTime=0;
+        long travelTime=0;
         String idFrom=this.setFromId(from);
         String idTo=this.setToId(to);
         String urlItineraire="https://www.tan.fr/ewp/mhv.php/itineraire/resultat.json?";
@@ -67,7 +67,7 @@ public class TravelTanStrategy implements TravelStrategy {
         }else if (strTime.contains(":")){ // au dela d'une heure format hh:mm
 
             String[] TimeParts=strTime.split(":");
-            travelTime=Integer.parseInt(TimeParts[0])*3600+Integer.parseInt(TimeParts[1])*60;
+            travelTime=Long.parseLong(TimeParts[0])*3600+Long.parseLong(TimeParts[1])*60;
 
         }
         } catch (MalformedURLException e) {
