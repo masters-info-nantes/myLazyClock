@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.myLazyClock.travelApi.exception.TravelNotFoundException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,7 +34,7 @@ public class TravelGmapStrategy implements TravelStrategy {
     }
 
     @Override
-    public TravelDuration getDuration(String from, String to, Date dateArrival, Map<String, String> param) {
+    public TravelDuration getDuration(String from, String to, Date dateArrival, Map<String, String> param) throws TravelNotFoundException {
 
         String requestURI= constructGoogleRequestURI(from, to, dateArrival, param);
         long travelTime=0;
@@ -64,7 +65,7 @@ public class TravelGmapStrategy implements TravelStrategy {
 
 
         }catch (IOException e) {
-            e.getMessage();
+            throw new TravelNotFoundException(e);
         }
 
         return new TravelDuration(travelTime);

@@ -24,6 +24,7 @@ import net.fortuna.ical4j.data.ParserException;
 import net.fortuna.ical4j.model.Component;
 import net.fortuna.ical4j.model.ComponentList;
 import net.fortuna.ical4j.model.component.VEvent;
+import org.myLazyClock.calendarApi.exception.EventNotFoundException;
 
 import java.io.*;
 import java.net.URL;
@@ -92,7 +93,7 @@ public class CalendarIcsStrategy implements CalendarStrategy {
      * @param url the ur of ics file
      * @param day day in which search event
      * @return First event of the day or null if no events
-     * @throws EventNotFoundException if no event found
+     * @throws org.myLazyClock.calendarApi.exception.EventNotFoundException if no event found
      */
     @Override
     public CalendarEvent getFirstEvent (String url, java.util.Calendar day, Map<String, String> params) throws EventNotFoundException {

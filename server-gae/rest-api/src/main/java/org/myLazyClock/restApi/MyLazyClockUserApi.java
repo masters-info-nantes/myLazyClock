@@ -82,6 +82,7 @@ public class MyLazyClockUserApi {
             throw new UnauthorizedException("Login Required");
         }
 
+        //TODO dralagen 09/12/14 : Check the refresh token is valid
         return MyLazyClockUserValide.fromMyLazyClockUser(
                 MyLazyClockUserService.getInstance().findOne(user.getUserId())
         );

@@ -22,6 +22,7 @@ package org.myLazyClock.calendarApi;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import org.myLazyClock.calendarApi.exception.EventNotFoundException;
 
 import java.io.IOException;
 import java.util.Calendar;

@@ -17,6 +17,7 @@
 
     <modules>
         <module>../travel-gmap</module>
+        <module>../travel-tan</module>
     </modules>
 
     <dependencies>
@@ -25,6 +26,12 @@
             <artifactId>travel-gmap</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>travel-tan</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>travel-api</artifactId>

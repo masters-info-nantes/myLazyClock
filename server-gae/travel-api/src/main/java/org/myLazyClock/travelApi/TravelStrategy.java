@@ -19,6 +19,8 @@
 
 package org.myLazyClock.travelApi;
 
+import org.myLazyClock.travelApi.exception.TravelNotFoundException;
+
 import java.util.Date;
 import java.util.Map;
 
@@ -46,5 +48,5 @@ public interface TravelStrategy {
      */
     public String getName();
 
-    public TravelDuration getDuration(String from, String to, Date date, Map<String,String> param);
+    public TravelDuration getDuration(String from, String to, Date date, Map<String,String> param) throws TravelNotFoundException;
 }

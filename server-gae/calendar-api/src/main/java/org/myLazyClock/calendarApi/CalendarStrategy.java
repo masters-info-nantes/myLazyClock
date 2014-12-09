@@ -19,6 +19,8 @@
 
 package org.myLazyClock.calendarApi;
 
+import org.myLazyClock.calendarApi.exception.EventNotFoundException;
+
 import java.util.Calendar;
 import java.util.Map;
 
@@ -52,7 +54,7 @@ public interface CalendarStrategy {
      * @param url url of source
      * @param day day in which search event
      * @return CalendarEvent the first event find
-     * @throws EventNotFoundException if not event found in specific day
+     * @throws org.myLazyClock.calendarApi.exception.EventNotFoundException if not event found in specific day
      */
     public CalendarEvent getFirstEvent(String url, Calendar day, Map<String, String> params) throws EventNotFoundException;
 }

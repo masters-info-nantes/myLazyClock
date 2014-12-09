@@ -28,7 +28,7 @@ import java.util.Date;
  *
  * @author Maxime
  */
-public class AlarmClockEvent implements Comparable<AlarmClockEvent> {
+public class AlarmClockEvent {
 
     private Date beginDate;
     private Date endDate;
@@ -99,10 +99,5 @@ public class AlarmClockEvent implements Comparable<AlarmClockEvent> {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    @Override
-    public int compareTo(AlarmClockEvent o) {
-        return beginDate.compareTo(o.beginDate);
     }
 }

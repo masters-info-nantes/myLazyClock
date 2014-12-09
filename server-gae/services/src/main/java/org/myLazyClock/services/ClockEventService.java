@@ -3,7 +3,7 @@ package org.myLazyClock.services;
 import org.myLazyClock.calendarApi.CalendarEvent;
 import org.myLazyClock.calendarApi.CalendarFactory;
 import org.myLazyClock.calendarApi.CalendarStrategy;
-import org.myLazyClock.calendarApi.EventNotFoundException;
+import org.myLazyClock.calendarApi.exception.EventNotFoundException;
 import org.myLazyClock.model.model.AlarmClock;
 import org.myLazyClock.model.model.Calendar;
 import org.myLazyClock.model.model.MyLazyClockUser;
@@ -12,14 +12,9 @@ import org.myLazyClock.services.bean.AlarmClockEvent;
 import org.myLazyClock.travelApi.TravelDuration;
 import org.myLazyClock.travelApi.TravelFactory;
 import org.myLazyClock.travelApi.TravelStrategy;
+import org.myLazyClock.travelApi.exception.TravelNotFoundException;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TimeZone;
+import java.util.*;
 
 /**
  * Created on 30/11/14.
@@ -59,7 +54,9 @@ public class ClockEventService {
         // Search first event for each day of week
         for(int i = 0; i < 7; i++){
 
-            ArrayList<AlarmClockEvent> eventsInDay = new ArrayList<>();
+            CalendarEvent eventInDay = null;
+            Calendar calOfEvent = null;
+
             for(Calendar cal: calendarList){
                 try {
 
@@ -67,24 +64,36 @@ public class ClockEventService {
                     if (cal.isUseAlwaysDefaultLocation() || eventOfDay.getAddress() == null || eventOfDay.getAddress().equals("")) {
                         eventOfDay.setAddress(cal.getDefaultEventLocation());
                     }
-                    AlarmClockEvent alarmClockEventOfDay = calendarEventToAlarmClockEvent(eventOfDay);
-                    alarmClockEventOfDay.setTravelMode(cal.getTravelMode());
 
-                    eventsInDay.add(alarmClockEventOfDay);
+                    if (eventInDay != null) {
+                        if (eventOfDay.compareTo(eventInDay) < 0) {
+                            eventInDay = eventOfDay;
+                            calOfEvent = cal;
+                        }
+                    } else {
+                        eventInDay = eventOfDay;
+                        calOfEvent = cal;
+                    }
                 }
                 catch(EventNotFoundException e){
                     // No event for this day in this calendar
                 }
             }
 
-            // Add sooner event of day in list
             AlarmClockEvent alarmEvent;
 
-            if(!eventsInDay.isEmpty()){
-                alarmEvent = Collections.min(eventsInDay);
-                alarmEvent.setTravelDuration(
-                        getDuration(alarmClock, alarmEvent)
-                );
+            if(eventInDay != null){
+                alarmEvent = calendarEventToAlarmClockEvent(eventInDay);
+                alarmEvent.setTravelMode(calOfEvent.getTravelMode());
+
+                try {
+                    alarmEvent.setTravelDuration(
+                            getDuration(alarmClock, alarmEvent)
+                    );
+                } catch (TravelNotFoundException e) {
+                    e.printStackTrace();
+                    alarmEvent.setTravelDuration(0l);
+                }
 
                 eventsInWeek.add(alarmEvent);
             }
@@ -149,7 +158,7 @@ public class ClockEventService {
         return event;
     }
 
-    private Long getDuration (AlarmClock alarmClock, AlarmClockEvent event) {
+    private Long getDuration (AlarmClock alarmClock, AlarmClockEvent event) throws TravelNotFoundException {
         TravelStrategy strategy;
 
         Map<String, String> params = new HashMap<>();
@@ -160,7 +169,7 @@ public class ClockEventService {
                 params.put("mode", "bicycling");
                 break;
             case TRANSIT:
-                strategy = TravelFactory.getInstance().get(1);
+                strategy = TravelFactory.getInstance().get(2);
                 params.put("mode", "transit");
                 break;
             case WALKING:

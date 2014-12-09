@@ -28,6 +28,7 @@ import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
+import org.myLazyClock.calendarApi.exception.EventNotFoundException;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;

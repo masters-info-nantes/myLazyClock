@@ -2,19 +2,23 @@ package org.myLazyClock.travelApi;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.myLazyClock.travelApi.exception.TravelNotFoundException;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
 /**
- * Created by david on 03/12/14.
+ * Created on 03/12/14.
+ *
+ * @author david
  */
 public class TravelTanStrategy implements TravelStrategy {
     public static final int ID = 2;
@@ -31,52 +35,62 @@ public class TravelTanStrategy implements TravelStrategy {
 
 
     @Override
-    public TravelDuration getDuration(String from, String to, Date dateArrival, Map<String, String> param)  {
+    public TravelDuration getDuration(String from, String to, Date dateArrival, Map<String, String> param) throws TravelNotFoundException {
 
         long travelTime=0;
-        String idFrom=this.setFromId(from);
-        String idTo=this.setToId(to);
+        String idFrom = null;
+        String idTo = null;
+        try {
+            idFrom = setFromId(from);
+            idTo = setToId(to);
+        } catch (IOException e) {
+            throw new TravelNotFoundException(e);
+        }
+
         String urlItineraire="https://www.tan.fr/ewp/mhv.php/itineraire/resultat.json?";
 
+        // Use Date format with yyyy-mm-ddhh:mm for compatibility with tan format date
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-ddHH:mm");
 
         //utilisation d'un encodage pour les symbole | présent dans l'url / voir pour la date
-        urlItineraire=urlItineraire+"depart="+ URLEncoder.encode(idFrom)+"&arrive="+URLEncoder.encode(idTo)+""+"&type=1&accessible=0&temps="+dateArrival+"&retour=0";
-        urlItineraire=urlItineraire.replace("+","%20");
 
-        URL url = null;
-        HttpURLConnection request = null;
-        JsonObject root=null;
+        urlItineraire += "depart="+ idFrom
+                + "&arrive="+ idTo
+                + "&type=1&accessible=0"
+                + "&temps="+dateFormat.format(dateArrival)
+                + "&retour=0";
+
         try {
-            url = new URL(urlItineraire);
-            request = (HttpURLConnection) url.openConnection();
+
+            URL url = new URL(urlItineraire);
+            HttpURLConnection request = (HttpURLConnection) url.openConnection();
             request.connect();
 
             JsonParser jp = new JsonParser();
-            root = jp.parse(new InputStreamReader((InputStream) request.getContent()))
+            JsonObject root = jp.parse(new InputStreamReader((InputStream) request.getContent()))
                     .getAsJsonArray()
                     .get(0)
                     .getAsJsonObject();
 
 
-        String strTime= root.get("duree").getAsString();
+            String strTime= root.get("duree").getAsString();
 
-        if(strTime.contains("mn")){
-            strTime=strTime.replace(" mn","");
-            travelTime=(Integer.parseInt(strTime)*60);
+            if(strTime.contains("mn")){
+                strTime=strTime.replace(" mn","");
+                travelTime=(Integer.parseInt(strTime)*60);
 
-        }else if (strTime.contains(":")){ // au dela d'une heure format hh:mm
+            }else if (strTime.contains(":")){ // au dela d'une heure format hh:mm
 
-            String[] TimeParts=strTime.split(":");
-            travelTime=Long.parseLong(TimeParts[0])*3600+Long.parseLong(TimeParts[1])*60;
+                String[] TimeParts=strTime.split(":");
+                travelTime=Long.parseLong(TimeParts[0])*3600+Long.parseLong(TimeParts[1])*60;
 
+            }
+        } catch (IOException e) {
+            throw new TravelNotFoundException(e);
         }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-         return new TravelDuration(travelTime);
-}
+
+        return new TravelDuration(travelTime);
+    }
 
 
     /**
@@ -84,54 +98,33 @@ public class TravelTanStrategy implements TravelStrategy {
      *
      **/
 
-    private String setFromId(String from) {
-
-        from=from.replace("\\s","%20");
-        String urlAdressFrom="https://www.tan.fr/ewp/mhv.php/itineraire/address.json?nom="+from+"&prefix=depart";
-        String fromId="";
-        URL url = null;
-        HttpURLConnection request = null;
-        try {
-            url = new URL(urlAdressFrom);
-            request = (HttpURLConnection) url.openConnection();
-            request.connect();
-
-            JsonParser jp = new JsonParser();
-            JsonObject root = jp.parse(new InputStreamReader((InputStream) request.getContent())).getAsJsonArray().get(0).getAsJsonObject();
-            JsonObject adresseFrom = root.get("lieux").getAsJsonArray().get(0).getAsJsonObject();
-            fromId+=adresseFrom.get("id").getAsString();
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return fromId;
+    private String setFromId(String from) throws IOException {
+        return getId(from, "depart");
     }
 
     /**méthode de récupération de l'id toId sur l'api tan
      * */
-    private String setToId(String to){
+    private String setToId(String to) throws IOException {
 
-        to=to.replace("\\s","%20");
-        String urlAdressTo="https://www.tan.fr/ewp/mhv.php/itineraire/address.json?nom="+to+"&prefix=arrivee";
-        String toId="";
+        return getId(to, "arrivee");
+
+    }
+
+    private String getId(String nom, String prefix) throws IOException {
+        String urlAddress="https://www.tan.fr/ewp/mhv.php/itineraire/address.json?nom="+URLEncoder.encode(nom, "UTF-8")+"&prefix="+prefix;
+
+        URL url = new URL(urlAddress);
+
+        HttpURLConnection request = (HttpURLConnection) url.openConnection();
+        request.connect();
+
+        JsonParser jp = new JsonParser();
+        JsonObject root = jp.parse(new InputStreamReader((InputStream) request.getContent())).getAsJsonArray().get(0).getAsJsonObject();
+        JsonObject address = root.get("lieux").getAsJsonArray().get(0).getAsJsonObject();
         try {
-            URL url = new URL(urlAdressTo);
-            HttpURLConnection request = (HttpURLConnection) url.openConnection();
-            request.connect();
-
-            JsonParser jp = new JsonParser();
-            JsonObject root = jp.parse(new InputStreamReader((InputStream) request.getContent())).getAsJsonArray().get(0).getAsJsonObject();
-            JsonObject adresseFrom = root.get("lieux").getAsJsonArray().get(0).getAsJsonObject();
-            toId+=adresseFrom.get("id").getAsString();
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            return URLEncoder.encode(address.get("id").getAsString(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            return address.get("id").getAsString().replace("|", "%7C");
         }
-
-        return toId;
     }
 }

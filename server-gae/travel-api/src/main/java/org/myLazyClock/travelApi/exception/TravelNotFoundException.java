@@ -17,12 +17,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.myLazyClock.calendarApi;
+package org.myLazyClock.travelApi.exception;
 
 /**
- * Created on 09/11/14.
+ * Created on 09/12/14.
  *
  * @author dralagen
  */
-public class EventNotFoundException extends Exception {
+public class TravelNotFoundException extends Exception {
+
+    public TravelNotFoundException() {
+        super();
+    }
+
+    public TravelNotFoundException(String msg) {
+        super(msg);
+    }
+
+    public TravelNotFoundException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public TravelNotFoundException(Throwable cause) {
+        super(cause);
+    }
 }
