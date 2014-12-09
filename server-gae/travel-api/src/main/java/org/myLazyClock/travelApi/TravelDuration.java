@@ -8,7 +8,7 @@ package org.myLazyClock.travelApi;
 public class TravelDuration {
     private long time;
 
-    public TravelDuration(int time){
+    public TravelDuration(long time){
 
         this.time = time;
     }

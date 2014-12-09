@@ -36,7 +36,7 @@ public class TravelGmapStrategy implements TravelStrategy {
     public TravelDuration getDuration(String from, String to, Date dateArrival, Map<String, String> param) {
 
         String requestURI= constructGoogleRequestURI(from, to, dateArrival, param);
-        int travelTime=0;
+        long travelTime=0;
 
         try {
             URL url = new URL(requestURI);
@@ -60,7 +60,7 @@ public class TravelGmapStrategy implements TravelStrategy {
 
             // on est sur une "feuille" l'objet est directement interprété par le parseur.
             JsonObject durationObj = (JsonObject) jp.parse(legsObj.get("duration").toString());
-            travelTime= durationObj.get("value").getAsInt();
+            travelTime= durationObj.get("value").getAsLong();
 
 
         }catch (IOException e) {
