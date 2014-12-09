@@ -64,8 +64,11 @@ public class TravelGmapStrategy implements TravelStrategy {
             travelTime= durationObj.get("value").getAsLong();
 
 
-        }catch (IOException e) {
+        }catch (IOException e){
             throw new TravelNotFoundException(e);
+        }
+        catch (IndexOutOfBoundsException e) {
+            throw new TravelNotFoundException();
         }
 
         return new TravelDuration(travelTime);

@@ -38,8 +38,8 @@ public class TravelTanStrategy implements TravelStrategy {
     public TravelDuration getDuration(String from, String to, Date dateArrival, Map<String, String> param) throws TravelNotFoundException {
 
         long travelTime=0;
-        String idFrom = null;
-        String idTo = null;
+        String idFrom;
+        String idTo;
         try {
             idFrom = setFromId(from);
             idTo = setToId(to);
@@ -87,6 +87,8 @@ public class TravelTanStrategy implements TravelStrategy {
             }
         } catch (IOException e) {
             throw new TravelNotFoundException(e);
+        } catch (IndexOutOfBoundsException e) {
+            throw new TravelNotFoundException();
         }
 
         return new TravelDuration(travelTime);
@@ -98,19 +100,19 @@ public class TravelTanStrategy implements TravelStrategy {
      *
      **/
 
-    private String setFromId(String from) throws IOException {
+    private String setFromId(String from) throws IOException, TravelNotFoundException {
         return getId(from, "depart");
     }
 
     /**méthode de récupération de l'id toId sur l'api tan
      * */
-    private String setToId(String to) throws IOException {
+    private String setToId(String to) throws IOException, TravelNotFoundException {
 
         return getId(to, "arrivee");
 
     }
 
-    private String getId(String nom, String prefix) throws IOException {
+    private String getId(String nom, String prefix) throws IOException, TravelNotFoundException {
         String urlAddress="https://www.tan.fr/ewp/mhv.php/itineraire/address.json?nom="+URLEncoder.encode(nom, "UTF-8")+"&prefix="+prefix;
 
         URL url = new URL(urlAddress);
@@ -118,13 +120,17 @@ public class TravelTanStrategy implements TravelStrategy {
         HttpURLConnection request = (HttpURLConnection) url.openConnection();
         request.connect();
 
-        JsonParser jp = new JsonParser();
-        JsonObject root = jp.parse(new InputStreamReader((InputStream) request.getContent())).getAsJsonArray().get(0).getAsJsonObject();
-        JsonObject address = root.get("lieux").getAsJsonArray().get(0).getAsJsonObject();
         try {
-            return URLEncoder.encode(address.get("id").getAsString(), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            return address.get("id").getAsString().replace("|", "%7C");
+            JsonParser jp = new JsonParser();
+            JsonObject root = jp.parse(new InputStreamReader((InputStream) request.getContent())).getAsJsonArray().get(0).getAsJsonObject();
+            JsonObject address = root.get("lieux").getAsJsonArray().get(0).getAsJsonObject();
+            try {
+                return URLEncoder.encode(address.get("id").getAsString(), "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                return address.get("id").getAsString().replace("|", "%7C");
+            }
+        } catch (IndexOutOfBoundsException e) {
+            throw new TravelNotFoundException(prefix + " not found");
         }
     }
 }
