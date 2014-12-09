@@ -56,6 +56,12 @@ public class CalendarSmartEdtStrategy implements CalendarStrategy {
         return "Calendar edt univ-nantes";
     }
 
+    private Map<Integer, SmartEdtGroupData> groupData;
+
+    public CalendarSmartEdtStrategy(){
+        this.groupData = new HashMap<Integer, SmartEdtGroupData>();
+    }
+
     @Override
     public CalendarEvent getFirstEvent(String url, Calendar day, Map<String,String> params) throws EventNotFoundException {
 
@@ -80,11 +86,12 @@ public class CalendarSmartEdtStrategy implements CalendarStrategy {
                 throw new EventNotFoundException();
             }
 
-            JsonObject firstModule = modulesArray.get(0).getAsJsonObject();
-            returnEvent.setName("[SmartEdt]" + firstModule.get("name").getAsString());
+            JsonObject event = modulesArray.get(0).getAsJsonObject();
+            String eventName = this.buildEventName(Integer.parseInt(url), event);
+            returnEvent.setName(eventName);
 
             // StartTime is number of minutes from midnight
-            int startHour = firstModule.get("startTime").getAsInt();
+            int startHour = event.get("startTime").getAsInt();
 
             Calendar beginDate = (Calendar) day.clone();
             beginDate.set(Calendar.HOUR_OF_DAY, startHour / 60);
@@ -97,5 +104,26 @@ public class CalendarSmartEdtStrategy implements CalendarStrategy {
         }
 
         return returnEvent;
+    }
+
+    private String buildEventName(int groupId, JsonElement event){
+
+        // Get group details
+        SmartEdtGroupData group = this.groupData.get(groupId);
+        if(group == null){
+            group = new SmartEdtGroupData(groupId);
+            try {
+                group.reloadData();
+            } catch (IOException e) {
+                return "[SmartEDT] No details about course";
+            }
+        }
+
+        // Build event name with group data
+        StringBuilder eventName = new StringBuilder("");
+        eventName.append(group.getData(GroupDataType.ROOM, event.getAsJsonObject().get("rooms").getAsJsonArray().get(0).getAsInt()));
+        eventName.append(group.getData(GroupDataType.COURSE_NAME, event.getAsJsonObject().get("name").getAsInt()));
+
+        return eventName.toString();
     }
 }
