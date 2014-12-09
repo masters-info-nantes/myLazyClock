@@ -69,7 +69,7 @@ public class MyLazyClockUserApi {
                 Arrays.asList(CalendarScopes.CALENDAR_READONLY)
         ).build();
 
-        GoogleTokenResponse response=flow.newTokenRequest(code).setRedirectUri("http://localhost").execute();
+        GoogleTokenResponse response=flow.newTokenRequest(code).setRedirectUri("postmessage").execute();
 
         return MyLazyClockUserValide.fromMyLazyClockUser(
                 MyLazyClockUserService.getInstance().add(user, response.getRefreshToken())

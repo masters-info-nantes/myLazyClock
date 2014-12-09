@@ -90,25 +90,26 @@ module.factory('GAuth', ['$rootScope', '$q', 'GClient', 'GApi', '$interval',
         function offline() {
 
             var deferred = $q.defer();
-            var win =  window.open('https://accounts.google.com/o/oauth2/auth?scope='+encodeURI(SCOPES)+'&redirect_uri=http://localhost&response_type=code&client_id='+CLIENT_ID+'&access_type=offline&approval_prompt=force', null, 'width=800, height=600'); 
+            var origin = window.location.protocol + "//" + window.location.hostname;
+            console.log(window.location.port);
+            if(window.location.port != "") {
+                origin = origin + ':' + window.location.port;
+            }
+            var win =  window.open('https://accounts.google.com/o/oauth2/auth?scope='+encodeURI(SCOPES)+'&redirect_uri=postmessage&response_type=code&client_id='+CLIENT_ID+'&access_type=offline&approval_prompt=force&origin='+origin, null, 'width=800, height=600'); 
 
-            var pollTimer   =   $interval(function() { 
-                try {
-                    if (win.document.URL.indexOf('http://localhost') != -1) {
-                        $interval.cancel(pollTimer);
-                        var code =   gup(win.document.URL, 'code');
-                        win.close();
-                        deferred.resolve(code);
-                    }
-                } catch(e) {
+            window.addEventListener("message", function(event) {
+                if (event.origin === "https://accounts.google.com") {
+                    var data = JSON.parse(event.data);
+                    deferred.resolve(gup(data.a[0], 'code'));
                 }
-            }, 100);
+            });
+            
             return deferred.promise;
         }
                    
         function gup(url, name) {
             name = name.replace(/[[]/,"\[").replace(/[]]/,"\]");
-            var regexS = "[\?&]"+name+"=([^&#]*)";
+            var regexS = name+"=([^&#]*)";
             var regex = new RegExp( regexS );
             var results = regex.exec( url );
             if( results == null )
