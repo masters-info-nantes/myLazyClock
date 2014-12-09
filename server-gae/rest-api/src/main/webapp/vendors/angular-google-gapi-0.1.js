@@ -97,26 +97,38 @@ module.factory('GAuth', ['$rootScope', '$q', 'GClient', 'GApi', '$interval',
             }
             var win =  window.open('https://accounts.google.com/o/oauth2/auth?scope='+encodeURI(SCOPES)+'&redirect_uri=postmessage&response_type=code&client_id='+CLIENT_ID+'&access_type=offline&approval_prompt=force&origin='+origin, null, 'width=800, height=600'); 
 
-            window.addEventListener("message", function(event) {
+            window.addEventListener("message", getCode);
+
+            
+
+            function getCode(event) {
                 if (event.origin === "https://accounts.google.com") {
                     var data = JSON.parse(event.data);
-                    deferred.resolve(gup(data.a[0], 'code'));
+                    window.removeEventListener("message", getCode);
+                    data = gup(data.a[0], 'code');
+                    if (data == undefined)
+                        deferred.reject();
+                    else
+                        deferred.resolve();
+
                 }
-            });
+            }
+
+            function gup(url, name) {
+                name = name.replace(/[[]/,"\[").replace(/[]]/,"\]");
+                var regexS = name+"=([^&#]*)";
+                var regex = new RegExp( regexS );
+                var results = regex.exec( url );
+                if( results == null )
+                    return undefined;
+                else
+                    return results[1];
+            }
             
             return deferred.promise;
         }
                    
-        function gup(url, name) {
-            name = name.replace(/[[]/,"\[").replace(/[]]/,"\]");
-            var regexS = name+"=([^&#]*)";
-            var regex = new RegExp( regexS );
-            var results = regex.exec( url );
-            if( results == null )
-                return "";
-            else
-                return results[1];
-        }
+        
 
         function getUser() {
 
@@ -188,10 +200,22 @@ module.factory('GAuth', ['$rootScope', '$q', 'GClient', 'GApi', '$interval',
                 return deferred.promise;
             },
 
+            logout: function(){
+                var deferred = $q.defer();
+                load(function() {
+                    gapi.auth.setToken(null);
+                    GApi.isLogin(false);
+                    deferred.resolve();
+                });
+                return deferred.promise;
+            },
+
             offline: function(){
                 var deferred = $q.defer();
                 offline().then( function(code){
                         deferred.resolve(code);
+                    }, function(){
+                        deferred.reject();
                     });
                 return deferred.promise;
             },

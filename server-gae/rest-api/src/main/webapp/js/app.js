@@ -32,8 +32,8 @@ app.config(function ($provide) {
   });
 });
 
-app.run(['GAuth', 'GApi', '$state',
-    function(GAuth, GApi, $state) {
+app.run(['GAuth', 'GApi', '$state', '$rootScope',
+    function(GAuth, GApi, $state, $rootScope) {
 
         var CLIENT;
         var BASE;
@@ -58,5 +58,12 @@ app.run(['GAuth', 'GApi', '$state',
                 $state.go('login');
             }
         );
+
+        $rootScope.logout = function() {
+            GAuth.logout().then(
+            function () {
+                $state.go('login');
+            });
+        };
     }
 ]);
