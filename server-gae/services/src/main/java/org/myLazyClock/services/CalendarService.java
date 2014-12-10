@@ -97,7 +97,7 @@ public class CalendarService {
         return CalendarRepository.getInstance().findOne(calendarKey);
     }
 
-    public CalendarBean update(Long calendarId, Long alarmClockId, Calendar calendar, User user) {
+    public CalendarBean update(Long calendarId, Long alarmClockId, CalendarBean calendar, User user) {
         Key calendarKey = new KeyFactory.Builder(AlarmClock.class.getSimpleName(), alarmClockId)
                                     .addChild(Calendar.class.getSimpleName(), calendarId)
                                     .getKey();

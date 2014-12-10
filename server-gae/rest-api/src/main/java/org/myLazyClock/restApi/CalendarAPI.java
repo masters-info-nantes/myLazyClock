@@ -24,7 +24,6 @@ import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.Named;
 import com.google.api.server.spi.response.ForbiddenException;
 import com.google.appengine.api.users.User;
-import org.myLazyClock.model.model.Calendar;
 import org.myLazyClock.services.CalendarService;
 import org.myLazyClock.services.bean.CalendarBean;
 import org.myLazyClock.services.exception.ForbiddenMyLazyClockException;
@@ -54,7 +53,7 @@ public class CalendarAPI {
     }
 
     @ApiMethod(name = "calendar.update", httpMethod = ApiMethod.HttpMethod.PUT, path="calendar")
-    public CalendarBean update(@Named("calendarId") Long calendarId, @Named("alarmClockId") Long alarmClockId, Calendar calendar, User user) throws ForbiddenException {
+    public CalendarBean update(@Named("calendarId") Long calendarId, @Named("alarmClockId") Long alarmClockId, CalendarBean calendar, User user) throws ForbiddenException {
         try {
             if (user == null) {
                 throw new ForbiddenMyLazyClockException();
