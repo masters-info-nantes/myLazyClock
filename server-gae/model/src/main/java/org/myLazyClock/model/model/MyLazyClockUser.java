@@ -39,10 +39,8 @@ public class MyLazyClockUser {
     @PrimaryKey
     private Key key; //key datastore
 
-    @Persistent
     private String token;
 
-    @Persistent
     private User user;
 
     public Key getKey() {

@@ -20,6 +20,7 @@
 package org.myLazyClock.model.repository;
 
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import org.myLazyClock.model.model.MyLazyClockUser;
 
 import javax.jdo.JDOObjectNotFoundException;
@@ -44,6 +45,10 @@ public class MyLazyClockUserRepository {
         return repo;
     }
 
+    public MyLazyClockUser findOne(String id) {
+        return findOne(forgeKey(id));
+    }
+
     public MyLazyClockUser findOne(Key userKey) {
         PersistenceManager pm = PMF.get().getPersistenceManager();
 
@@ -55,6 +60,11 @@ public class MyLazyClockUserRepository {
     }
 
     public MyLazyClockUser save(MyLazyClockUser user) {
+
+        if (user.getKey() == null) {
+            user.setKey(forgeKey(user.getUser().getUserId()));
+        }
+
         MyLazyClockUser saved;
         PersistenceManager pm = PMF.get().getPersistenceManager();
 
@@ -67,5 +77,9 @@ public class MyLazyClockUserRepository {
         }
 
         return saved;
+    }
+
+    private Key forgeKey(String id) {
+        return new KeyFactory.Builder(MyLazyClockUser.class.getSimpleName(), id).getKey();
     }
 }

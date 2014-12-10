@@ -8,6 +8,7 @@ import org.myLazyClock.model.model.AlarmClock;
 import org.myLazyClock.model.model.Calendar;
 import org.myLazyClock.model.model.MyLazyClockUser;
 import org.myLazyClock.model.repository.AlarmClockRepository;
+import org.myLazyClock.model.repository.MyLazyClockUserRepository;
 import org.myLazyClock.services.bean.AlarmClockEvent;
 import org.myLazyClock.travelApi.TravelDuration;
 import org.myLazyClock.travelApi.TravelFactory;
@@ -35,7 +36,7 @@ public class ClockEventService {
 
     public Collection<AlarmClockEvent> listEventForWeek(String alarmClockId){
         AlarmClock alarmClock = AlarmClockRepository.getInstance().findOne(Long.decode(alarmClockId));
-        MyLazyClockUser user = MyLazyClockUserService.getInstance().findOne(alarmClock.getUser());
+        MyLazyClockUser user = MyLazyClockUserRepository.getInstance().findOne(alarmClock.getUser());
 
         String userToken = (user != null) ? user.getToken() : "";
 

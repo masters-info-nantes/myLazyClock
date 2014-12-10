@@ -27,11 +27,11 @@ import org.myLazyClock.model.model.MyLazyClockUser;
  *
  * @author dralagen
  */
-public class MyLazyClockUserValide {
+public class MyLazyClockUserValid {
 
     private User user;
 
-    private boolean isValide;
+    private boolean isValid;
 
     public User getUser() {
         return user;
@@ -41,27 +41,27 @@ public class MyLazyClockUserValide {
         this.user = user;
     }
 
-    public boolean isValide() {
-        return isValide;
+    public boolean isValid() {
+        return isValid;
     }
 
-    public void setValide(boolean isValide) {
-        this.isValide = isValide;
+    public void setValid(boolean isValid) {
+        this.isValid = isValid;
     }
 
-    public static MyLazyClockUserValide fromMyLazyClockUser(MyLazyClockUser lazyClockUser) {
-        MyLazyClockUserValide bean = new MyLazyClockUserValide();
+    public static MyLazyClockUserValid fromMyLazyClockUser(MyLazyClockUser lazyClockUser) {
+        MyLazyClockUserValid bean = new MyLazyClockUserValid();
 
         if (lazyClockUser == null) {
-            bean.setValide(false);
+            bean.setValid(false);
             return bean;
         }
 
         bean.setUser(lazyClockUser.getUser());
 
-        bean.setValide(
-                !( lazyClockUser.getToken() == null
-                    || lazyClockUser.getToken().equals("")
+        bean.setValid(
+                !(lazyClockUser.getToken() == null
+                        || lazyClockUser.getToken().equals("")
                 )
         );
 

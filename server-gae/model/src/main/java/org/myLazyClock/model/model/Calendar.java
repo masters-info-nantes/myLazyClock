@@ -35,25 +35,18 @@ public class Calendar {
     @PrimaryKey
     private Key key; //key datastore
 
-    @Persistent
     private AlarmClock alarmClock;
 
-    @Persistent
     private String name;
 
-    @Persistent
     private String param; // key du gcal ou url ics ...
 
-    @Persistent
     private String calendarType;
 
-    @Persistent
     private TravelMode travelMode;
 
-    @Persistent
     private String defaultEventLocation;
 
-    @Persistent
     private boolean useAlwaysDefaultLocation;
 
     public Calendar() {

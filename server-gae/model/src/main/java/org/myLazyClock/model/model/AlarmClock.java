@@ -36,19 +36,14 @@ public class AlarmClock {
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Long id;
 
-    @Persistent
     private String user;
 
-    @Persistent
     private String name;
 
-    @Persistent
     private String address;
 
-    @Persistent
     private String color;
 
-    @Persistent
     private int preparationTime;
 
     @Persistent(mappedBy = "alarmClock")

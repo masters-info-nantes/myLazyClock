@@ -19,11 +19,18 @@
 
 package org.myLazyClock.services;
 
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.appengine.api.users.User;
 import org.myLazyClock.model.model.MyLazyClockUser;
 import org.myLazyClock.model.repository.MyLazyClockUserRepository;
+import org.myLazyClock.services.bean.MyLazyClockUserValid;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 /**
  * Created on 08/12/14.
@@ -43,24 +50,45 @@ public class MyLazyClockUserService {
         return service;
     }
 
-    public MyLazyClockUser findOne(String id) {
-        Key userKey = forgeKey(id);
-        return MyLazyClockUserRepository.getInstance().findOne(userKey);
-    }
-
-    public MyLazyClockUser add(User user, String token) {
-        Key userKey = forgeKey(user.getUserId());
+    public MyLazyClockUserValid add(User user, String token) {
 
         MyLazyClockUser lazyClockUser = new MyLazyClockUser();
 
-        lazyClockUser.setKey(userKey);
         lazyClockUser.setToken(token);
         lazyClockUser.setUser(user);
 
-        return MyLazyClockUserRepository.getInstance().save(lazyClockUser);
+        return MyLazyClockUserValid.fromMyLazyClockUser(
+                MyLazyClockUserRepository.getInstance().save(lazyClockUser)
+        );
     }
 
-    private Key forgeKey(String id) {
-        return new KeyFactory.Builder(MyLazyClockUser.class.getSimpleName(), id).getKey();
+    public MyLazyClockUserValid checkValid(String userId) {
+        MyLazyClockUser user = MyLazyClockUserRepository.getInstance().findOne(userId);
+
+        HttpTransport httpTransport = null;
+        try {
+            httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+        } catch (GeneralSecurityException | IOException e) {
+            return null;
+        }
+        JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+
+        GoogleCredential credential = new GoogleCredential.Builder()
+                .setTransport(httpTransport)
+                .setJsonFactory(jsonFactory)
+                .setClientSecrets(ConstantAPI.API_ID, ConstantAPI.API_SECRET)
+                .build().setRefreshToken(user.getToken());
+
+        try {
+            credential.refreshToken();
+        } catch (IOException ignore) {}
+
+
+        if (credential.getAccessToken() == null || credential.getAccessToken().equals("")) {
+            user.setToken(null);
+            MyLazyClockUserRepository.getInstance().save(user);
+        }
+
+        return MyLazyClockUserValid.fromMyLazyClockUser(user);
     }
 }

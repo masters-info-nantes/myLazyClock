@@ -29,11 +29,10 @@ import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.Named;
 import com.google.api.server.spi.response.UnauthorizedException;
-import com.google.api.services.calendar.CalendarScopes;
 import com.google.appengine.api.users.User;
 import org.myLazyClock.services.ConstantAPI;
 import org.myLazyClock.services.MyLazyClockUserService;
-import org.myLazyClock.services.bean.MyLazyClockUserValide;
+import org.myLazyClock.services.bean.MyLazyClockUserValid;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -53,7 +52,7 @@ import java.util.Arrays;
 public class MyLazyClockUserApi {
 
     @ApiMethod(name = "myLazyClockUser.link", httpMethod = ApiMethod.HttpMethod.POST, path = "myLazyClockUser")
-    public MyLazyClockUserValide linkUser(@Named("code") String code, User user) throws UnauthorizedException, GeneralSecurityException, IOException {
+    public MyLazyClockUserValid linkUser(@Named("code") String code, User user) throws UnauthorizedException, GeneralSecurityException, IOException {
         if (user == null) {
             throw new UnauthorizedException("Login Required");
         }
@@ -66,25 +65,20 @@ public class MyLazyClockUserApi {
                 jsonFactory,
                 ConstantAPI.API_ID,
                 ConstantAPI.API_SECRET,
-                Arrays.asList(CalendarScopes.CALENDAR_READONLY)
+                Arrays.asList(Constants.SCOPE_CALENDAR_READ)
         ).build();
 
         GoogleTokenResponse response=flow.newTokenRequest(code).setRedirectUri("postmessage").execute();
 
-        return MyLazyClockUserValide.fromMyLazyClockUser(
-                MyLazyClockUserService.getInstance().add(user, response.getRefreshToken())
-        );
+        return MyLazyClockUserService.getInstance().add(user, response.getRefreshToken());
     }
 
     @ApiMethod(name = "myLazyClockUser.get", httpMethod = ApiMethod.HttpMethod.GET, path = "myLazyClockUser")
-    public MyLazyClockUserValide findOne(User user) throws UnauthorizedException {
+    public MyLazyClockUserValid CheckValid(User user) throws UnauthorizedException {
         if (user == null) {
             throw new UnauthorizedException("Login Required");
         }
 
-        //TODO dralagen 09/12/14 : Check the refresh token is valid
-        return MyLazyClockUserValide.fromMyLazyClockUser(
-                MyLazyClockUserService.getInstance().findOne(user.getUserId())
-        );
+        return MyLazyClockUserService.getInstance().checkValid(user.getUserId());
     }
 }
