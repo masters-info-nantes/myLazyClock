@@ -35,18 +35,32 @@ public class Calendar {
     @PrimaryKey
     private Key key; //key datastore
 
+    @Persistent
+    @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
     private AlarmClock alarmClock;
 
+    @Persistent
+    @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
     private String name;
 
+    @Persistent
+    @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
     private String param; // key du gcal ou url ics ...
 
+    @Persistent
+    @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
     private String calendarType;
 
+    @Persistent
+    @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
     private TravelMode travelMode;
 
+    @Persistent
+    @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
     private String defaultEventLocation;
 
+    @Persistent
+    @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
     private boolean useAlwaysDefaultLocation;
 
     public Calendar() {

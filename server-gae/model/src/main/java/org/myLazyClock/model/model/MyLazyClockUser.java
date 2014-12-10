@@ -22,10 +22,7 @@ package org.myLazyClock.model.model;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.users.User;
 
-import javax.jdo.annotations.IdGeneratorStrategy;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
+import javax.jdo.annotations.*;
 
 /**
  * Created on 08/12/14.
@@ -39,8 +36,12 @@ public class MyLazyClockUser {
     @PrimaryKey
     private Key key; //key datastore
 
+    @Persistent
+    @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
     private String token;
 
+    @Persistent
+    @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
     private User user;
 
     public Key getKey() {

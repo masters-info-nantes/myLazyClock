@@ -65,6 +65,10 @@ public class MyLazyClockUserService {
     public MyLazyClockUserValid checkValid(String userId) {
         MyLazyClockUser user = MyLazyClockUserRepository.getInstance().findOne(userId);
 
+        if (user == null) {
+            return new MyLazyClockUserValid();
+        }
+
         HttpTransport httpTransport = null;
         try {
             httpTransport = GoogleNetHttpTransport.newTrustedTransport();

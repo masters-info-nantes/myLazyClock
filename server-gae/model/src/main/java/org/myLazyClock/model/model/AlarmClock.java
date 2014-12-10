@@ -36,14 +36,23 @@ public class AlarmClock {
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Long id;
 
+    @Persistent
     private String user;
 
+    @Persistent
+    @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
     private String name;
 
+    @Persistent
+    @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
     private String address;
 
+    @Persistent
+    @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
     private String color;
 
+    @Persistent
+    @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
     private int preparationTime;
 
     @Persistent(mappedBy = "alarmClock")

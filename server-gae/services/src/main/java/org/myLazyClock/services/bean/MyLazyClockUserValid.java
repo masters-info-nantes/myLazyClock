@@ -31,7 +31,7 @@ public class MyLazyClockUserValid {
 
     private User user;
 
-    private boolean isValid;
+    private boolean isValid = false;
 
     public User getUser() {
         return user;
