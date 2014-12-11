@@ -32,5 +32,10 @@
             <groupId>ical4j</groupId>
             <artifactId>ical4j</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.google.appengine</groupId>
+            <artifactId>appengine-api-1.0-sdk</artifactId>
+        </dependency>
     </dependencies>
 </project>

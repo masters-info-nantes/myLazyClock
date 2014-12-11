@@ -19,6 +19,10 @@
 
 package org.myLazyClock.calendarApi;
 
+import com.google.appengine.api.memcache.ErrorHandlers;
+import com.google.appengine.api.memcache.Expiration;
+import com.google.appengine.api.memcache.MemcacheService;
+import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import net.fortuna.ical4j.data.CalendarBuilder;
 import net.fortuna.ical4j.data.ParserException;
 import net.fortuna.ical4j.model.Component;
@@ -29,6 +33,7 @@ import org.myLazyClock.calendarApi.exception.EventNotFoundException;
 import java.io.*;
 import java.net.URL;
 import java.util.Map;
+import java.util.logging.Level;
 
 /**
  * Created on 28/10/14.
@@ -100,19 +105,34 @@ public class CalendarIcsStrategy implements CalendarStrategy {
      */
     @Override
     public CalendarEvent getFirstEvent (Map<String, String> params, java.util.Calendar beginDate, java.util.Calendar endDate) throws EventNotFoundException {
-        String icsFile = null;
-        try {
-            icsFile = getEdt(new URL(params.get("url")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        if (icsFile == null) {
-            throw new EventNotFoundException();
+        InputStream is;
+
+        // use Memcache
+        MemcacheService cache = MemcacheServiceFactory.getMemcacheService("calendarICS");
+        cache.setErrorHandler(ErrorHandlers.getConsistentLogAndContinue(Level.WARNING));
+        byte[] icsValue = (byte[]) cache.get(params.get("url"));
+
+        if (icsValue == null) {
+            String icsFile;
+            try {
+                icsFile = getEdt(new URL(params.get("url")));
+                if (icsFile == null) {
+                    throw new EventNotFoundException();
+                }
+
+                cache.put(params.get("url"), icsFile.getBytes(), Expiration.byDeltaSeconds(7200));
+
+                is = new ByteArrayInputStream(icsFile.getBytes());
+            } catch (IOException e) {
+                throw new EventNotFoundException(e);
+            }
+
+        } else {
+            is = new ByteArrayInputStream(icsValue);
         }
 
         // Construct calendar from ICS file
-        InputStream is = new ByteArrayInputStream(icsFile.getBytes());
         CalendarBuilder builder = new CalendarBuilder();
         net.fortuna.ical4j.model.Calendar calendar;
         try {
