@@ -10,25 +10,25 @@
 	</h3>
 </div>
 <div class="content">
-	<form class="form-horizontal" ng-submit="submitUpdate()" name="addAlarmClock">
+	<form class="form-horizontal" ng-submit="submitUpdate()" name="editAlarmClock">
 <fieldset>
 
 <p>Nom du réveil</p>
 <!-- Text input-->
-<div class="form-group">
-  <input ng-model="alarmClockTemp.name" name="textinput" type="text" placeholder="Nom du réveil" class="form-control input-md">
+<div class="form-group" ng-class="{'has-error' : !editAlarmClock.name.$valid}">
+  <input ng-model="alarmClockTemp.name" name="name" type="text" placeholder="Nom du réveil" class="form-control input-md" required>
 </div>
 
 <p>Adresse où se trouve le réveil</p>
 <!-- Text input-->
-<div class="form-group">
-  <input ng-model="alarmClockTemp.address" name="textinput" type="text" placeholder="Adresse du réveil" class="form-control input-md">
+<div class="form-group" ng-class="{'has-error' : !editAlarmClock.address.$valid}">
+  <input ng-model="alarmClockTemp.address" name="address" type="text" placeholder="Adresse du réveil" class="form-control input-md" required>
 </div>
 
 <p>Temps que vous voulez pour vous préparer</p>
 <!-- Text input-->
-<div class="form-group">
-  <select class="form-control input-md" ng-model="alarmClockTemp.preparationTime" ng-options="preparationTime.name for preparationTime in preparationTimes"><option value="">-- Choix de la durée pour vous préparer --</option></select>
+<div class="form-group" ng-class="{'has-error' : !editAlarmClock.preparationTime.$valid}">
+  <select class="form-control input-md" ng-model="alarmClockTemp.preparationTime" ng-options="preparationTime.name for preparationTime in preparationTimes" name="preparationTime" required><option value="">-- Choix de la durée pour vous préparer --</option></select>
 </div>
 
 <p>Couleur du réveil</p>
@@ -54,7 +54,7 @@
   </div>
 </div>
 
-<button type="submit" class="btn btn-white btn-rad btn-trans" ng-class="{'disabled' : !addAlarmClock.$valid}">Valider</button>
+<button type="submit" class="btn btn-white btn-rad btn-trans" ng-class="{'disabled' : !editAlarmClock.$valid}">Valider</button>
 </fieldset>
 </form>
 
