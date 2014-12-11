@@ -21,7 +21,6 @@ package org.myLazyClock.calendarApi;
 
 import org.myLazyClock.calendarApi.exception.EventNotFoundException;
 
-import java.util.Calendar;
 import java.util.Map;
 
 /**
@@ -49,12 +48,13 @@ public interface CalendarStrategy {
     public String getName();
     
     /**
-     * With specifique url get source on one day and return the first event of calandar of the day
+     * For specific module find the first Calendar between beginDate and endDay
      *
-     * @param url url of source
-     * @param day day in which search event
+     * @param params Contain all parameter for module
+     * @param beginDate Lower bound date in which search event
+     * @param endDate Upper bound date in which search event
      * @return CalendarEvent the first event find
      * @throws org.myLazyClock.calendarApi.exception.EventNotFoundException if not event found in specific day
      */
-    public CalendarEvent getFirstEvent(String url, Calendar day, Map<String, String> params) throws EventNotFoundException;
+    public CalendarEvent getFirstEvent(Map<String, String> params, java.util.Calendar beginDate, java.util.Calendar endDate) throws EventNotFoundException;
 }

@@ -47,8 +47,8 @@ public class ClockEventService {
         currentCal.setTime(new Date());
 
         // To search any event before this one
-        currentCal.set(java.util.Calendar.HOUR_OF_DAY, 23);
-        currentCal.set(java.util.Calendar.MINUTE, 59);
+        currentCal.set(java.util.Calendar.HOUR_OF_DAY, 0);
+        currentCal.set(java.util.Calendar.MINUTE, 0);
 
         Collection<AlarmClockEvent> eventsInWeek = new ArrayList<>();
 
@@ -116,6 +116,9 @@ public class ClockEventService {
 
     public CalendarEvent getFirstEventOfDay(Calendar calendar, java.util.Calendar date, String token) throws EventNotFoundException{
 
+        java.util.Calendar endDate = (java.util.Calendar) date.clone();
+        endDate.set(java.util.Calendar.HOUR_OF_DAY, 23);
+        endDate.set(java.util.Calendar.MINUTE, 59);
 
         int strategyId; // ICS_FILE
 
@@ -144,7 +147,7 @@ public class ClockEventService {
 
         CalendarStrategy strategy = CalendarFactory.getInstance().get(strategyId);
 
-        return strategy.getFirstEvent(calendar.getParam(), date, params);
+        return strategy.getFirstEvent(params, date, endDate);
     }
 
     private AlarmClockEvent calendarEventToAlarmClockEvent(CalendarEvent calendarEvent) {

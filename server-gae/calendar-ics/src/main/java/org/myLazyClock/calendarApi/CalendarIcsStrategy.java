@@ -90,16 +90,19 @@ public class CalendarIcsStrategy implements CalendarStrategy {
     /**
      * Construct calendar from given ICS file
      * and return first event of given day
-     * @param url the ur of ics file
-     * @param day day in which search event
+     * @param params Need <strong>url</strong> who contain the url of ics file
+     *
+     * @param beginDate Lower bound date in which search event
+     * @param endDate Upper bound date in which search event
+     *
      * @return First event of the day or null if no events
      * @throws org.myLazyClock.calendarApi.exception.EventNotFoundException if no event found
      */
     @Override
-    public CalendarEvent getFirstEvent (String url, java.util.Calendar day, Map<String, String> params) throws EventNotFoundException {
+    public CalendarEvent getFirstEvent (Map<String, String> params, java.util.Calendar beginDate, java.util.Calendar endDate) throws EventNotFoundException {
         String icsFile = null;
         try {
-            icsFile = getEdt(new URL(url));
+            icsFile = getEdt(new URL(params.get("url")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -111,7 +114,7 @@ public class CalendarIcsStrategy implements CalendarStrategy {
         // Construct calendar from ICS file
         InputStream is = new ByteArrayInputStream(icsFile.getBytes());
         CalendarBuilder builder = new CalendarBuilder();
-        net.fortuna.ical4j.model.Calendar calendar = null;
+        net.fortuna.ical4j.model.Calendar calendar;
         try {
             calendar = builder.build(is);
         } catch (IOException | ParserException e) {
@@ -129,14 +132,12 @@ public class CalendarIcsStrategy implements CalendarStrategy {
             java.util.Calendar calCurr = java.util.Calendar.getInstance();
             calCurr.setTime(currEvent.getStartDate().getDate());
 
-            boolean sameDay = calCurr.get(java.util.Calendar.YEAR) == day.get(java.util.Calendar.YEAR) &&
-                    calCurr.get(java.util.Calendar.DAY_OF_YEAR) == day.get(java.util.Calendar.DAY_OF_YEAR);
-
-            if(sameDay){
+            // Check if beginDate <= calCurr <= endDate
+            if(beginDate.compareTo(calCurr) <= 0 && endDate.compareTo(calCurr) >= 0) {
                 // Test if no event found
-                boolean currentIsBefore = false;
+                boolean currentIsBefore;
                 if(nextEvent == null){
-                    currentIsBefore = calCurr.before(day);
+                    currentIsBefore = calCurr.before(endDate);
                 }
                 else {
                     java.util.Calendar calNext = java.util.Calendar.getInstance();

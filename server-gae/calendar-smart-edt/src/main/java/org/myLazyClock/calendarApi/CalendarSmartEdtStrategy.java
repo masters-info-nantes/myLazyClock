@@ -59,23 +59,33 @@ public class CalendarSmartEdtStrategy implements CalendarStrategy {
     private Map<Integer, SmartEdtGroupData> groupData;
 
     public CalendarSmartEdtStrategy(){
-        this.groupData = new HashMap<Integer, SmartEdtGroupData>();
+        this.groupData = new HashMap<>();
     }
 
+    /**
+     * Find First event from SmartEDT for specific group id
+     * @param params Need <strong>groupId</strong> who contain the id of the group in smart edt
+     *
+     * @param beginDate Lower bound date in which search event
+     * @param endDate Upper bound date in which search event
+     *
+     * @return First event of the day or null if no events
+     * @throws org.myLazyClock.calendarApi.exception.EventNotFoundException if no event found
+     */
     @Override
-    public CalendarEvent getFirstEvent(String url, Calendar day, Map<String,String> params) throws EventNotFoundException {
+    public CalendarEvent getFirstEvent(Map<String,String> params, java.util.Calendar beginDate, java.util.Calendar endDate) throws EventNotFoundException {
 
-        Map<String, String> urlParameters = new HashMap<String, String>();
-        urlParameters.put("getWeek", url);
-        urlParameters.put("year", String.valueOf(day.get(Calendar.YEAR)));
-        urlParameters.put("week", String.valueOf(day.get(Calendar.WEEK_OF_YEAR) - 1));
+        Map<String, String> urlParameters = new HashMap<>();
+        urlParameters.put("getWeek", params.get("groupId"));
+        urlParameters.put("year", String.valueOf(beginDate.get(Calendar.YEAR)));
+        urlParameters.put("week", String.valueOf(beginDate.get(Calendar.WEEK_OF_YEAR) - 1));
 
         CalendarEvent returnEvent = new CalendarEvent();
 
         try {
             // Calendar days begin from sunday 1 to saturday 7
             // Smart edt array begin from monday 0 to sunday 6
-            int dayIndex = day.get(Calendar.DAY_OF_WEEK);
+            int dayIndex = beginDate.get(Calendar.DAY_OF_WEEK);
             dayIndex = (dayIndex == 1) ? 6 : dayIndex - 2;
 
             JsonElement root = JsonConverter.getJson(urlParameters).getAsJsonArray().get(0);
@@ -87,17 +97,17 @@ public class CalendarSmartEdtStrategy implements CalendarStrategy {
             }
 
             JsonObject event = modulesArray.get(0).getAsJsonObject();
-            String eventName = this.buildEventName(Integer.parseInt(url), event);
+            String eventName = this.buildEventName(Integer.parseInt(params.get("groupId")), event);
             returnEvent.setName(eventName);
 
             // StartTime is number of minutes from midnight
             int startHour = event.get("startTime").getAsInt();
 
-            Calendar beginDate = (Calendar) day.clone();
-            beginDate.set(Calendar.HOUR_OF_DAY, startHour / 60);
-            beginDate.set(Calendar.MINUTE, startHour % 60);
+            Calendar beginEventDate = (Calendar) beginDate.clone();
+            beginEventDate.set(Calendar.HOUR_OF_DAY, startHour / 60);
+            beginEventDate.set(Calendar.MINUTE, startHour % 60);
 
-            returnEvent.setBeginDate(beginDate.getTime());
+            returnEvent.setBeginDate(beginEventDate.getTime());
         }
         catch(IOException ex){
             throw new EventNotFoundException();
@@ -120,10 +130,18 @@ public class CalendarSmartEdtStrategy implements CalendarStrategy {
         }
 
         // Build event name with group data
-        StringBuilder eventName = new StringBuilder("");
-        eventName.append(group.getData(GroupDataType.ROOM, event.getAsJsonObject().get("rooms").getAsJsonArray().get(0).getAsInt()));
-        eventName.append(group.getData(GroupDataType.COURSE_NAME, event.getAsJsonObject().get("name").getAsInt()));
-
-        return eventName.toString();
+        return group.getData(
+                GroupDataType.ROOM,
+                event.getAsJsonObject()
+                        .get("rooms")
+                        .getAsJsonArray()
+                        .get(0)
+                        .getAsInt()
+        ) + group.getData(
+                GroupDataType.COURSE_NAME,
+                event.getAsJsonObject()
+                        .get("name")
+                        .getAsInt()
+        );
     }
 }

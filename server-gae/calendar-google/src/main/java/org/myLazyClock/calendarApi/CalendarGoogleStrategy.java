@@ -53,19 +53,30 @@ public class CalendarGoogleStrategy implements CalendarStrategy {
     public String getName() {
         return "Calendar Google";
     }
-    
+
+    /**
+     * Find the first event before 24h before endDay in google calendar in params
+     * @param params Need some params : <br/>
+     *  - <strong> tokenRequest </strong> content the google refreshToken of user <br/>
+     *  - <strong> gCalId </strong> content the id of calendar <br/>
+     *  - <strong> apiId </strong> and <strong> apiSecret </strong> generate by maven in services.ConstantAPI <br/>
+     *
+     * @param beginDate Lower bound date in which search event
+     * @param endDate Upper bound date in which search event
+     *
+     * @return CalendarEvent the first event find
+     * @throws org.myLazyClock.calendarApi.exception.EventNotFoundException if not event found in specific day
+     */
     @Override
-    public CalendarEvent getFirstEvent(String url, java.util.Calendar day, Map<String, String> params) throws EventNotFoundException {
-        if (day == null || params == null || params.get("tokenRequest") == null || params.get("tokenRequest").equals("")) {
+    public CalendarEvent getFirstEvent(Map<String, String> params, java.util.Calendar beginDate, java.util.Calendar endDate) throws EventNotFoundException {
+        if (beginDate == null || endDate == null || params == null
+                || params.get("tokenRequest") == null || params.get("tokenRequest").equals("")
+                || params.get("gCalId") == null || params.get("gCalId").equals("")) {
             throw new EventNotFoundException();
         }
 
-        DateTime startTime = new DateTime(day.getTime());
-        java.util.Calendar endDay = (java.util.Calendar) day.clone();
-        endDay.add(java.util.Calendar.DATE, 1);
-        DateTime endTime = new DateTime(endDay.getTime());
-
-
+        DateTime startTime = new DateTime(beginDate.getTime());
+        DateTime endTime = new DateTime(endDate.getTime());
 
         CalendarEvent returnEvent = new CalendarEvent();
 
