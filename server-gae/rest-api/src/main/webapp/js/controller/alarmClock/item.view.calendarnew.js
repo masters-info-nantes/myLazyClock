@@ -8,11 +8,13 @@ controller.controller('myLazyClock.controller.alarmClock.item.view.calendarnew',
         $scope.temp = {};
         $scope.tab = 'google';
 
-        $scope.googleOfflineOk = false;
+        
 
         GApi.executeAuth('myLazyClock', 'myLazyClockUser.get').then( function(resp) {
             if(resp.valid)
                 $scope.googleOfflineOk = true;
+            else
+                $scope.googleOfflineKO = true;
         });
 
         $scope.offlineGoogle = function() {
@@ -21,12 +23,44 @@ controller.controller('myLazyClock.controller.alarmClock.item.view.calendarnew',
                 GApi.executeAuth('myLazyClock', 'myLazyClockUser.link', {code : code}).then( function(resp) {
                     if(resp.valid)
                         $scope.googleOfflineOk = true;
+                    else
+                        $scope.googleOfflineKO = true;
                 });
             });
+        }
+
+        $scope.formOk = false;
+
+        $scope.updateForm = function() {
+            if($scope.tab == 'google') {
+                if($scope.addCalendar.googleParam.$valid)
+                    $scope.formOk = true;
+                else
+                    $scope.formOk = false;
+            }
+            if($scope.tab == 'ics') {
+                if($scope.addCalendar.icsName.$valid && $scope.addCalendar.icsParam.$valid)
+                    $scope.formOk = true;
+                else
+                    $scope.formOk = false;
+            }
+            if($scope.tab == 'edt') {
+                if($scope.addCalendar.edtGoup.$valid && $scope.addCalendar.edtUfr.$valid)
+                    $scope.formOk = true;
+                else
+                    $scope.formOk = false;
+            }
+            if($scope.formOk) {
+                if($scope.addCalendar.travelMode.$valid && $scope.addCalendar.defaultEventLocation.$valid)
+                    $scope.formOk = true;
+                else
+                    $scope.formOk = false;
+            }
         }
         
         $scope.onTabSelect = function(tabName) {
             $scope.tab = tabName;
+            $scope.updateForm();
         }
 
         GApi.executeAuth('calendar', 'calendarList.list').then( function(resp) {

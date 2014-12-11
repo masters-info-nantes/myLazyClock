@@ -8,60 +8,62 @@
   </div>
   <div >
       <div class="panel-body">
+        <form name="addCalendar" ng-submit="submitAdd()">
         <tabset justified="true">
-            <tab ng-click="onTabSelect('google')">
+            <tab select="onTabSelect('google')">
                 <tab-heading>
                     Google Calendar
                 </tab-heading>
                 <div ng-show="googleOfflineOk">
                 <p>Choisir votre Calendrier Google</p>
-                <div class="form-group">
-                    <select class="form-control" ng-model="temp.google" ng-options="cal.summary for cal in googleCalendars"><option value="">-- Choix du calendrier --</option></select>
+                <div class="form-group" ng-class="{'has-error' : !addCalendar.googleParam.$valid}">
+                    <select class="form-control" ng-model="temp.google" ng-options="cal.summary for cal in googleCalendars" ng-required="true" name="googleParam" ng-change="updateForm()"><option value="">-- Choix du calendrier --</option></select>
                 </div>
                 </div>
-                <div ng-hide="googleOfflineOk">
+                <div ng-show="googleOfflineKO">
                     <p>Afin de pouvoir ajouter un calendrier google sur votre réveil, vous devez valider l'accès hors connexion aux données à l'application</p>
                     <button class="btn btn-primary btn-block" ng-click="offlineGoogle()">Validation accès hors connexion</button>
                 </div>
             </tab>
-            <tab ng-click="onTabSelect('ics')">
+            <tab select="onTabSelect('ics')">
                 <tab-heading>
                     Calendrier ics 
                 </tab-heading>
                 <p>Nom du calendrier</p>
-                <div class="form-group">
-                    <input ng-model="temp.ics.name" name="textinput" type="text" placeholder="Nom du calendrier" class="form-control input-md">
+                <div class="form-group" ng-class="{'has-error' : !addCalendar.icsName.$valid}">
+                    <input ng-model="temp.ics.name" type="text" placeholder="Nom du calendrier" class="form-control input-md" ng-required="true" name="icsName" ng-change="updateForm()">
                 </div>
                 <p>Url du calendrier (lien vers le fichier ics)</p>
-                <div class="form-group">
-                    <input ng-model="temp.ics.param" name="textinput" type="text" placeholder="url du calendrier (ics)" class="form-control input-md">
+                <div class="form-group" ng-class="{'has-error' : !addCalendar.icsParam.$valid}">
+                    <input ng-model="temp.ics.param" type="text" placeholder="url du calendrier (ics)" class="form-control input-md" ng-required="true" name="icsParam" ng-change="updateForm()">
                 </div>
             </tab>
-            <tab ng-click="onTabSelect('edt')">
+            <tab select="onTabSelect('edt')">
                 <tab-heading>
                     EDT - Universités
                 </tab-heading>
                 <p>Choisir l'UFR</p>
-                <div class="form-group">
-                    <select class="form-control" ng-model="temp.edt.ufr" ng-options="ufr.name for ufr in edtUfr" ng-change="edtUpdateGroups()"><option value="">-- Choix de l'UFR --</option></select>
+                <div class="form-group" ng-class="{'has-error' : !addCalendar.edtUfr.$valid}">
+                    <select class="form-control" ng-model="temp.edt.ufr" ng-options="ufr.name for ufr in edtUfr" ng-change="edtUpdateGroups()" ng-required="true" name="edtUfr"><option value="">-- Choix de l'UFR --</option></select>
                 </div>
                 <p>Choisir du groupe</p>
-                <div class="form-group">
-                    <select class="form-control" ng-model="temp.edt.group" ng-options="group.name for group in edtGroups"><option value="">-- Choix du groupe --</option></select>
+                <div class="form-group" ng-class="{'has-error' : !addCalendar.edtGoup.$valid}">
+                    <select class="form-control" ng-model="temp.edt.group" ng-options="group.name for group in edtGroups" ng-required="true" name="edtGoup" ng-change="updateForm()"><option value="">-- Choix du groupe --</option></select>
                 </div>
             </tab>
         </tabset>
                 <p>Moyen de transport utilisé pour se rendre aux événements</p>
-                <div class="form-group">
-                    <select class="form-control" ng-model="temp.travelMode" ng-options="travelMode.name for travelMode in travelsMode"><option value="">-- Choix du moyen de transport --</option></select>
+                <div class="form-group" ng-class="{'has-error' : !addCalendar.travelMode.$valid}">
+                    <select class="form-control" ng-model="temp.travelMode" ng-options="travelMode.name for travelMode in travelsMode" required name="travelMode" ng-change="updateForm()"><option value="">-- Choix du moyen de transport --</option></select>
                 </div>
 
                 <p>Si un évenement du calendrier ne comporte pas de lieu, quel lieu doit être choisit</p>
-                <div class="form-group">
-                    <input ng-model="newCalendar.defaultEventLocation" id="" name="textinput" type="text" placeholder="lieu par défaut" class="form-control input-md">
+                <div class="form-group" ng-class="{'has-error' : !addCalendar.defaultEventLocation.$valid}">
+                    <input ng-model="newCalendar.defaultEventLocation" type="text" placeholder="lieu par défaut" class="form-control input-md" required name="defaultEventLocation" ng-change="updateForm()">
                 </div>
                 <label><input type="checkbox" ng-model="newCalendar.useAlwaysDefaultLocation"> Forcer à utiliser ce lieu pour tout les événements</label>
-        <button type="submit" class="btn btn-primary btn-block" ng-click="submitAdd()">Ajouter au réveil</button>
+        <button type="submit" class="btn btn-primary btn-block" ng-class="{'disabled' : !formOk}">Ajouter au réveil</button>
+        </form>
   </div>
 </div>
 </div>

@@ -2481,7 +2481,7 @@ table.information > tbody > tr > td {
   background-color: #2196F3;
   color: #FFF;
   transition: background-color 200ms ease-in-out;
-  border-bottom: 1px solid #4f397f;
+  border-bottom: 1px solid #7ebff1;
 }
 .accordion.accordion-semi .panel-heading.success a {
   background-color: #19b698;
@@ -3128,7 +3128,7 @@ table.information > tbody > tr > td {
 }
 /*MONO4*/
 .btn-mono4.btn-primary {
-  background-color: #4f397f;
+  background-color: #7ebff1;
 }
 .btn-mono4.btn-primary:hover {
   background-color: #543e84;
@@ -3432,8 +3432,8 @@ fieldset[disabled] .btn-primary:active,
 .btn-primary.disabled.active,
 .btn-primary.active[disabled],
 fieldset[disabled] .btn-primary.active {
-  background-color: #4f397f;
-  border-color: #4f397f;
+  background-color: #7ebff1;
+  border-color: #7ebff1;
 }
 .fc-header {
   display: block;
