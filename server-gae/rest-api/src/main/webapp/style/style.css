@@ -1,0 +1,70 @@
+.btn-trans.btn-white {
+	color: #ffffff;
+	border-color: #ffffff;
+	background-color: rgba(0, 0, 0, 0);
+}
+
+.btn-trans.btn-white:hover {
+  background-color: #ffffff;
+  color: rgba(0, 0, 0, 1);
+}
+
+.dark-box {
+	background: #2196F3;
+}
+
+.dark-box a{
+	color: #ffffff;
+}
+
+.clock-wrap {
+	color: #2196F3;
+}
+
+.sign-up-container .middle-sign-up {
+margin-top: -150px;
+}
+
+.accordion-toggle {
+	cursor: pointer;
+}
+
+.accordion.accordion-semi .panel-heading a {
+background-color: #FFF;
+color: #555;
+border-bottom: 0px;
+}
+
+.accordion.accordion-semi .panel-collapse .panel-body {
+	border-top: 1px dashed #CCC;
+padding: 15px 20px 20px 34px;
+}
+
+.github-bottom {
+	position: absolute;
+	right : 20px;
+	bottom: 20px;
+}
+
+.panel .label {
+margin-top: -3px;
+margin-right: 10px;
+padding: .3em .4em .3em;
+border-radius: 2px;
+}
+
+.label.google {
+	background: #536DFE;
+}
+
+.wellBtn {
+	cursor: pointer;
+}
+
+.colorSelect .active {
+	border: 2px solid #333;
+}
+
+label {
+	font-weight: 200;
+}
