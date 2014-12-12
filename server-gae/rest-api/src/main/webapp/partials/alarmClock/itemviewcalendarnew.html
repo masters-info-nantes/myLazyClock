@@ -65,7 +65,7 @@
       </span>
                 </div>
                 <label><input type="checkbox" ng-model="newCalendar.useAlwaysDefaultLocation"> Forcer à utiliser ce lieu pour tout les événements</label>
-        <button type="submit" class="btn btn-primary btn-block" ng-class="{'disabled' : !addCalendar.$valid,  'disabled' : !locationOK}">Ajouter au réveil</button>
+        <button type="submit" class="btn btn-primary btn-block" ng-class="{'disabled' : !addCalendar.$valid || !locationOK}">Ajouter au réveil</button>
         </form>
   </div>
 </div>

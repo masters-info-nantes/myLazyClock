@@ -24,7 +24,7 @@
       </span>
                 </div>
                 <label><input type="checkbox" ng-model="calendar.useAlwaysDefaultLocation"> Forcer à utiliser ce lieu pour tout les événements</label>
-        <button type="submit" class="btn btn-primary btn-block" ng-class="{'disabled' : !editCalendar.$valid,  'disabled' : !locationOK}">Valider</button>
+        <button type="submit" class="btn btn-primary btn-block" ng-class="{'disabled' : !editCalendar.$valid || !locationOK}">Valider</button>
       </form>
   </div>
 </div>

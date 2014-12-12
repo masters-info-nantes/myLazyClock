@@ -49,7 +49,7 @@ public class AlarmClock {
 
     @Persistent
     @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
-    private String ringstone;
+    private String ringtone;
 
     @Persistent
     @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
@@ -89,12 +89,12 @@ public class AlarmClock {
         this.name = name;
     }
 
-    public String getRingstone () {
-        return ringstone;
+    public String getRingtone () {
+        return ringtone;
     }
 
-    public void setRingstone (String ringstone) {
-        this.ringstone = ringstone;
+    public void setRingtone (String ringtone) {
+        this.ringtone = ringtone;
     }
 
     public String getAddress() {

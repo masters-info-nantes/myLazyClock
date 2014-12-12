@@ -73,7 +73,7 @@
   
 </div>
 
-<button type="submit" class="btn btn-white btn-rad btn-trans" ng-class="{'disabled' : !addAlarmClock.$valid,  'disabled' : !locationOK}">Ajouter</button>
+<button type="submit" class="btn btn-white btn-rad btn-trans" ng-class="{'disabled' : !addAlarmClock.$valid || !locationOK}">Ajouter</button>
 </fieldset>
 </form>
 </div>
