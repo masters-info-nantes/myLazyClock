@@ -46,8 +46,8 @@
                 <div class="form-group" ng-class="{'has-error' : !addCalendar.edtUfr.$valid}">
                     <select class="form-control" ng-model="temp.edt.ufr" ng-options="ufr.name for ufr in edtUfr" ng-change="edtUpdateGroups()" ng-required="tab == 'edt'" name="edtUfr"><option value="">-- Choix de l'UFR --</option></select>
                 </div>
-                <p>Choisir du groupe</p>
-                <div class="form-group" ng-class="{'has-error' : !addCalendar.edtGoup.$valid}">
+                <p ng-show="edtGroups">Choisir du groupe</p>
+                <div class="form-group" ng-class="{'has-error' : !addCalendar.edtGoup.$valid}" ng-show="edtGroups">
                     <select class="form-control" ng-model="temp.edt.group" ng-options="group.name for group in edtGroups" ng-required="tab == 'edt'" name="edtGoup"><option value="">-- Choix du groupe --</option></select>
                 </div>
             </tab>

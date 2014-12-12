@@ -45,6 +45,7 @@ controller.controller('myLazyClock.controller.alarmClock.item.view.calendarnew',
         });
 
         $scope.edtUpdateGroups = function() {
+            $scope.edtGroups = null;
             GApi.execute('myLazyClock', 'edt.groups.list', {ufr : $scope.temp.edt.ufr.id}).then( function(resp) {
                $scope.edtGroups = resp.items;
             });
