@@ -18,6 +18,11 @@ app.constant('TRAVELS_MODE',[
     {'name' : 'En Transport en commun', 'id' : 'TRANSIT'}
 ]);
 
+app.constant('RINGSTONE',[
+    {'name' : 'Vieux téléphone', 'id' : 'ring.mp3'},
+    {'name' : 'Tetris', 'id' : 'tetris.mp3'}
+]);
+
 app.constant('PREPARATION_TIMES',[
     {'name' : '5 minutes', 'time' : '300'},
     {'name' : '10 minutes', 'time' : '600'},
