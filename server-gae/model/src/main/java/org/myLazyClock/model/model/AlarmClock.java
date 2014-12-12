@@ -49,6 +49,10 @@ public class AlarmClock {
 
     @Persistent
     @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
+    private String ringstone;
+
+    @Persistent
+    @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
     private String color;
 
     @Persistent
@@ -69,6 +73,14 @@ public class AlarmClock {
         this.id = id;
     }
 
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String userId) {
+        this.user = userId;
+    }
+
     public String getName() {
         return name;
     }
@@ -77,13 +89,12 @@ public class AlarmClock {
         this.name = name;
     }
 
-
-    public String getUser() {
-        return user;
+    public String getRingstone () {
+        return ringstone;
     }
 
-    public void setUser(String userId) {
-        this.user = userId;
+    public void setRingstone (String ringstone) {
+        this.ringstone = ringstone;
     }
 
     public String getAddress() {

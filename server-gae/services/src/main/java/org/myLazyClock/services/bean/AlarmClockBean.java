@@ -36,6 +36,8 @@ public class AlarmClockBean implements Serializable {
 
     private String name;
 
+    private String ringstone;
+
     private String address;
 
     private String color;
@@ -64,6 +66,14 @@ public class AlarmClockBean implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getRingstone () {
+        return ringstone;
+    }
+
+    public void setRingstone (String ringstone) {
+        this.ringstone = ringstone;
     }
 
     public String getAddress() {
@@ -107,6 +117,7 @@ public class AlarmClockBean implements Serializable {
         alarmClock.setId(getId());
         alarmClock.setUser(getUser());
         alarmClock.setName(getName());
+        alarmClock.setRingstone(getRingstone());
         alarmClock.setAddress(getAddress());
         alarmClock.setColor(getColor());
         alarmClock.setPreparationTime(getPreparationTime());
@@ -118,6 +129,7 @@ public class AlarmClockBean implements Serializable {
         setId(alarmClock.getId());
         setUser(alarmClock.getUser());
         setName(alarmClock.getName());
+        setRingstone(alarmClock.getRingstone());
         setAddress(alarmClock.getAddress());
         setColor(alarmClock.getColor());
         setPreparationTime(alarmClock.getPreparationTime());
