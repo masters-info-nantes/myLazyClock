@@ -47,12 +47,8 @@ public class AlarmClockService {
         return service;
     }
 
-    public AlarmClockBean findOne(String alarmClockId, User user) throws NotFoundMyLazyClockException, ForbiddenMyLazyClockException {
-        AlarmClock alarmClock = findOne_(alarmClockId);
-        if (!alarmClock.getUser().equals(user.getUserId())) {
-            throw new ForbiddenMyLazyClockException();
-        }
-        return AlarmClockBean.EntityToBean(alarmClock);
+    public AlarmClockBean findOne(String alarmClockId) throws NotFoundMyLazyClockException {
+        return AlarmClockBean.EntityToBean(findOne_(alarmClockId));
     }
 
     private AlarmClock findOne_(String id) throws NotFoundMyLazyClockException {

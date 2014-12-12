@@ -56,7 +56,14 @@ public class AlarmClockAPI {
     }
 
     private void cleanCache(Object key) {
-        getMemcacheService().delete(key);
+        MemcacheService cache = getMemcacheService();
+        try {
+            Collection<AlarmClockBean> listAlarm = (Collection<AlarmClockBean>) cache.get(key);
+            for (AlarmClockBean alarm : listAlarm) {
+                cache.delete(alarm.getId());
+            }
+        } catch (Exception ignore) {}
+        cache.delete(key);
     }
 
     @ApiMethod(name = "alarmClock.list", httpMethod = ApiMethod.HttpMethod.GET, path="alarmClock/list")
@@ -84,37 +91,32 @@ public class AlarmClockAPI {
         return listAlarmClock;
     }
 
+    // Do not add an user because it's use by rasp
     @ApiMethod(name = "alarmClock.item", httpMethod = ApiMethod.HttpMethod.GET, path="alarmClock/item")
-    public AlarmClockBean item(@Named("alarmClockId") String alarmClockId, User user) throws NotFoundException, UnauthorizedException, ForbiddenException {
-
-        if (user == null) {
-            throw new UnauthorizedException("Login Required");
-        }
+    public AlarmClockBean item(@Named("alarmClockId") String alarmClockId) throws NotFoundException, UnauthorizedException, ForbiddenException {
 
         try {
-
+            AlarmClockBean alarm;
             MemcacheService cache = getMemcacheService();
             try {
-                Collection<AlarmClockBean> listAlarm = (Collection<AlarmClockBean>) cache.get(user);
-                if (listAlarm != null) {
-                    Long alarmId = Long.decode(alarmClockId);
-                    for (AlarmClockBean alarm : listAlarm) {
-                        if (alarm.getId().equals(alarmId)) {
-                            return alarm;
-                        }
-                    }
+                alarm = (AlarmClockBean) cache.get(alarmClockId);
+                if (alarm != null) {
+                    return alarm;
                 }
             } catch (Exception ignore) {}
+            alarm = AlarmClockService.getInstance().findOne(alarmClockId);
 
-            return AlarmClockService.getInstance().findOne(alarmClockId, user);
+            try {
+                cache.put(alarmClockId, alarm);
+            } catch (Exception ignore) { }
 
+            return alarm;
         } catch (NotFoundMyLazyClockException e) {
             throw new NotFoundException("NotFound");
-        } catch (ForbiddenMyLazyClockException e) {
-            throw new ForbiddenException("Forbidden");
         }
     }
 
+    // Do not add an user because it's use by rasp
     @ApiMethod(name = "alarmClock.generate", httpMethod = ApiMethod.HttpMethod.GET, path="alarmClock/generate")
     public AlarmClockBean generate() {
         return AlarmClockService.getInstance().generate();
