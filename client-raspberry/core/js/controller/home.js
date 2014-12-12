@@ -2,7 +2,7 @@ var controller = angular.module('myLazyClock.controller.home', []);
 
 controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$state', '$localStorage', 'GApi', 'ngAudio', '$interval', 'hotkeys',
     function homeCtl($rootScope, $scope, $state, $localStorage, GApi, ngAudio, $interval, hotkeys) {
-    	$scope.sound = ngAudio.load("sounds/ring42.mp3");
+    	$scope.sound = ngAudio.load("sounds/ring.mp3");
     	$scope.sound.loop = true;
         $scope.sound.volume = 1;
     	$scope.alarmClockEvents = [];
@@ -59,6 +59,7 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
                     $interval.cancel(interval2);
                     $state.go('webapp.signin');
                 }
+                $scope.sound = ngAudio.load("sounds/"+resp.ringtone);
 				GApi.execute('myLazyClock', 'clockevent.list', {alarmClockId: $localStorage.alarmClockId}).then(function(resp) {
 					$scope.alarmClockEvents = resp.items;
 				});

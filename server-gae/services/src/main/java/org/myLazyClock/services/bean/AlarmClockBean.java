@@ -71,7 +71,7 @@ public class AlarmClockBean implements Serializable {
     public String getRingtone () {
         return ringtone;
     }
-    
+
     public void setRingtone (String ringtone) {
         this.ringtone = ringtone;
     }
