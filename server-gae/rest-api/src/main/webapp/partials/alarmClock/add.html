@@ -43,6 +43,12 @@
   <select class="form-control input-md" ng-model="alarmClock.preparationTime" ng-options="preparationTime.name for preparationTime in preparationTimes" name="preparationTime" required><option value="">-- Choix de la durée pour vous préparer --</option></select>
 </div>
 
+<p>Sonnerie du réveil</p>
+<!-- Text input-->
+<div class="input-group" ng-class="{'has-error' : !addAlarmClock.ringstone.$valid}">
+  <select class="form-control input-md" ng-model="alarmClock.ringstone" ng-options="ringstone.name for ringstone in ringstones" name="ringstone" required><option value="">-- Choix de la sonnerie --</option></select>
+</div>
+
 <p>Couleur du réveil</p>
 <!-- Text input-->
 <div class="row colorSelect">
