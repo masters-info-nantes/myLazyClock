@@ -45,8 +45,8 @@
 
 <p>Sonnerie du réveil</p>
 <!-- Text input-->
-<div class="input-group" ng-class="{'has-error' : !addAlarmClock.ringstone.$valid}">
-  <select class="form-control input-md" ng-model="alarmClock.ringstone" ng-options="ringstone.name for ringstone in ringstones" name="ringstone" required><option value="">-- Choix de la sonnerie --</option></select>
+<div class="input-group" ng-class="{'has-error' : !addAlarmClock.ringtone.$valid}">
+  <select class="form-control input-md" ng-model="alarmClock.ringtone" ng-options="ringtone.name for ringtone in ringtones" name="ringtone" required><option value="">-- Choix de la sonnerie --</option></select>
 </div>
 
 <p>Couleur du réveil</p>
