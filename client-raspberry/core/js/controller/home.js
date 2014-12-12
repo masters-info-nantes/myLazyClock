@@ -52,7 +52,6 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
 			secondsSinceLastReload = 0;
     		GApi.execute('myLazyClock', 'alarmClock.item', {alarmClockId: $localStorage.alarmClockId}).then(function(resp) {
 				$rootScope.alarmClock = resp;
-                console.log(resp);
 				if(resp.user == undefined) {
                     $interval.cancel(interval1);
                     $interval.cancel(interval2);
@@ -63,7 +62,6 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
 					$scope.alarmClockEvents = resp.items;
 				}, function(resp) {
                     $scope.error = resp;
-                    console.log(resp);
                 });
 			}, function() {
                 $interval.cancel(interval1);
@@ -115,7 +113,6 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
                 if (nextEvent != undefined) {
                 	
                 	$scope.clockEvent = nextEvent;
-                	//console.log($scope.clockEvent.wakeUpDate-now);
                     if (($scope.clockEvent.wakeUpDate-now) < 0 && ($scope.clockEvent.wakeUpDate-now) >= -1000) {
                         $scope.sound.play();
                         $scope.soundStop = false;
