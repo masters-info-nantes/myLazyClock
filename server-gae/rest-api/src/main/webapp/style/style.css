@@ -68,3 +68,7 @@ border-radius: 2px;
 label {
 	font-weight: 200;
 }
+
+.input-group {
+	width: 100%;
+}

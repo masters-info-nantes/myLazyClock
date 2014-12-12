@@ -18,13 +18,13 @@
 
 <p>Saisir l'identificant visible sur le reveil (suite de chiffre)</p>
 <!-- Text input-->
-<div class="form-group" ng-class="{'has-error' : !addAlarmClock.id.$valid}">
+<div class="input-group" ng-class="{'has-error' : !addAlarmClock.id.$valid}">
   <input ng-model="alarmClock.id" name="id" type="text" placeholder="ID de du réveil" required class="form-control input-md">
 </div>
 
 <p>Nom du réveil</p>
 <!-- Text input-->
-<div class="form-group" ng-class="{'has-error' : !addAlarmClock.name.$valid}">
+<div class="input-group" ng-class="{'has-error' : !addAlarmClock.name.$valid}">
   <input ng-model="alarmClock.name" name="name" type="text" placeholder="Nom du réveil" required class="form-control input-md">
 </div>
 
@@ -39,7 +39,7 @@
 
 <p>Temps que vous voulez pour vous préparer</p>
 <!-- Text input-->
-<div class="form-group" ng-class="{'has-error' : !addAlarmClock.preparationTime.$valid}">
+<div class="input-group" ng-class="{'has-error' : !addAlarmClock.preparationTime.$valid}">
   <select class="form-control input-md" ng-model="alarmClock.preparationTime" ng-options="preparationTime.name for preparationTime in preparationTimes" name="preparationTime" required><option value="">-- Choix de la durée pour vous préparer --</option></select>
 </div>
 
