@@ -61,12 +61,15 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
                 $scope.sound = ngAudio.load("sounds/"+resp.ringtone);
 				GApi.execute('myLazyClock', 'clockevent.list', {alarmClockId: $localStorage.alarmClockId}).then(function(resp) {
 					$scope.alarmClockEvents = resp.items;
-				}, function() {
-                    $interval.cancel(interval1);
-                    $interval.cancel(interval2);
-                    $state.go('webapp.signin');
+				}, function(resp) {
+                    $scope.error = resp;
+                    console.log(resp);
                 });
-			});
+			}, function() {
+                $interval.cancel(interval1);
+                $interval.cancel(interval2);
+                $state.go('webapp.signin');
+            });
 			
     	}
 
