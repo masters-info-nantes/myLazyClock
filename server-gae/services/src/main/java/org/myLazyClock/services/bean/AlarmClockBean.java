@@ -116,13 +116,20 @@ public class AlarmClockBean implements Serializable {
 
         alarmClock.setId(getId());
         alarmClock.setUser(getUser());
+
+        copyValueInEntity(alarmClock);
+
+        return alarmClock;
+    }
+
+    public void copyValueInEntity(AlarmClock alarmClock) {
+
         alarmClock.setName(getName());
         alarmClock.setRingtone(getRingtone());
         alarmClock.setAddress(getAddress());
         alarmClock.setColor(getColor());
         alarmClock.setPreparationTime(getPreparationTime());
 
-        return alarmClock;
     }
 
     public void fromEntity(AlarmClock alarmClock) {

@@ -83,40 +83,32 @@ public class AlarmClockService {
             throw new ForbiddenMyLazyClockException();
         }
 
+        alarmClock.copyValueInEntity(a);
         a.setUser(user.getUserId());
-        a.setAddress(alarmClock.getAddress());
-        a.setName(alarmClock.getName());
-        a.setRingtone(alarmClock.getRingtone());
-        a.setPreparationTime(alarmClock.getPreparationTime());
-        a.setColor(alarmClock.getColor());
+
         return AlarmClockBean.EntityToBean(AlarmClockRepository.getInstance().save(a));
     }
 
     public AlarmClockBean unlink(Long alarmClockId, String userId) throws ForbiddenMyLazyClockException, NotFoundMyLazyClockException {
         AlarmClock a = findOne_(alarmClockId);
-        if(!a.getUser().equals(userId)) {
+        if(!userId.equals(a.getUser())) {
             throw new ForbiddenMyLazyClockException();
         }
 
+        AlarmClockBean bean = new AlarmClockBean();
+        bean.copyValueInEntity(a);
         a.setUser(null);
-        a.setName(null);
-        a.setRingtone(null);
-        a.setAddress(null);
-        a.setColor(null);
-        a.setPreparationTime(0);
-        a.setCalendars(null);
+
         return AlarmClockBean.EntityToBean(AlarmClockRepository.getInstance().save(a));
     }
 
     public AlarmClockBean update(AlarmClockBean alarmClock, String userId) throws ForbiddenMyLazyClockException, NotFoundMyLazyClockException {
         AlarmClock a = findOne_(alarmClock.getId());
-        if(!a.getUser().equals(userId))
+        if(!userId.equals(a.getUser()))
             throw new ForbiddenMyLazyClockException();
-        a.setAddress(alarmClock.getAddress());
-        a.setName(alarmClock.getName());
-        a.setRingtone(alarmClock.getRingtone());
-        a.setPreparationTime(alarmClock.getPreparationTime());
-        a.setColor(alarmClock.getColor());
+
+        alarmClock.copyValueInEntity(a);
+
         return AlarmClockBean.EntityToBean(
                 AlarmClockRepository.getInstance().save(a)
         );
