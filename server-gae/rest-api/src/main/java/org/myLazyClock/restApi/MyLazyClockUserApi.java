@@ -29,6 +29,10 @@ import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.Named;
 import com.google.api.server.spi.response.UnauthorizedException;
+import com.google.appengine.api.memcache.ErrorHandlers;
+import com.google.appengine.api.memcache.Expiration;
+import com.google.appengine.api.memcache.MemcacheService;
+import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.appengine.api.users.User;
 import org.myLazyClock.services.ConstantAPI;
 import org.myLazyClock.services.MyLazyClockUserService;
@@ -79,6 +83,23 @@ public class MyLazyClockUserApi {
             throw new UnauthorizedException("Login Required");
         }
 
-        return MyLazyClockUserService.getInstance().checkValid(user.getUserId());
+        MyLazyClockUserValid isValid;
+        MemcacheService cache = MemcacheServiceFactory.getMemcacheService("myLazyClockUserCheckToken");
+        cache.setErrorHandler(ErrorHandlers.getConsistentLogAndContinue(Constants.MEMCACHE_LEVEL_ERROR_HANDLERS));
+
+        try {
+            isValid = (MyLazyClockUserValid) cache.get(user);
+            if (isValid != null) {
+                return isValid;
+            }
+        } catch (Exception ignore) { }
+
+        isValid = MyLazyClockUserService.getInstance().checkValid(user.getUserId());
+
+        try {
+            cache.put(user, isValid, Expiration.byDeltaSeconds(21600)); // 6H
+        } catch (Exception ignore) {}
+
+        return isValid;
     }
 }

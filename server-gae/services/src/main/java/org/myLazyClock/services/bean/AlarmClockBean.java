@@ -21,12 +21,14 @@ package org.myLazyClock.services.bean;
 
 import org.myLazyClock.model.model.AlarmClock;
 
+import java.io.Serializable;
+
 /**
  * Created on 04/12/14.
  *
  * @author dralagen
  */
-public class AlarmClockBean {
+public class AlarmClockBean implements Serializable {
 
     private Long id;
 

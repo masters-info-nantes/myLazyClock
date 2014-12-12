@@ -53,7 +53,7 @@ public class CalendarService {
     public Collection<CalendarBean> findAll(String alarmClockId, User user) throws ForbiddenMyLazyClockException {
         Collection<Calendar> allCalendar =  findAll_(alarmClockId, user);
 
-        Collection<CalendarBean> allBean = new ArrayList<CalendarBean>();
+        Collection<CalendarBean> allBean = new ArrayList<>();
 
         for(Calendar oneCal: allCalendar) {
             allBean.add(CalendarBean.EntityToBean(oneCal));
@@ -84,12 +84,17 @@ public class CalendarService {
         );
     }
 
-    public CalendarBean findOne(Long calendarId, Long alarmClockId, User user) throws ForbiddenMyLazyClockException {
-        return CalendarBean.EntityToBean(findOne_(calendarId, alarmClockId, user));
+    public CalendarBean findOne(Long calendarId, String alarmClockId, User user) throws ForbiddenMyLazyClockException {
+        AlarmClock alarmClock = AlarmClockRepository.getInstance().findOne(Long.decode(alarmClockId));
+
+        if (!alarmClock.getUser().equals(user.getUserId())) {
+            throw new ForbiddenMyLazyClockException();
+        }
+
+        return CalendarBean.EntityToBean(findOne_(calendarId, Long.decode(alarmClockId)));
     }
 
-    private Calendar findOne_(Long calendarId, Long alarmClockId, User user) throws ForbiddenMyLazyClockException {
-
+    private Calendar findOne_(Long calendarId, Long alarmClockId) throws ForbiddenMyLazyClockException {
         Key calendarKey = new KeyFactory.Builder(AlarmClock.class.getSimpleName(), alarmClockId)
                 .addChild(Calendar.class.getSimpleName(), calendarId)
                 .getKey();
@@ -97,10 +102,17 @@ public class CalendarService {
         return CalendarRepository.getInstance().findOne(calendarKey);
     }
 
-    public CalendarBean update(Long calendarId, Long alarmClockId, CalendarBean calendar, User user) {
+    public CalendarBean update(Long calendarId, String alarmClockId, CalendarBean calendar, User user) throws ForbiddenMyLazyClockException {
         Key calendarKey = new KeyFactory.Builder(AlarmClock.class.getSimpleName(), alarmClockId)
                                     .addChild(Calendar.class.getSimpleName(), calendarId)
                                     .getKey();
+
+        AlarmClock alarmClock = AlarmClockRepository.getInstance().findOne(Long.decode(alarmClockId));
+
+        if (!alarmClock.getUser().equals(user.getUserId())) {
+            throw new ForbiddenMyLazyClockException();
+        }
+
         Calendar toSave = CalendarRepository.getInstance().findOne(calendarKey);
 
         toSave.setName(calendar.getName());
@@ -113,8 +125,8 @@ public class CalendarService {
         return CalendarBean.EntityToBean(CalendarRepository.getInstance().save(toSave));
     }
 
-    public void delete(Long calendarId, Long alarmClockId, User user) throws ForbiddenMyLazyClockException {
-        AlarmClock alarmClock = AlarmClockRepository.getInstance().findOne(alarmClockId);
+    public void delete(Long calendarId, String alarmClockId, User user) throws ForbiddenMyLazyClockException {
+        AlarmClock alarmClock = AlarmClockRepository.getInstance().findOne(Long.decode(alarmClockId));
 
         if (!alarmClock.getUser().equals(user.getUserId())) {
             throw new ForbiddenMyLazyClockException();

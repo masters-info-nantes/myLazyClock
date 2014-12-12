@@ -24,6 +24,10 @@ import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.Named;
 import com.google.api.server.spi.response.ForbiddenException;
 import com.google.api.server.spi.response.NotFoundException;
+import com.google.api.server.spi.response.UnauthorizedException;
+import com.google.appengine.api.memcache.ErrorHandlers;
+import com.google.appengine.api.memcache.MemcacheService;
+import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.appengine.api.users.User;
 import org.myLazyClock.services.AlarmClockService;
 import org.myLazyClock.services.bean.AlarmClockBean;
@@ -45,17 +49,69 @@ import java.util.Collection;
 )
 public class AlarmClockAPI {
 
+    private MemcacheService getMemcacheService() {
+        MemcacheService cache = MemcacheServiceFactory.getMemcacheService("alarmClock");
+        cache.setErrorHandler(ErrorHandlers.getConsistentLogAndContinue(Constants.MEMCACHE_LEVEL_ERROR_HANDLERS));
+        return cache;
+    }
+
+    private void cleanCache(Object key) {
+        getMemcacheService().delete(key);
+    }
+
     @ApiMethod(name = "alarmClock.list", httpMethod = ApiMethod.HttpMethod.GET, path="alarmClock/list")
-    public Collection<AlarmClockBean> getAllByUser(User user) {
-        return AlarmClockService.getInstance().findAll(user.getUserId());
+    public Collection<AlarmClockBean> getAllByUser(User user) throws UnauthorizedException {
+
+        if (user == null) {
+            throw new UnauthorizedException("Login Required");
+        }
+
+        Collection<AlarmClockBean> listAlarmClock;
+        MemcacheService cache = getMemcacheService();
+        try {
+            listAlarmClock = (Collection<AlarmClockBean>) cache.get(user);
+            if (listAlarmClock != null) {
+                return listAlarmClock;
+            }
+        } catch (Exception ignore) {}
+
+        listAlarmClock = AlarmClockService.getInstance().findAll(user.getUserId());
+
+        try {
+            cache.put(user, listAlarmClock);
+        } catch (Exception ignore) {}
+
+        return listAlarmClock;
     }
 
     @ApiMethod(name = "alarmClock.item", httpMethod = ApiMethod.HttpMethod.GET, path="alarmClock/item")
-    public AlarmClockBean item(@Named("alarmClockId") String alarmClockId) throws NotFoundException{
+    public AlarmClockBean item(@Named("alarmClockId") String alarmClockId, User user) throws NotFoundException, UnauthorizedException, ForbiddenException {
+
+        if (user == null) {
+            throw new UnauthorizedException("Login Required");
+        }
+
         try {
-            return AlarmClockService.getInstance().findOne(alarmClockId);
+
+            MemcacheService cache = getMemcacheService();
+            try {
+                Collection<AlarmClockBean> listAlarm = (Collection<AlarmClockBean>) cache.get(user);
+                if (listAlarm != null) {
+                    Long alarmId = Long.decode(alarmClockId);
+                    for (AlarmClockBean alarm : listAlarm) {
+                        if (alarm.getId().equals(alarmId)) {
+                            return alarm;
+                        }
+                    }
+                }
+            } catch (Exception ignore) {}
+
+            return AlarmClockService.getInstance().findOne(alarmClockId, user);
+
         } catch (NotFoundMyLazyClockException e) {
             throw new NotFoundException("NotFound");
+        } catch (ForbiddenMyLazyClockException e) {
+            throw new ForbiddenException("Forbidden");
         }
     }
 
@@ -65,9 +121,18 @@ public class AlarmClockAPI {
     }
 
     @ApiMethod(name = "alarmClock.link", httpMethod = ApiMethod.HttpMethod.POST, path="alarmClock/link")
-    public AlarmClockBean link(AlarmClockBean alarmClock, User user) throws ForbiddenException, NotFoundException{
+    public AlarmClockBean link(AlarmClockBean alarmClock, User user) throws ForbiddenException, NotFoundException, UnauthorizedException {
+
+        if (user == null) {
+            throw new UnauthorizedException("Login Required");
+        }
+
         try {
-            return AlarmClockService.getInstance().link(alarmClock, user);
+            AlarmClockBean newAlarmClock = AlarmClockService.getInstance().link(alarmClock, user);
+            cleanCache(user);
+
+            return newAlarmClock;
+
         } catch (ForbiddenMyLazyClockException e) {
             throw new ForbiddenException("Forbidden");
         } catch (NotFoundMyLazyClockException e) {
@@ -76,9 +141,18 @@ public class AlarmClockAPI {
     }
 
     @ApiMethod(name = "alarmClock.unlink", httpMethod = ApiMethod.HttpMethod.POST, path="alarmClock/unlink")
-    public AlarmClockBean unlink(@Named("alarmClockId") String alarmClockId, User user) throws ForbiddenException, NotFoundException{
+    public AlarmClockBean unlink(@Named("alarmClockId") String alarmClockId, User user) throws ForbiddenException, NotFoundException, UnauthorizedException {
+
+        if (user == null) {
+            throw new UnauthorizedException("Login Required");
+        }
+
         try {
-            return AlarmClockService.getInstance().unlink(alarmClockId, user.getUserId());
+            AlarmClockBean newAlarmClock = AlarmClockService.getInstance().unlink(alarmClockId, user.getUserId());
+            cleanCache(user);
+
+            return newAlarmClock;
+
         } catch (ForbiddenMyLazyClockException e) {
             throw new ForbiddenException("Forbidden");
         } catch (NotFoundMyLazyClockException e) {
@@ -87,12 +161,19 @@ public class AlarmClockAPI {
     }
 
     @ApiMethod(name = "alarmClock.update", httpMethod = ApiMethod.HttpMethod.POST, path="alarmClock/update")
-    public AlarmClockBean update(AlarmClockBean alarmClock, User user) throws ForbiddenException, NotFoundException{
+    public AlarmClockBean update(AlarmClockBean alarmClock, User user) throws ForbiddenException, NotFoundException, UnauthorizedException {
+
+        if (user == null) {
+            throw new UnauthorizedException("Login Required");
+        }
+
         try {
-            if (user == null) {
-                throw new ForbiddenMyLazyClockException();
-            }
-            return AlarmClockService.getInstance().update(alarmClock, user.getUserId());
+
+            AlarmClockBean newAlarmClock = AlarmClockService.getInstance().update(alarmClock, user.getUserId());
+            cleanCache(user);
+
+            return newAlarmClock;
+
         } catch (ForbiddenMyLazyClockException e) {
             throw new ForbiddenException("Forbidden");
         } catch (NotFoundMyLazyClockException e) {
