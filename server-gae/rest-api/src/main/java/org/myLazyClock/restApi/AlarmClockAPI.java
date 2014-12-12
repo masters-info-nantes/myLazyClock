@@ -56,14 +56,7 @@ public class AlarmClockAPI {
     }
 
     private void cleanCache(Object key) {
-        MemcacheService cache = getMemcacheService();
-        try {
-            Collection<AlarmClockBean> listAlarm = (Collection<AlarmClockBean>) cache.get(key);
-            for (AlarmClockBean alarm : listAlarm) {
-                cache.delete(alarm.getId());
-            }
-        } catch (Exception ignore) {}
-        cache.delete(key);
+        getMemcacheService().delete(key);
     }
 
     @ApiMethod(name = "alarmClock.list", httpMethod = ApiMethod.HttpMethod.GET, path="alarmClock/list")
@@ -93,7 +86,7 @@ public class AlarmClockAPI {
 
     // Do not add an user because it's use by rasp
     @ApiMethod(name = "alarmClock.item", httpMethod = ApiMethod.HttpMethod.GET, path="alarmClock/item")
-    public AlarmClockBean item(@Named("alarmClockId") String alarmClockId) throws NotFoundException, UnauthorizedException, ForbiddenException {
+    public AlarmClockBean item(@Named("alarmClockId") Long alarmClockId) throws NotFoundException, UnauthorizedException, ForbiddenException {
 
         try {
             AlarmClockBean alarm;
@@ -132,6 +125,7 @@ public class AlarmClockAPI {
         try {
             AlarmClockBean newAlarmClock = AlarmClockService.getInstance().link(alarmClock, user);
             cleanCache(user);
+            cleanCache(newAlarmClock.getId());
 
             return newAlarmClock;
 
@@ -143,7 +137,7 @@ public class AlarmClockAPI {
     }
 
     @ApiMethod(name = "alarmClock.unlink", httpMethod = ApiMethod.HttpMethod.POST, path="alarmClock/unlink")
-    public AlarmClockBean unlink(@Named("alarmClockId") String alarmClockId, User user) throws ForbiddenException, NotFoundException, UnauthorizedException {
+    public AlarmClockBean unlink(@Named("alarmClockId") Long alarmClockId, User user) throws ForbiddenException, NotFoundException, UnauthorizedException {
 
         if (user == null) {
             throw new UnauthorizedException("Login Required");
@@ -152,6 +146,7 @@ public class AlarmClockAPI {
         try {
             AlarmClockBean newAlarmClock = AlarmClockService.getInstance().unlink(alarmClockId, user.getUserId());
             cleanCache(user);
+            cleanCache(newAlarmClock.getId());
 
             return newAlarmClock;
 
@@ -173,6 +168,7 @@ public class AlarmClockAPI {
 
             AlarmClockBean newAlarmClock = AlarmClockService.getInstance().update(alarmClock, user.getUserId());
             cleanCache(user);
+            cleanCache(newAlarmClock.getId());
 
             return newAlarmClock;
 

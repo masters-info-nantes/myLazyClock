@@ -47,12 +47,12 @@ public class AlarmClockService {
         return service;
     }
 
-    public AlarmClockBean findOne(String alarmClockId) throws NotFoundMyLazyClockException {
+    public AlarmClockBean findOne(Long alarmClockId) throws NotFoundMyLazyClockException {
         return AlarmClockBean.EntityToBean(findOne_(alarmClockId));
     }
 
-    private AlarmClock findOne_(String id) throws NotFoundMyLazyClockException {
-        AlarmClock alarmClock = AlarmClockRepository.getInstance().findOne(Long.decode(id));
+    private AlarmClock findOne_(Long id) throws NotFoundMyLazyClockException {
+        AlarmClock alarmClock = AlarmClockRepository.getInstance().findOne(id);
 
         if (alarmClock == null) {
             throw new NotFoundMyLazyClockException();
@@ -78,7 +78,7 @@ public class AlarmClockService {
     }
 
     public AlarmClockBean link(AlarmClockBean alarmClock, User user) throws ForbiddenMyLazyClockException, NotFoundMyLazyClockException {
-        AlarmClock a = findOne_(String.valueOf(alarmClock.getId()));
+        AlarmClock a = findOne_(alarmClock.getId());
         if(a.getUser() != null) {
             throw new ForbiddenMyLazyClockException();
         }
@@ -91,7 +91,7 @@ public class AlarmClockService {
         return AlarmClockBean.EntityToBean(AlarmClockRepository.getInstance().save(a));
     }
 
-    public AlarmClockBean unlink(String alarmClockId, String userId) throws ForbiddenMyLazyClockException, NotFoundMyLazyClockException {
+    public AlarmClockBean unlink(Long alarmClockId, String userId) throws ForbiddenMyLazyClockException, NotFoundMyLazyClockException {
         AlarmClock a = findOne_(alarmClockId);
         if(!a.getUser().equals(userId)) {
             throw new ForbiddenMyLazyClockException();
@@ -107,7 +107,7 @@ public class AlarmClockService {
     }
 
     public AlarmClockBean update(AlarmClockBean alarmClock, String userId) throws ForbiddenMyLazyClockException, NotFoundMyLazyClockException {
-        AlarmClock a = findOne_(String.valueOf(alarmClock.getId()));
+        AlarmClock a = findOne_(alarmClock.getId());
         if(!a.getUser().equals(userId))
             throw new ForbiddenMyLazyClockException();
         a.setAddress(alarmClock.getAddress());

@@ -54,17 +54,21 @@ public class CalendarAPI {
         return cache;
     }
 
+    private String forgeKey(User user, Long alarmClockId) {
+        return user.toString() + alarmClockId.toString();
+    }
+
     private void cleanCache(String key) {
         getMemcacheService().delete(key);
     }
 
     @ApiMethod(name = "calendar.list", httpMethod = ApiMethod.HttpMethod.GET, path="calendar")
-    public Collection<CalendarBean> list(@Named("alarmClockId") String alarmClockId, User user) throws ForbiddenException, UnauthorizedException {
+    public Collection<CalendarBean> list(@Named("alarmClockId") Long alarmClockId, User user) throws ForbiddenException, UnauthorizedException {
 
         if (user == null) {
             throw new UnauthorizedException("Login Required");
         }
-        String keyCache = user.getUserId()+alarmClockId;
+        String keyCache = forgeKey(user, alarmClockId);
         Collection<CalendarBean> listCalendar = null;
 
         try {
@@ -88,13 +92,13 @@ public class CalendarAPI {
     }
 
     @ApiMethod(name = "calendar.update", httpMethod = ApiMethod.HttpMethod.PUT, path="calendar")
-    public CalendarBean update(@Named("calendarId") Long calendarId, @Named("alarmClockId") String alarmClockId, CalendarBean calendar, User user) throws ForbiddenException, UnauthorizedException {
+    public CalendarBean update(@Named("calendarId") Long calendarId, @Named("alarmClockId") Long alarmClockId, CalendarBean calendar, User user) throws ForbiddenException, UnauthorizedException {
 
         if (user == null) {
             throw new UnauthorizedException("Login Required");
         }
 
-        String keyCache = user.getUserId()+alarmClockId;
+        String keyCache = forgeKey(user, alarmClockId);
 
         try {
 
@@ -109,7 +113,7 @@ public class CalendarAPI {
     }
 
     @ApiMethod(name = "calendar.add", httpMethod = ApiMethod.HttpMethod.POST, path="calendar")
-    public CalendarBean add(@Named("alarmClockId") String alarmClockId, CalendarBean calendar, User user) throws ForbiddenException, UnauthorizedException {
+    public CalendarBean add(@Named("alarmClockId") Long alarmClockId, CalendarBean calendar, User user) throws ForbiddenException, UnauthorizedException {
 
         if (user == null) {
             throw new UnauthorizedException("Login Required");
@@ -117,7 +121,7 @@ public class CalendarAPI {
 
         try {
 
-            String keyCache = user.getUserId()+alarmClockId;
+            String keyCache = forgeKey(user, alarmClockId);
 
             CalendarBean calendarBean = CalendarService.getInstance().add(calendar, alarmClockId, user);
             cleanCache(keyCache);
@@ -130,7 +134,7 @@ public class CalendarAPI {
     }
 
     @ApiMethod(name = "calendar.delete", httpMethod = ApiMethod.HttpMethod.DELETE, path="calendar")
-    public void delete(@Named("calendarId") Long calendarId, @Named("alarmClockId") String alarmClockId, User user) throws ForbiddenException, UnauthorizedException {
+    public void delete(@Named("calendarId") Long calendarId, @Named("alarmClockId") Long alarmClockId, User user) throws ForbiddenException, UnauthorizedException {
 
         if (user == null) {
             throw new UnauthorizedException("Login Required");
@@ -138,7 +142,7 @@ public class CalendarAPI {
 
         try {
 
-            String keyCache = user.getUserId()+alarmClockId;
+            String keyCache = forgeKey(user, alarmClockId);
 
             CalendarService.getInstance().delete(calendarId, alarmClockId, user);
             cleanCache(keyCache);
@@ -149,7 +153,7 @@ public class CalendarAPI {
     }
 
     @ApiMethod(name = "calendar.item", httpMethod = ApiMethod.HttpMethod.GET, path="calendar/item")
-    public CalendarBean item(@Named("calendarId") Long calendarId, @Named("alarmClockId") String alarmClockId, User user) throws ForbiddenException, UnauthorizedException {
+    public CalendarBean item(@Named("calendarId") Long calendarId, @Named("alarmClockId") Long alarmClockId, User user) throws ForbiddenException, UnauthorizedException {
 
         if (user == null) {
             throw new UnauthorizedException("Login Required");
@@ -158,7 +162,7 @@ public class CalendarAPI {
         try {
             MemcacheService cache = getMemcacheService();
 
-            String keyCache = user.getUserId()+alarmClockId;
+            String keyCache = forgeKey(user, alarmClockId);
 
             Collection<CalendarBean> listCalendar = null;
 
