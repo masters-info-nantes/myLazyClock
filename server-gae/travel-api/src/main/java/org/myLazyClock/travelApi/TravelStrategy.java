@@ -27,7 +27,7 @@ import java.util.Map;
 /**
  * Created on 28/10/14.
  *
- * @author dralagen
+ * @author david, dralagen
  */
 public interface TravelStrategy {
 
@@ -48,5 +48,15 @@ public interface TravelStrategy {
      */
     public String getName();
 
-    public TravelDuration getDuration(String from, String to, Date date, Map<String,String> param) throws TravelNotFoundException;
+    /**
+     * Calculating duration of travel
+     *
+     * @param from  Address of depart
+     * @param to    Address of arrival
+     * @param dateArrival  Address date when you want arrive
+     * @param params Some additional parameter for module specificity
+     * @return the duration of travel {@link org.myLazyClock.travelApi.TravelDuration}
+     * @throws TravelNotFoundException
+     */
+    public TravelDuration getDuration(String from, String to, Date dateArrival, Map<String,String> params) throws TravelNotFoundException;
 }

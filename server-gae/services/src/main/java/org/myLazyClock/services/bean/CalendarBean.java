@@ -25,12 +25,14 @@ import org.myLazyClock.model.model.AlarmClock;
 import org.myLazyClock.model.model.Calendar;
 import org.myLazyClock.model.model.TravelMode;
 
+import java.io.Serializable;
+
 /**
  * Created on 04/12/14.
  *
  * @author dralagen
  */
-public class CalendarBean {
+public class CalendarBean implements Serializable {
 
     private Long id;
 

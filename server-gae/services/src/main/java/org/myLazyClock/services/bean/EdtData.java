@@ -1,11 +1,13 @@
 package org.myLazyClock.services.bean;
 
+import java.io.Serializable;
+
 /**
  * Created on 27/11/14.
  *
  * @author Maxime
  */
-public class EdtData {
+public class EdtData implements Serializable {
 
     private String name;
     private String id;

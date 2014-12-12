@@ -22,12 +22,14 @@ package org.myLazyClock.services.bean;
 import com.google.appengine.api.users.User;
 import org.myLazyClock.model.model.MyLazyClockUser;
 
+import java.io.Serializable;
+
 /**
  * Created on 08/12/14.
  *
  * @author dralagen
  */
-public class MyLazyClockUserValid {
+public class MyLazyClockUserValid implements Serializable {
 
     private User user;
 

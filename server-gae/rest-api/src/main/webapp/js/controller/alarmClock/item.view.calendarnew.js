@@ -8,26 +8,30 @@ controller.controller('myLazyClock.controller.alarmClock.item.view.calendarnew',
         $scope.temp = {};
         $scope.tab = 'google';
 
-        
 
         GApi.executeAuth('myLazyClock', 'myLazyClockUser.get').then( function(resp) {
-            if(resp.valid)
+            if(resp.valid) {
                 $scope.googleOfflineOk = true;
-            else
+                $scope.googleOfflineKO = false;
+            } else {
                 $scope.googleOfflineKO = true;
+            }
         });
 
         $scope.offlineGoogle = function() {
             GAuth.offline().then( function(code){
                 console.log(code);
                 GApi.executeAuth('myLazyClock', 'myLazyClockUser.link', {code : code}).then( function(resp) {
-                    if(resp.valid)
+                    if(resp.valid) {
                         $scope.googleOfflineOk = true;
-                    else
+                        $scope.googleOfflineKO = false;
+                    } else {
                         $scope.googleOfflineKO = true;
+                    }
                 });
             });
         }
+<<<<<<< HEAD
 
         $scope.formOk = false;
 
@@ -67,10 +71,11 @@ controller.controller('myLazyClock.controller.alarmClock.item.view.calendarnew',
         $scope.editLocation = function() {
             $scope.locationOK = false;
         }
+=======
+>>>>>>> FETCH_HEAD
         
         $scope.onTabSelect = function(tabName) {
             $scope.tab = tabName;
-            $scope.updateForm();
         }
 
         GApi.executeAuth('calendar', 'calendarList.list').then( function(resp) {
@@ -82,6 +87,7 @@ controller.controller('myLazyClock.controller.alarmClock.item.view.calendarnew',
         });
 
         $scope.edtUpdateGroups = function() {
+            $scope.edtGroups = null;
             GApi.execute('myLazyClock', 'edt.groups.list', {ufr : $scope.temp.edt.ufr.id}).then( function(resp) {
                $scope.edtGroups = resp.items;
             });

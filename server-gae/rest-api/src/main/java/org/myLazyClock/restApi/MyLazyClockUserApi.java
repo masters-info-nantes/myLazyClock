@@ -29,6 +29,10 @@ import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.Named;
 import com.google.api.server.spi.response.UnauthorizedException;
+import com.google.appengine.api.memcache.ErrorHandlers;
+import com.google.appengine.api.memcache.Expiration;
+import com.google.appengine.api.memcache.MemcacheService;
+import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.appengine.api.users.User;
 import org.myLazyClock.services.ConstantAPI;
 import org.myLazyClock.services.MyLazyClockUserService;
@@ -46,10 +50,16 @@ import java.util.Arrays;
 @Api(
         name = Constants.NAME,
         version = Constants.VERSION,
-        clientIds = { Constants.WEB_CLIENT_ID, Constants.WEB_CLIENT_ID_DEV,  Constants.WEB_CLIENT_ID_DEV_WEB},
+        clientIds = { Constants.WEB_CLIENT_ID},
         scopes = { Constants.SCOPE_EMAIL, Constants.SCOPE_CALENDAR_READ }
 )
 public class MyLazyClockUserApi {
+
+    private MemcacheService getMemcacheService() {
+        MemcacheService cache = MemcacheServiceFactory.getMemcacheService("myLazyClockUserCheckToken");
+        cache.setErrorHandler(ErrorHandlers.getConsistentLogAndContinue(Constants.MEMCACHE_LEVEL_ERROR_HANDLERS));
+        return cache;
+    }
 
     @ApiMethod(name = "myLazyClockUser.link", httpMethod = ApiMethod.HttpMethod.POST, path = "myLazyClockUser")
     public MyLazyClockUserValid linkUser(@Named("code") String code, User user) throws UnauthorizedException, GeneralSecurityException, IOException {
@@ -70,7 +80,11 @@ public class MyLazyClockUserApi {
 
         GoogleTokenResponse response=flow.newTokenRequest(code).setRedirectUri("postmessage").execute();
 
-        return MyLazyClockUserService.getInstance().add(user, response.getRefreshToken());
+        MyLazyClockUserValid isValid = MyLazyClockUserService.getInstance().add(user, response.getRefreshToken());
+
+        getMemcacheService().delete(user);
+
+        return isValid;
     }
 
     @ApiMethod(name = "myLazyClockUser.get", httpMethod = ApiMethod.HttpMethod.GET, path = "myLazyClockUser")
@@ -79,6 +93,22 @@ public class MyLazyClockUserApi {
             throw new UnauthorizedException("Login Required");
         }
 
-        return MyLazyClockUserService.getInstance().checkValid(user.getUserId());
+        MyLazyClockUserValid isValid;
+        MemcacheService cache = getMemcacheService();
+
+        try {
+            isValid = (MyLazyClockUserValid) cache.get(user);
+            if (isValid != null) {
+                return isValid;
+            }
+        } catch (Exception ignore) { }
+
+        isValid = MyLazyClockUserService.getInstance().checkValid(user.getUserId());
+
+        try {
+            cache.put(user, isValid, Expiration.byDeltaSeconds(21600)); // 6H
+        } catch (Exception ignore) {}
+
+        return isValid;
     }
 }

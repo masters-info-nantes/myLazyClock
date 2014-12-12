@@ -33,9 +33,17 @@ import java.util.Set;
  */
 public class TravelFactory  implements Iterable<TravelStrategy> {
 
-    private static TravelFactory ourInstance = new TravelFactory();
+    private static TravelFactory ourInstance = null;
 
+    /**
+     * Accessor of instance of TravelFactory
+     *
+     * @return the TravelFactory of this computer
+     */
     public static TravelFactory getInstance() {
+        if (ourInstance == null) {
+            ourInstance = new TravelFactory();
+        }
         return ourInstance;
     }
 
@@ -70,9 +78,7 @@ public class TravelFactory  implements Iterable<TravelStrategy> {
                 }
                 allModules.put(id, instance);
 
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
+            } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
         }

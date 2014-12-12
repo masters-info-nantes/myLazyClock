@@ -19,6 +19,10 @@
 
 package org.myLazyClock.restApi;
 
+import org.myLazyClock.services.ConstantAPI;
+
+import java.util.logging.Level;
+
 public class Constants {
 
   public static final String SCOPE_EMAIL = "https://www.googleapis.com/auth/userinfo.email";
@@ -33,10 +37,8 @@ public class Constants {
 
 
 
-  public static final String WEB_CLIENT_ID = "1072024627812-oh4jdt3mo6rihojkt480tqfsja2706b4.apps.googleusercontent.com";
+  public static final String WEB_CLIENT_ID = ConstantAPI.API_ID;
 
-  public static final String WEB_CLIENT_ID_DEV = "1072024627812-69lrpihiunbo6rrpqpnkho7djdl5fu74.apps.googleusercontent.com";
-
-  public static final String WEB_CLIENT_ID_DEV_WEB = "1072024627812-kgv1uou2btdphtvb2l2bbh14n6u2n2mg.apps.googleusercontent.com";
+  public static final Level MEMCACHE_LEVEL_ERROR_HANDLERS = Level.WARNING;
 
 }

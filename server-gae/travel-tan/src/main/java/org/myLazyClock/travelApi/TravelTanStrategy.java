@@ -18,10 +18,12 @@ import java.util.Map;
 /**
  * Created on 03/12/14.
  *
- * @author david
+ * @author david, dralagen
  */
 public class TravelTanStrategy implements TravelStrategy {
+
     public static final int ID = 2;
+
     @Override
     public Integer getId() {
         return ID;
@@ -32,10 +34,18 @@ public class TravelTanStrategy implements TravelStrategy {
         return "traveling with tan";
     }
 
-
-
+    /**
+     * Calculating the travel duration with the Tan API
+     *
+     * @param from  Address of depart
+     * @param to    Address of arrival
+     * @param dateArrival  Address date when you want arrive
+     * @param params Not used for this module
+     * @return the travel duration calculation by the Tan API
+     * @throws TravelNotFoundException
+     */
     @Override
-    public TravelDuration getDuration(String from, String to, Date dateArrival, Map<String, String> param) throws TravelNotFoundException {
+    public TravelDuration getDuration(String from, String to, Date dateArrival, Map<String, String> params) throws TravelNotFoundException {
 
         long travelTime=0;
         String idFrom;
@@ -53,7 +63,6 @@ public class TravelTanStrategy implements TravelStrategy {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-ddHH:mm");
 
         //utilisation d'un encodage pour les symbole | présent dans l'url / voir pour la date
-
         urlItineraire += "depart="+ idFrom
                 + "&arrive="+ idTo
                 + "&type=1&accessible=0"
@@ -96,16 +105,17 @@ public class TravelTanStrategy implements TravelStrategy {
 
 
     /**
-     * méthode de récupération de l'id fromId sur l'api tan
+     * Méthode de récupération de l'id fromId sur l'api tan
      *
-     **/
-
+     */
     private String setFromId(String from) throws IOException, TravelNotFoundException {
         return getId(from, "depart");
     }
 
-    /**méthode de récupération de l'id toId sur l'api tan
-     * */
+    /**
+     * Méthode de récupération de l'id toId sur l'api tan
+     *
+     */
     private String setToId(String to) throws IOException, TravelNotFoundException {
 
         return getId(to, "arrivee");

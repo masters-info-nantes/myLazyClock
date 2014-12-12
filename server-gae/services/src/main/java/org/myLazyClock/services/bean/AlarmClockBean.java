@@ -21,18 +21,22 @@ package org.myLazyClock.services.bean;
 
 import org.myLazyClock.model.model.AlarmClock;
 
+import java.io.Serializable;
+
 /**
  * Created on 04/12/14.
  *
  * @author dralagen
  */
-public class AlarmClockBean {
+public class AlarmClockBean implements Serializable {
 
     private Long id;
 
     private String user;
 
     private String name;
+
+    private String ringstone;
 
     private String address;
 
@@ -62,6 +66,14 @@ public class AlarmClockBean {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getRingstone () {
+        return ringstone;
+    }
+
+    public void setRingstone (String ringstone) {
+        this.ringstone = ringstone;
     }
 
     public String getAddress() {
@@ -105,6 +117,7 @@ public class AlarmClockBean {
         alarmClock.setId(getId());
         alarmClock.setUser(getUser());
         alarmClock.setName(getName());
+        alarmClock.setRingstone(getRingstone());
         alarmClock.setAddress(getAddress());
         alarmClock.setColor(getColor());
         alarmClock.setPreparationTime(getPreparationTime());
@@ -116,6 +129,7 @@ public class AlarmClockBean {
         setId(alarmClock.getId());
         setUser(alarmClock.getUser());
         setName(alarmClock.getName());
+        setRingstone(alarmClock.getRingstone());
         setAddress(alarmClock.getAddress());
         setColor(alarmClock.getColor());
         setPreparationTime(alarmClock.getPreparationTime());
