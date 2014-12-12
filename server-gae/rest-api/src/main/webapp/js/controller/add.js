@@ -11,7 +11,6 @@ controller.controller('myLazyClock.controller.alarmClock.add', ['$rootScope', '$
     	$scope.submitAdd = function(){
     		$scope.alarmClock.preparationTime = $scope.alarmClock.preparationTime.time;
             $scope.alarmClock.ringtone = $scope.alarmClock.ringtone.file;
-            console.log($scope.alarmClock);
         	GApi.executeAuth('myLazyClock', 'alarmClock.link',$scope.alarmClock).then(function(resp) {
                 $rootScope.alarmClocks.push(resp);
                 $state.go('webapp.alarmClockItem.view.calendarlist', {id : resp.id});

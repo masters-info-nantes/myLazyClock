@@ -20,7 +20,6 @@ controller.controller('myLazyClock.controller.alarmClock.item.view.calendarnew',
 
         $scope.offlineGoogle = function() {
             GAuth.offline().then( function(code){
-                console.log(code);
                 GApi.executeAuth('myLazyClock', 'myLazyClockUser.link', {code : code}).then( function(resp) {
                     if(resp.valid) {
                         $scope.googleOfflineOk = true;
@@ -80,7 +79,6 @@ controller.controller('myLazyClock.controller.alarmClock.item.view.calendarnew',
             }
             $scope.newCalendar.alarmClockId = $stateParams.id
             GApi.executeAuth('myLazyClock', 'calendar.add',  $scope.newCalendar).then( function(resp) {
-                console.log(resp);
                 $state.go('webapp.alarmClockItem.view.calendarlist');
             });
         }

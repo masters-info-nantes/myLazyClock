@@ -26,7 +26,6 @@ controller.controller('myLazyClock.controller.alarmClock.item.view.calendaredit'
         }
 
         $scope.submitEdit = function() {
-            console.log($scope.calendar.travelMode.id);
             $scope.calendar.travelMode = $scope.calendar.travelMode.id;
             var calendar = angular.copy($scope.calendar);
             calendar.calendarId =  $stateParams.calendar;
