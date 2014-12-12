@@ -14,5 +14,16 @@ controller.controller('myLazyClock.controller.alarmClock.add', ['$rootScope', '$
                 $state.go('webapp.alarmClockItem.view.calendarlist', {id : resp.id});
             });
     	}
+
+        $scope.locationOK = false;
+
+        $scope.$on("locationAutocompleted", function(event, location) {
+            $scope.locationOK = true;
+        })
+
+        $scope.editLocation = function() {
+            $scope.locationOK = false;
+            $scope.alarmClock.address = "";
+        }
     }
 ]);

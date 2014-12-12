@@ -83,7 +83,11 @@ module.factory('GAuth', ['$rootScope', '$q', 'GClient', 'GApi', '$interval',
 
         function signin(mode, authorizeCallback) {
             load(function (){
-                gapi.auth.authorize({client_id: CLIENT_ID, scope: SCOPES, immediate: mode, response_type : RESPONSE_TYPE}, authorizeCallback);
+                gapi.auth.authorize({client_id: CLIENT_ID,
+                    scope: SCOPES,
+                    immediate: mode,
+                    response_type : RESPONSE_TYPE
+                }, authorizeCallback);
             });
         }
 

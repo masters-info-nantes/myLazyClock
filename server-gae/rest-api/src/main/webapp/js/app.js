@@ -4,6 +4,7 @@ var app = angular.module('myLazyClock', [
     'templates.ui.bootstrap',
     'ui.router',
     'angular-google-gapi',
+    'locompleter',
 
     'myLazyClock.router',
     'myLazyClock.controller',
