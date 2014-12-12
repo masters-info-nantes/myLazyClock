@@ -14,6 +14,16 @@ controller.controller('myLazyClock.controller.alarmClock.item.edit', ['$scope', 
                 });
         });
 
+        $scope.locationOK = true;
+
+        $scope.$on("locationAutocompleted", function(event, location) {
+            $scope.locationOK = true;
+        })
+
+        $scope.editLocation = function() {
+            $scope.locationOK = false;
+        }
+
         $scope.submitUpdate = function(){
             $scope.alarmClockTemp.preparationTime = $scope.alarmClockTemp.preparationTime.time;
             GApi.executeAuth('myLazyClock', 'alarmClock.update', $scope.alarmClockTemp).then( function(resp) {

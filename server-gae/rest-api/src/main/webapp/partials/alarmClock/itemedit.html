@@ -21,8 +21,11 @@
 
 <p>Adresse où se trouve le réveil</p>
 <!-- Text input-->
-<div class="input-group" ng-class="{'has-error' : !editAlarmClock.address.$valid}">
-  <input ng-model="alarmClockTemp.address" name="address" type="text" placeholder="Adresse du réveil" class="form-control input-md" required>
+<div class="input-group" ng-class="{'has-error' : !locationOK}">
+  <input ng-model="alarmClockTemp.address" name="address" type="text" placeholder="Adresse du réveil" class="form-control input-md" required autocomplete-location ng-disabled="locationOK">
+  <span class="input-group-btn">
+        <button class="btn btn-default" type="button" ng-disabled="!locationOK" ng-click="editLocation()">Editer</button>
+      </span>
 </div>
 
 <p>Temps que vous voulez pour vous préparer</p>
@@ -54,7 +57,7 @@
   </div>
 </div>
 
-<button type="submit" class="btn btn-white btn-rad btn-trans" ng-class="{'disabled' : !editAlarmClock.$valid}">Valider</button>
+<button type="submit" class="btn btn-white btn-rad btn-trans" ng-class="{'disabled' : !editAlarmClock.$valid,  'disabled' : !locationOK}">Valider</button>
 </fieldset>
 </form>
 

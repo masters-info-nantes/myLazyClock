@@ -17,11 +17,14 @@
                     <select class="form-control" ng-model="calendar.travelMode" ng-options="travelMode.name for travelMode in travelsMode" required name="travelMode"><option value="">-- Choix du moyen de transport --</option></select>
                 </div>
                 <p>Si un évenement du calendrier ne comporte pas de lieu, quel lieu doit être choisit</p>
-                <div class="input-group" ng-class="{'has-error' : !editCalendar.defaultEventLocation.$valid}">
-                    <input ng-model="calendar.defaultEventLocation" name="defaultEventLocation" type="text" placeholder="lieu par défaut" class="form-control input-md" required>
+                <div class="input-group" ng-class="{'has-error' : !locationOK}">
+                    <input ng-model="calendar.defaultEventLocation" name="defaultEventLocation" type="text" placeholder="lieu par défaut" class="form-control input-md" required autocomplete-location ng-disabled="locationOK">
+                    <span class="input-group-btn">
+        <button class="btn btn-default" type="button" ng-disabled="!locationOK" ng-click="editLocation()">Editer</button>
+      </span>
                 </div>
                 <label><input type="checkbox" ng-model="calendar.useAlwaysDefaultLocation"> Forcer à utiliser ce lieu pour tout les événements</label>
-        <button type="submit" class="btn btn-primary btn-block" ng-class="{'disabled' : !editCalendar.$valid}">Valider</button>
+        <button type="submit" class="btn btn-primary btn-block" ng-class="{'disabled' : !editCalendar.$valid,  'disabled' : !locationOK}">Valider</button>
       </form>
   </div>
 </div>

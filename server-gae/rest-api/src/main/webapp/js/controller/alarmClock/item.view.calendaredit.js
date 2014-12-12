@@ -15,6 +15,16 @@ controller.controller('myLazyClock.controller.alarmClock.item.view.calendaredit'
                 });
         });
 
+        $scope.locationOK = true;
+
+        $scope.$on("locationAutocompleted", function(event, location) {
+            $scope.locationOK = true;
+        })
+
+        $scope.editLocation = function() {
+            $scope.locationOK = false;
+        }
+
         $scope.submitEdit = function() {
             console.log($scope.calendar.travelMode.id);
             $scope.calendar.travelMode = $scope.calendar.travelMode.id;

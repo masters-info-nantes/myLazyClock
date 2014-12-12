@@ -23,7 +23,6 @@ controller.controller('myLazyClock.controller.alarmClock.add', ['$rootScope', '$
 
         $scope.editLocation = function() {
             $scope.locationOK = false;
-            $scope.alarmClock.address = "";
         }
     }
 ]);

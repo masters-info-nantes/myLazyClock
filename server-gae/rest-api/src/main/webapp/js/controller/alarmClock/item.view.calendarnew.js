@@ -57,6 +57,16 @@ controller.controller('myLazyClock.controller.alarmClock.item.view.calendarnew',
                     $scope.formOk = false;
             }
         }
+
+        $scope.locationOK = false;
+
+        $scope.$on("locationAutocompleted", function(event, location) {
+            $scope.locationOK = true;
+        })
+
+        $scope.editLocation = function() {
+            $scope.locationOK = false;
+        }
         
         $scope.onTabSelect = function(tabName) {
             $scope.tab = tabName;
