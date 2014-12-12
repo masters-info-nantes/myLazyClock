@@ -31,36 +31,6 @@ controller.controller('myLazyClock.controller.alarmClock.item.view.calendarnew',
                 });
             });
         }
-<<<<<<< HEAD
-
-        $scope.formOk = false;
-
-        $scope.updateForm = function() {
-            if($scope.tab == 'google') {
-                if($scope.addCalendar.googleParam.$valid)
-                    $scope.formOk = true;
-                else
-                    $scope.formOk = false;
-            }
-            if($scope.tab == 'ics') {
-                if($scope.addCalendar.icsName.$valid && $scope.addCalendar.icsParam.$valid)
-                    $scope.formOk = true;
-                else
-                    $scope.formOk = false;
-            }
-            if($scope.tab == 'edt') {
-                if($scope.addCalendar.edtGoup.$valid && $scope.addCalendar.edtUfr.$valid)
-                    $scope.formOk = true;
-                else
-                    $scope.formOk = false;
-            }
-            if($scope.formOk) {
-                if($scope.addCalendar.travelMode.$valid && $scope.addCalendar.defaultEventLocation.$valid)
-                    $scope.formOk = true;
-                else
-                    $scope.formOk = false;
-            }
-        }
 
         $scope.locationOK = false;
 
@@ -71,8 +41,6 @@ controller.controller('myLazyClock.controller.alarmClock.item.view.calendarnew',
         $scope.editLocation = function() {
             $scope.locationOK = false;
         }
-=======
->>>>>>> FETCH_HEAD
         
         $scope.onTabSelect = function(tabName) {
             $scope.tab = tabName;

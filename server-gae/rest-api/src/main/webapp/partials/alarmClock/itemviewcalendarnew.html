@@ -16,13 +16,8 @@
                 </tab-heading>
                 <div ng-show="googleOfflineOk">
                 <p>Choisir votre Calendrier Google</p>
-<<<<<<< HEAD
-                <div class="input-group" ng-class="{'has-error' : !addCalendar.googleParam.$valid}">
-                    <select class="form-control" ng-model="temp.google" ng-options="cal.summary for cal in googleCalendars" ng-required="true" name="googleParam" ng-change="updateForm()"><option value="">-- Choix du calendrier --</option></select>
-=======
                 <div class="form-group" ng-class="{'has-error' : !addCalendar.googleParam.$valid}">
                     <select class="form-control" ng-model="temp.google" ng-options="cal.summary for cal in googleCalendars" ng-required="tab == 'google'" name="googleParam"><option value="">-- Choix du calendrier --</option></select>
->>>>>>> FETCH_HEAD
                 </div>
                 </div>
                 <div ng-if="googleOfflineKO">
@@ -35,21 +30,12 @@
                     Calendrier ics 
                 </tab-heading>
                 <p>Nom du calendrier</p>
-<<<<<<< HEAD
-                <div class="input-group" ng-class="{'has-error' : !addCalendar.icsName.$valid}">
-                    <input ng-model="temp.ics.name" type="text" placeholder="Nom du calendrier" class="form-control input-md" ng-required="true" name="icsName" ng-change="updateForm()">
-                </div>
-                <p>Url du calendrier (lien vers le fichier ics)</p>
-                <div class="input-group" ng-class="{'has-error' : !addCalendar.icsParam.$valid}">
-                    <input ng-model="temp.ics.param" type="text" placeholder="url du calendrier (ics)" class="form-control input-md" ng-required="true" name="icsParam" ng-change="updateForm()">
-=======
                 <div class="form-group" ng-class="{'has-error' : !addCalendar.icsName.$valid}">
                     <input ng-model="temp.ics.name" type="text" placeholder="Nom du calendrier" class="form-control input-md" ng-required="tab == 'ics'" name="icsName">
                 </div>
                 <p>Url du calendrier (lien vers le fichier ics)</p>
                 <div class="form-group" ng-class="{'has-error' : !addCalendar.icsParam.$valid}">
                     <input ng-model="temp.ics.param" type="text" placeholder="url du calendrier (ics)" class="form-control input-md" ng-required="tab == 'ics'" name="icsParam">
->>>>>>> FETCH_HEAD
                 </div>
             </tab>
             <tab select="onTabSelect('edt')">
@@ -57,51 +43,29 @@
                     EDT - Universités
                 </tab-heading>
                 <p>Choisir l'UFR</p>
-<<<<<<< HEAD
-                <div class="input-group" ng-class="{'has-error' : !addCalendar.edtUfr.$valid}">
-                    <select class="form-control" ng-model="temp.edt.ufr" ng-options="ufr.name for ufr in edtUfr" ng-change="edtUpdateGroups()" ng-required="true" name="edtUfr"><option value="">-- Choix de l'UFR --</option></select>
-                </div>
-                <p>Choisir du groupe</p>
-                <div class="input-group" ng-class="{'has-error' : !addCalendar.edtGoup.$valid}">
-                    <select class="form-control" ng-model="temp.edt.group" ng-options="group.name for group in edtGroups" ng-required="true" name="edtGoup" ng-change="updateForm()"><option value="">-- Choix du groupe --</option></select>
-=======
                 <div class="form-group" ng-class="{'has-error' : !addCalendar.edtUfr.$valid}">
                     <select class="form-control" ng-model="temp.edt.ufr" ng-options="ufr.name for ufr in edtUfr" ng-change="edtUpdateGroups()" ng-required="tab == 'edt'" name="edtUfr"><option value="">-- Choix de l'UFR --</option></select>
                 </div>
                 <p ng-show="edtGroups">Choisir du groupe</p>
                 <div class="form-group" ng-class="{'has-error' : !addCalendar.edtGoup.$valid}" ng-show="edtGroups">
                     <select class="form-control" ng-model="temp.edt.group" ng-options="group.name for group in edtGroups" ng-required="tab == 'edt'" name="edtGoup"><option value="">-- Choix du groupe --</option></select>
->>>>>>> FETCH_HEAD
                 </div>
             </tab>
         </tabset>
                 <p>Moyen de transport utilisé pour se rendre aux événements</p>
-<<<<<<< HEAD
-                <div class="input-group" ng-class="{'has-error' : !addCalendar.travelMode.$valid}">
-                    <select class="form-control" ng-model="temp.travelMode" ng-options="travelMode.name for travelMode in travelsMode" required name="travelMode" ng-change="updateForm()"><option value="">-- Choix du moyen de transport --</option></select>
-                </div>
-
-                <p>Si un évenement du calendrier ne comporte pas de lieu, quel lieu doit être choisit</p>
-                <div class="input-group" ng-class="{'has-error' : !locationOK}">
-                    <input ng-model="newCalendar.defaultEventLocation" type="text" placeholder="lieu par défaut" class="form-control input-md" required name="defaultEventLocation" ng-change="updateForm()" autocomplete-location ng-disabled="locationOK">
-                    <span class="input-group-btn">
-        <button class="btn btn-default" type="button" ng-disabled="!locationOK" ng-click="editLocation()">Editer</button>
-      </span>
-                </div>
-                <label><input type="checkbox" ng-model="newCalendar.useAlwaysDefaultLocation"> Forcer à utiliser ce lieu pour tout les événements</label>
-        <button type="submit" class="btn btn-primary btn-block" ng-class="{'disabled' : !formOk,  'disabled' : !locationOK}">Ajouter au réveil</button>
-=======
                 <div class="form-group" ng-class="{'has-error' : !addCalendar.travelMode.$valid}">
                     <select class="form-control" ng-model="temp.travelMode" ng-options="travelMode.name for travelMode in travelsMode" required name="travelMode"><option value="">-- Choix du moyen de transport --</option></select>
                 </div>
 
                 <p>Si un évenement du calendrier ne comporte pas de lieu, quel lieu doit être choisit</p>
-                <div class="form-group" ng-class="{'has-error' : !addCalendar.defaultEventLocation.$valid}">
-                    <input ng-model="newCalendar.defaultEventLocation" type="text" placeholder="lieu par défaut" class="form-control input-md" required name="defaultEventLocation">
+                <div class="form-group" ng-class="{'has-error' : !locationOK}">
+                    <input ng-model="newCalendar.defaultEventLocation" type="text" placeholder="lieu par défaut" class="form-control input-md" required name="defaultEventLocation" autocomplete-location ng-disabled="locationOK">
+                    <span class="input-group-btn">
+        <button class="btn btn-default" type="button" ng-disabled="!locationOK" ng-click="editLocation()">Editer</button>
+      </span>
                 </div>
                 <label><input type="checkbox" ng-model="newCalendar.useAlwaysDefaultLocation"> Forcer à utiliser ce lieu pour tout les événements</label>
-        <button type="submit" class="btn btn-primary btn-block" ng-class="{'disabled' : !addCalendar.$valid}">Ajouter au réveil</button>
->>>>>>> FETCH_HEAD
+        <button type="submit" class="btn btn-primary btn-block" ng-class="{'disabled' : !addCalendar.$valid,  'disabled' : !locationOK}">Ajouter au réveil</button>
         </form>
   </div>
 </div>
