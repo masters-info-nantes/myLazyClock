@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * Created on 22/10/14.
  *
- * @author Maxime
+ * @author dralagen, Maxime
  */
 @PersistenceCapable
 public class AlarmClock {

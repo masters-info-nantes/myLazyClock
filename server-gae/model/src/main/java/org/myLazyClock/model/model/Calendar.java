@@ -26,7 +26,7 @@ import javax.jdo.annotations.*;
 /**
  * Created on 16/11/14.
  *
- * @author Maxime
+ * @author dralagen, Maxime
  */
 @PersistenceCapable
 public class Calendar {

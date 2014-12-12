@@ -33,11 +33,25 @@ public class TravelGmapStrategy implements TravelStrategy {
         return "traveling with Gmap";
     }
 
+    /**
+     * Calculating duration with Google Direction API
+     *
+     * @see <a href="https://developers.google.com/maps/documentation/directions/">Google Direction API Documentation</a>
+     *
+     * @param from  Address of depart
+     * @param to    Address of arrival
+     * @param dateArrival  Address date when you want arrive
+     * @param params Use (key,value) for add parameter in call Google Direction API. <br/>
+     *               The key are used for name parameter, value as the value of the parameter.
+     *
+     * @return the TravelDuration calculate by Google Direction
+     * @throws TravelNotFoundException
+     */
     @Override
-    public TravelDuration getDuration(String from, String to, Date dateArrival, Map<String, String> param) throws TravelNotFoundException {
+    public TravelDuration getDuration(String from, String to, Date dateArrival, Map<String, String> params) throws TravelNotFoundException {
 
-        String requestURI= constructGoogleRequestURI(from, to, dateArrival, param);
-        long travelTime=0;
+        String requestURI= constructGoogleRequestURI(from, to, dateArrival, params);
+        long travelTime;
 
         try {
             URL url = new URL(requestURI);
@@ -61,7 +75,7 @@ public class TravelGmapStrategy implements TravelStrategy {
 
             // on est sur une "feuille" l'objet est directement interprété par le parseur.
             JsonObject durationObj = (JsonObject) jp.parse(legsObj.get("duration").toString());
-            travelTime= durationObj.get("value").getAsLong();
+            travelTime = durationObj.get("value").getAsLong();
 
 
         }catch (IOException e){

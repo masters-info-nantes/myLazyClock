@@ -38,7 +38,7 @@ import java.util.Objects;
 /**
  * Created on 15/11/14.
  *
- * @author Jeremy
+ * @author dralagen, Jeremy
  */
 @Api(
         name = Constants.NAME,

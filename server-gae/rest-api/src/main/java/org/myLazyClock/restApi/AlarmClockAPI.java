@@ -39,7 +39,7 @@ import java.util.Collection;
 /**
  * Created on 22/10/14.
  *
- * @author Maxime
+ * @author dralagen, Maxime
  */
 @Api(
     name = Constants.NAME,

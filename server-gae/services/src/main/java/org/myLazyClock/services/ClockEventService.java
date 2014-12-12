@@ -20,7 +20,7 @@ import java.util.*;
 /**
  * Created on 30/11/14.
  *
- * @author jeremy
+ * @author dralagen, jeremy
  */
 public class ClockEventService {
     private static ClockEventService service = null;
@@ -34,6 +34,12 @@ public class ClockEventService {
         return service;
     }
 
+    /**
+     * List the first event per day, in next 7 days
+     * @param alarmClockId Id of the alarmClock
+     *
+     * @return List of event found
+     */
     public Collection<AlarmClockEvent> listEventForWeek(String alarmClockId){
         AlarmClock alarmClock = AlarmClockRepository.getInstance().findOne(Long.decode(alarmClockId));
         MyLazyClockUser user = MyLazyClockUserRepository.getInstance().findOne(alarmClock.getUser());
@@ -150,6 +156,13 @@ public class ClockEventService {
         return strategy.getFirstEvent(params, date, endDate);
     }
 
+    /**
+     * Convert an {@link org.myLazyClock.calendarApi.CalendarEvent}
+     * to new {@link org.myLazyClock.services.bean.AlarmClockEvent}
+     *
+     * @param calendarEvent the calendarEvent to convert
+     * @return new AlarmClockEvent
+     */
     private AlarmClockEvent calendarEventToAlarmClockEvent(CalendarEvent calendarEvent) {
         AlarmClockEvent event = new AlarmClockEvent();
 
@@ -162,6 +175,15 @@ public class ClockEventService {
         return event;
     }
 
+    /**
+     * Find the best module of {@link org.myLazyClock.travelApi.TravelStrategy} for my event for an alarmClock
+     *
+     * @param alarmClock The alarmClock of calendar who contain the start address
+     * @param event The event who contain the end address and limit end date
+     *
+     * @return The duration in second of the travel
+     * @throws TravelNotFoundException
+     */
     private Long getDuration (AlarmClock alarmClock, AlarmClockEvent event) throws TravelNotFoundException {
         TravelStrategy strategy;
 
