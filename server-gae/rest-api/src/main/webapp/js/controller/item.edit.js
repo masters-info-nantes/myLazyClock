@@ -35,6 +35,7 @@ controller.controller('myLazyClock.controller.alarmClock.item.edit', ['$scope', 
         $scope.submitUpdate = function(){
             $scope.alarmClockTemp.preparationTime = $scope.alarmClockTemp.preparationTime.time;
             $scope.alarmClockTemp.ringtone = $scope.alarmClockTemp.ringtone.file;
+            console.log($scope.alarmClockTemp);
             GApi.executeAuth('myLazyClock', 'alarmClock.update', $scope.alarmClockTemp).then( function(resp) {
                 $scope.$parent.alarmClock = resp;
                 for(var i= 0; i < $rootScope.alarmClocks.length; i++){
