@@ -43,7 +43,7 @@ import java.util.Objects;
 @Api(
         name = Constants.NAME,
         version = Constants.VERSION,
-        clientIds = { Constants.WEB_CLIENT_ID, Constants.WEB_CLIENT_ID_DEV,  Constants.WEB_CLIENT_ID_DEV_WEB},
+        clientIds = { Constants.WEB_CLIENT_ID},
         scopes = { Constants.SCOPE_EMAIL, Constants.SCOPE_CALENDAR_READ }
 )
 public class CalendarAPI {
