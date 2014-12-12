@@ -93,16 +93,18 @@ public class ClockEventService {
                 alarmEvent = calendarEventToAlarmClockEvent(eventInDay);
                 alarmEvent.setTravelMode(calOfEvent.getTravelMode());
 
-                try {
-                    alarmEvent.setTravelDuration(
-                            getDuration(alarmClock, alarmEvent)
-                    );
-                } catch (TravelNotFoundException e) {
-                    e.printStackTrace();
-                    alarmEvent.setTravelDuration(0l);
-                }
+                if (alarmEvent.getBeginDate().compareTo(new Date()) > 0) {
+                    try {
+                        alarmEvent.setTravelDuration(
+                                getDuration(alarmClock, alarmEvent)
+                        );
+                    } catch (TravelNotFoundException e) {
+                        e.printStackTrace();
+                        alarmEvent.setTravelDuration(0l);
+                    }
 
-                eventsInWeek.add(alarmEvent);
+                    eventsInWeek.add(alarmEvent);
+                }
             }
 
             // Next day
