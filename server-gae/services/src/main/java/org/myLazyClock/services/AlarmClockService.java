@@ -86,6 +86,7 @@ public class AlarmClockService {
         a.setUser(user.getUserId());
         a.setAddress(alarmClock.getAddress());
         a.setName(alarmClock.getName());
+        a.setRingtone(alarmClock.getRingtone());
         a.setPreparationTime(alarmClock.getPreparationTime());
         a.setColor(alarmClock.getColor());
         return AlarmClockBean.EntityToBean(AlarmClockRepository.getInstance().save(a));
@@ -99,6 +100,7 @@ public class AlarmClockService {
 
         a.setUser(null);
         a.setName(null);
+        a.setRingtone(null);
         a.setAddress(null);
         a.setColor(null);
         a.setPreparationTime(0);
@@ -112,6 +114,7 @@ public class AlarmClockService {
             throw new ForbiddenMyLazyClockException();
         a.setAddress(alarmClock.getAddress());
         a.setName(alarmClock.getName());
+        a.setRingtone(alarmClock.getRingtone());
         a.setPreparationTime(alarmClock.getPreparationTime());
         a.setColor(alarmClock.getColor());
         return AlarmClockBean.EntityToBean(
