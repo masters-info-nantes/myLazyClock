@@ -15,19 +15,19 @@
 
 <p>Nom du réveil</p>
 <!-- Text input-->
-<div class="form-group" ng-class="{'has-error' : !editAlarmClock.name.$valid}">
+<div class="input-group" ng-class="{'has-error' : !editAlarmClock.name.$valid}">
   <input ng-model="alarmClockTemp.name" name="name" type="text" placeholder="Nom du réveil" class="form-control input-md" required>
 </div>
 
 <p>Adresse où se trouve le réveil</p>
 <!-- Text input-->
-<div class="form-group" ng-class="{'has-error' : !editAlarmClock.address.$valid}">
+<div class="input-group" ng-class="{'has-error' : !editAlarmClock.address.$valid}">
   <input ng-model="alarmClockTemp.address" name="address" type="text" placeholder="Adresse du réveil" class="form-control input-md" required>
 </div>
 
 <p>Temps que vous voulez pour vous préparer</p>
 <!-- Text input-->
-<div class="form-group" ng-class="{'has-error' : !editAlarmClock.preparationTime.$valid}">
+<div class="input-group" ng-class="{'has-error' : !editAlarmClock.preparationTime.$valid}">
   <select class="form-control input-md" ng-model="alarmClockTemp.preparationTime" ng-options="preparationTime.name for preparationTime in preparationTimes" name="preparationTime" required><option value="">-- Choix de la durée pour vous préparer --</option></select>
 </div>
 

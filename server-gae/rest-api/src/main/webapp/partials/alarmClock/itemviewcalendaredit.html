@@ -13,11 +13,11 @@
       <div class="panel-body">
         <form name="editCalendar" ng-submit="submitEdit()">
                 <p>Moyen de transport utilisé pour se rendre aux événements</p>
-                <div class="form-group" ng-class="{'has-error' : !editCalendar.travelMode.$valid}">
+                <div class="input-group" ng-class="{'has-error' : !editCalendar.travelMode.$valid}">
                     <select class="form-control" ng-model="calendar.travelMode" ng-options="travelMode.name for travelMode in travelsMode" required name="travelMode"><option value="">-- Choix du moyen de transport --</option></select>
                 </div>
                 <p>Si un évenement du calendrier ne comporte pas de lieu, quel lieu doit être choisit</p>
-                <div class="form-group" ng-class="{'has-error' : !editCalendar.defaultEventLocation.$valid}">
+                <div class="input-group" ng-class="{'has-error' : !editCalendar.defaultEventLocation.$valid}">
                     <input ng-model="calendar.defaultEventLocation" name="defaultEventLocation" type="text" placeholder="lieu par défaut" class="form-control input-md" required>
                 </div>
                 <label><input type="checkbox" ng-model="calendar.useAlwaysDefaultLocation"> Forcer à utiliser ce lieu pour tout les événements</label>
