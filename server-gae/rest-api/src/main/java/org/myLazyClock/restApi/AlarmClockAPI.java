@@ -148,6 +148,10 @@ public class AlarmClockAPI {
             cleanCache(user);
             cleanCache(newAlarmClock.getId());
 
+            MemcacheService cacheCalendar = MemcacheServiceFactory.getMemcacheService("calendar");
+            cacheCalendar.setErrorHandler(ErrorHandlers.getConsistentLogAndContinue(Constants.MEMCACHE_LEVEL_ERROR_HANDLERS));
+            cacheCalendar.delete(user.toString() + alarmClockId.toString());
+
             return newAlarmClock;
 
         } catch (ForbiddenMyLazyClockException e) {

@@ -98,6 +98,7 @@ public class AlarmClockService {
         AlarmClockBean bean = new AlarmClockBean();
         bean.copyValueInEntity(a);
         a.setUser(null);
+        a.setCalendars(null);
 
         return AlarmClockBean.EntityToBean(AlarmClockRepository.getInstance().save(a));
     }
