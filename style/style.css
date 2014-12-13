@@ -44,6 +44,47 @@ a {
 	padding: 5px;
 }
 
+
+
+.sound {
+	position: absolute;
+	height: 18px;
+	width: 18px;
+	bottom: 5px;
+	left: 5px;
+}
+
+.sound0 {
+	background: url("sound_0.png");
+}
+.sound1 {
+	background: url("sound_1.png");
+}
+.sound2 {
+	background: url("sound_2.png");
+}
+.sound3 {
+	background: url("sound_3.png");
+}
+.sound4 {
+	background: url("sound_4.png");
+}
+
+.online {
+	position: absolute;
+	height: 18px;
+	width: 18px;
+	bottom: 5px;
+	right: 5px;
+}
+
+.onlineOK {
+	background: url("wifi_online.png");
+}
+.onlineKO {
+	background: url("wifi_offline.png");
+}
+
 .event {
 	height:100px;
 	margin-bottom:5px;

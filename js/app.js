@@ -11,22 +11,25 @@ var app = angular.module('myLazyClock', [
 
 ]);
 
-app.run(['GApi', '$state',
-    function(GApi, $state) {
+app.run(['GApi', '$state', '$rootScope', '$window',
+    function(GApi, $state, $rootScope, $window) {
 
-        var BASE = 'https://mylazyclock.appspot.com/_ah/api';
-        if(window.location.hostname == 'localhost') {
-            if(window.location.port == '8080') {
-                BASE = 'http://localhost:8080/_ah/api';
-            } else {
-                BASE = 'http://localhost:8080/_ah/api';
-            } 
-        } else {
-            BASE = 'https://mylazyclock.appspot.com/_ah/api';
-        }
+        //var BASE = 'http://localhost:8080/_ah/api';
         var BASE = 'https://mylazyclock.appspot.com/_ah/api';
 
         GApi.load('myLazyClock','v1',BASE);
+
+        $rootScope.online = navigator.onLine;
+      $window.addEventListener("offline", function () {
+        $rootScope.$apply(function() {
+          $rootScope.online = false;
+        });
+      }, false);
+      $window.addEventListener("online", function () {
+        $rootScope.$apply(function() {
+          $rootScope.online = true;
+        });
+      }, false);
 
     }
 ]);
