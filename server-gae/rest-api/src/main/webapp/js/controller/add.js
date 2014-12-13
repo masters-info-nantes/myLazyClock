@@ -9,11 +9,14 @@ controller.controller('myLazyClock.controller.alarmClock.add', ['$rootScope', '$
     	$scope.alarmClock = {};
     	$scope.alarmClock.color = '#2196F3';
     	$scope.submitAdd = function(){
-    		$scope.alarmClock.preparationTime = $scope.alarmClock.preparationTime.time;
-            $scope.alarmClock.ringtone = $scope.alarmClock.ringtone.file;
-        	GApi.executeAuth('myLazyClock', 'alarmClock.link',$scope.alarmClock).then(function(resp) {
+            $scope.tempAlarmClock = angular.copy($scope.alarmClock);
+    		$scope.tempAlarmClock.preparationTime = $scope.tempAlarmClock.preparationTime.time;
+            $scope.tempAlarmClock.ringtone = $scope.tempAlarmClock.ringtone.file;
+        	GApi.executeAuth('myLazyClock', 'alarmClock.link', $scope.tempAlarmClock).then(function(resp) {
                 $rootScope.alarmClocks.push(resp);
                 $state.go('webapp.alarmClockItem.view.calendarlist', {id : resp.id});
+            }, function () {
+                $scope.errorForm = true;
             });
     	}
 

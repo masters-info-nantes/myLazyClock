@@ -16,6 +16,11 @@
 <form class="form-horizontal" ng-submit="submitAdd()" name="addAlarmClock">
 <fieldset>
 
+<div class="alert alert-danger" role="alert" ng-show="errorForm">
+  <span class="glyphicon glyphicon-exclamation-sign"></span>
+  Impossible de d'associer votre compte avec cet identifiant de réveil. Vérifiez que vous avez correctement saisi l'identifiant.
+</div>
+
 <p>Saisir l'identificant visible sur le reveil (suite de chiffre)</p>
 <!-- Text input-->
 <div class="input-group" ng-class="{'has-error' : !addAlarmClock.id.$valid}">
