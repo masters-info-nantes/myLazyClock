@@ -24,16 +24,13 @@ import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.Named;
 import com.google.api.server.spi.response.ForbiddenException;
 import com.google.api.server.spi.response.UnauthorizedException;
-import com.google.appengine.api.memcache.ErrorHandlers;
-import com.google.appengine.api.memcache.MemcacheService;
-import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.appengine.api.users.User;
 import org.myLazyClock.services.CalendarService;
+import org.myLazyClock.services.MyLazyClockMemcacheService;
 import org.myLazyClock.services.bean.CalendarBean;
 import org.myLazyClock.services.exception.ForbiddenMyLazyClockException;
 
 import java.util.Collection;
-import java.util.Objects;
 
 /**
  * Created on 15/11/14.
@@ -48,41 +45,21 @@ import java.util.Objects;
 )
 public class CalendarAPI {
 
-    private MemcacheService getMemcacheService() {
-        MemcacheService cache = MemcacheServiceFactory.getMemcacheService("calendar");
-        cache.setErrorHandler(ErrorHandlers.getConsistentLogAndContinue(Constants.MEMCACHE_LEVEL_ERROR_HANDLERS));
-        return cache;
-    }
-
-    private String forgeKey(User user, Long alarmClockId) {
-        return user.toString() + alarmClockId.toString();
-    }
-
-    private void cleanCache(String key) {
-        getMemcacheService().delete(key);
-    }
-
     @ApiMethod(name = "calendar.list", httpMethod = ApiMethod.HttpMethod.GET, path="calendar")
     public Collection<CalendarBean> list(@Named("alarmClockId") Long alarmClockId, User user) throws ForbiddenException, UnauthorizedException {
 
         if (user == null) {
             throw new UnauthorizedException("Login Required");
         }
-        String keyCache = forgeKey(user, alarmClockId);
-        Collection<CalendarBean> listCalendar = null;
+
+        Collection<CalendarBean> listCalendar = MyLazyClockMemcacheService.getInstance().getListCalendar(user, alarmClockId);;
 
         try {
-
-            MemcacheService cache = getMemcacheService();
-            try {
-                listCalendar = (Collection<CalendarBean>) cache.get(keyCache);
-            } catch (Exception ignore) { }
-
             if (listCalendar == null) {
+
                 listCalendar = CalendarService.getInstance().findAll(alarmClockId, user);
-                try {
-                    cache.put(keyCache, listCalendar);
-                } catch (Exception ignore) {}
+
+                MyLazyClockMemcacheService.getInstance().addListCalendar(user, alarmClockId, listCalendar);
             }
 
         } catch (ForbiddenMyLazyClockException e) {
@@ -98,12 +75,11 @@ public class CalendarAPI {
             throw new UnauthorizedException("Login Required");
         }
 
-        String keyCache = forgeKey(user, alarmClockId);
-
         try {
 
             CalendarBean calendarBean = CalendarService.getInstance().update(calendarId, alarmClockId, calendar, user);
-            cleanCache(keyCache);
+
+            MyLazyClockMemcacheService.getInstance().cleanCalendar(user, alarmClockId);
 
             return calendarBean;
         } catch (ForbiddenMyLazyClockException e) {
@@ -121,10 +97,9 @@ public class CalendarAPI {
 
         try {
 
-            String keyCache = forgeKey(user, alarmClockId);
-
             CalendarBean calendarBean = CalendarService.getInstance().add(calendar, alarmClockId, user);
-            cleanCache(keyCache);
+
+            MyLazyClockMemcacheService.getInstance().cleanCalendar(user, alarmClockId);
 
             return calendarBean;
 
@@ -142,10 +117,9 @@ public class CalendarAPI {
 
         try {
 
-            String keyCache = forgeKey(user, alarmClockId);
-
             CalendarService.getInstance().delete(calendarId, alarmClockId, user);
-            cleanCache(keyCache);
+
+            MyLazyClockMemcacheService.getInstance().cleanCalendar(user, alarmClockId);
 
         } catch (ForbiddenMyLazyClockException e) {
             throw new ForbiddenException("Forbidden");
@@ -159,24 +133,13 @@ public class CalendarAPI {
             throw new UnauthorizedException("Login Required");
         }
 
+        CalendarBean calendar = MyLazyClockMemcacheService.getInstance().getCalendar(user, alarmClockId, calendarId);
+
+        if (calendar != null) {
+            return calendar;
+        }
+
         try {
-            MemcacheService cache = getMemcacheService();
-
-            String keyCache = forgeKey(user, alarmClockId);
-
-            Collection<CalendarBean> listCalendar = null;
-
-            try {
-                listCalendar = (Collection<CalendarBean>) cache.get(keyCache);
-            } catch (Exception ignore) { }
-
-            if (listCalendar != null) {
-                for (CalendarBean cal: listCalendar) {
-                    if (Objects.equals(cal.getId(), calendarId)) {
-                        return cal;
-                    }
-                }
-            }
 
             return CalendarService.getInstance().findOne(calendarId, alarmClockId, user);
 

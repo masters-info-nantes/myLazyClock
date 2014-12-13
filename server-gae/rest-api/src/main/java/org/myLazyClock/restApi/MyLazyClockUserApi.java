@@ -29,12 +29,9 @@ import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.Named;
 import com.google.api.server.spi.response.UnauthorizedException;
-import com.google.appengine.api.memcache.ErrorHandlers;
-import com.google.appengine.api.memcache.Expiration;
-import com.google.appengine.api.memcache.MemcacheService;
-import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.appengine.api.users.User;
 import org.myLazyClock.services.ConstantAPI;
+import org.myLazyClock.services.MyLazyClockMemcacheService;
 import org.myLazyClock.services.MyLazyClockUserService;
 import org.myLazyClock.services.bean.MyLazyClockUserValid;
 
@@ -54,12 +51,6 @@ import java.util.Arrays;
         scopes = { Constants.SCOPE_EMAIL, Constants.SCOPE_CALENDAR_READ }
 )
 public class MyLazyClockUserApi {
-
-    private MemcacheService getMemcacheService() {
-        MemcacheService cache = MemcacheServiceFactory.getMemcacheService("myLazyClockUserCheckToken");
-        cache.setErrorHandler(ErrorHandlers.getConsistentLogAndContinue(Constants.MEMCACHE_LEVEL_ERROR_HANDLERS));
-        return cache;
-    }
 
     @ApiMethod(name = "myLazyClockUser.link", httpMethod = ApiMethod.HttpMethod.POST, path = "myLazyClockUser")
     public MyLazyClockUserValid linkUser(@Named("code") String code, User user) throws UnauthorizedException, GeneralSecurityException, IOException {
@@ -82,7 +73,7 @@ public class MyLazyClockUserApi {
 
         MyLazyClockUserValid isValid = MyLazyClockUserService.getInstance().add(user, response.getRefreshToken());
 
-        getMemcacheService().delete(user);
+        MyLazyClockMemcacheService.getInstance().cleanUserValidity(user);
 
         return isValid;
     }
@@ -93,21 +84,15 @@ public class MyLazyClockUserApi {
             throw new UnauthorizedException("Login Required");
         }
 
-        MyLazyClockUserValid isValid;
-        MemcacheService cache = getMemcacheService();
+        MyLazyClockUserValid isValid = MyLazyClockMemcacheService.getInstance().getUserValidity(user);
 
-        try {
-            isValid = (MyLazyClockUserValid) cache.get(user);
-            if (isValid != null) {
-                return isValid;
-            }
-        } catch (Exception ignore) { }
+        if (isValid != null) {
+            return isValid;
+        }
 
         isValid = MyLazyClockUserService.getInstance().checkValid(user.getUserId());
 
-        try {
-            cache.put(user, isValid, Expiration.byDeltaSeconds(21600)); // 6H
-        } catch (Exception ignore) {}
+        MyLazyClockMemcacheService.getInstance().addUserValidity(user, isValid);
 
         return isValid;
     }

@@ -25,11 +25,9 @@ import com.google.api.server.spi.config.Named;
 import com.google.api.server.spi.response.ForbiddenException;
 import com.google.api.server.spi.response.NotFoundException;
 import com.google.api.server.spi.response.UnauthorizedException;
-import com.google.appengine.api.memcache.ErrorHandlers;
-import com.google.appengine.api.memcache.MemcacheService;
-import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.appengine.api.users.User;
 import org.myLazyClock.services.AlarmClockService;
+import org.myLazyClock.services.MyLazyClockMemcacheService;
 import org.myLazyClock.services.bean.AlarmClockBean;
 import org.myLazyClock.services.exception.ForbiddenMyLazyClockException;
 import org.myLazyClock.services.exception.NotFoundMyLazyClockException;
@@ -49,16 +47,6 @@ import java.util.Collection;
 )
 public class AlarmClockAPI {
 
-    private MemcacheService getMemcacheService() {
-        MemcacheService cache = MemcacheServiceFactory.getMemcacheService("alarmClock");
-        cache.setErrorHandler(ErrorHandlers.getConsistentLogAndContinue(Constants.MEMCACHE_LEVEL_ERROR_HANDLERS));
-        return cache;
-    }
-
-    private void cleanCache(Object key) {
-        getMemcacheService().delete(key);
-    }
-
     @ApiMethod(name = "alarmClock.list", httpMethod = ApiMethod.HttpMethod.GET, path="alarmClock/list")
     public Collection<AlarmClockBean> getAllByUser(User user) throws UnauthorizedException {
 
@@ -66,20 +54,14 @@ public class AlarmClockAPI {
             throw new UnauthorizedException("Login Required");
         }
 
-        Collection<AlarmClockBean> listAlarmClock;
-        MemcacheService cache = getMemcacheService();
-        try {
-            listAlarmClock = (Collection<AlarmClockBean>) cache.get(user);
-            if (listAlarmClock != null) {
-                return listAlarmClock;
-            }
-        } catch (Exception ignore) {}
+        Collection<AlarmClockBean> listAlarmClock = MyLazyClockMemcacheService.getInstance().getListAlarmClock(user);
+        if (listAlarmClock != null) {
+            return listAlarmClock;
+        }
 
         listAlarmClock = AlarmClockService.getInstance().findAll(user.getUserId());
 
-        try {
-            cache.put(user, listAlarmClock);
-        } catch (Exception ignore) {}
+        MyLazyClockMemcacheService.getInstance().addListAlarmClock(user, listAlarmClock);
 
         return listAlarmClock;
     }
@@ -89,19 +71,15 @@ public class AlarmClockAPI {
     public AlarmClockBean item(@Named("alarmClockId") Long alarmClockId) throws NotFoundException, UnauthorizedException, ForbiddenException {
 
         try {
-            AlarmClockBean alarm;
-            MemcacheService cache = getMemcacheService();
-            try {
-                alarm = (AlarmClockBean) cache.get(alarmClockId);
-                if (alarm != null) {
-                    return alarm;
-                }
-            } catch (Exception ignore) {}
+
+            AlarmClockBean alarm = MyLazyClockMemcacheService.getInstance().getAlarmClock(alarmClockId);
+            if (alarm != null) {
+                return alarm;
+            }
+
             alarm = AlarmClockService.getInstance().findOne(alarmClockId);
 
-            try {
-                cache.put(alarmClockId, alarm);
-            } catch (Exception ignore) { }
+            MyLazyClockMemcacheService.getInstance().addAlarmClock(alarmClockId, alarm);
 
             return alarm;
         } catch (NotFoundMyLazyClockException e) {
@@ -124,8 +102,9 @@ public class AlarmClockAPI {
 
         try {
             AlarmClockBean newAlarmClock = AlarmClockService.getInstance().link(alarmClock, user);
-            cleanCache(user);
-            cleanCache(newAlarmClock.getId());
+
+            // Clean cache
+            MyLazyClockMemcacheService.getInstance().cleanAlarmClock(user, newAlarmClock.getId());
 
             return newAlarmClock;
 
@@ -145,12 +124,10 @@ public class AlarmClockAPI {
 
         try {
             AlarmClockBean newAlarmClock = AlarmClockService.getInstance().unlink(alarmClockId, user.getUserId());
-            cleanCache(user);
-            cleanCache(newAlarmClock.getId());
 
-            MemcacheService cacheCalendar = MemcacheServiceFactory.getMemcacheService("calendar");
-            cacheCalendar.setErrorHandler(ErrorHandlers.getConsistentLogAndContinue(Constants.MEMCACHE_LEVEL_ERROR_HANDLERS));
-            cacheCalendar.delete(user.toString() + alarmClockId.toString());
+            // Clean cache
+            MyLazyClockMemcacheService.getInstance().cleanAllAlarmClock(user, newAlarmClock.getId());
+
 
             return newAlarmClock;
 
@@ -171,8 +148,9 @@ public class AlarmClockAPI {
         try {
 
             AlarmClockBean newAlarmClock = AlarmClockService.getInstance().update(alarmClock, user.getUserId());
-            cleanCache(user);
-            cleanCache(newAlarmClock.getId());
+
+            // Clean cache
+            MyLazyClockMemcacheService.getInstance().cleanAlarmClock(user, newAlarmClock.getId());
 
             return newAlarmClock;
 

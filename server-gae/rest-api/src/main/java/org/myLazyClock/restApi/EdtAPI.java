@@ -22,11 +22,8 @@ package org.myLazyClock.restApi;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.Named;
-import com.google.appengine.api.memcache.ErrorHandlers;
-import com.google.appengine.api.memcache.Expiration;
-import com.google.appengine.api.memcache.MemcacheService;
-import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import org.myLazyClock.services.EdtService;
+import org.myLazyClock.services.MyLazyClockMemcacheService;
 import org.myLazyClock.services.bean.EdtData;
 
 import java.io.IOException;
@@ -45,29 +42,18 @@ import java.util.Collection;
 )
 public class EdtAPI {
 
-    private MemcacheService getMemcacheService() {
-        MemcacheService cache = MemcacheServiceFactory.getMemcacheService("smartEDT");
-        cache.setErrorHandler(ErrorHandlers.getConsistentLogAndContinue(Constants.MEMCACHE_LEVEL_ERROR_HANDLERS));
-        return cache;
-    }
-
     @ApiMethod(name = "edt.groups.list", httpMethod = ApiMethod.HttpMethod.GET, path="edt/groups/")
     public Collection<EdtData> getGroupsList(@Named("ufr") String ufr) throws IOException {
-        Collection<EdtData> listGroup;
-        MemcacheService cache = getMemcacheService();
 
-        try {
-            listGroup = (Collection<EdtData>) cache.get(ufr);
-            if (listGroup != null) {
-                return listGroup;
-            }
-        } catch (Exception ignore) { }
+        Collection<EdtData> listGroup = MyLazyClockMemcacheService.getInstance().getListGroupsUfr(ufr);
+
+        if (listGroup != null) {
+            return listGroup;
+        }
 
         listGroup = EdtService.getInstance().getGroupsList(ufr);
 
-        try {
-            cache.put(ufr, listGroup, Expiration.byDeltaSeconds(86400)); // 24H
-        } catch (Exception ignore) {}
+        MyLazyClockMemcacheService.getInstance().addGroupsUfr(ufr, listGroup);
 
         return listGroup;
 
@@ -76,21 +62,15 @@ public class EdtAPI {
     @ApiMethod(name = "edt.ufr.list", httpMethod = ApiMethod.HttpMethod.GET, path="edt/ufr/")
     public Collection<EdtData> getUFRList() throws IOException {
 
-        MemcacheService cache = getMemcacheService();
-        Collection<EdtData> listUfr;
+        Collection<EdtData> listUfr = MyLazyClockMemcacheService.getInstance().getListUfr();
 
-        try {
-            listUfr = (Collection<EdtData>) cache.get("listUFR");
-            if (listUfr != null) {
-                return listUfr;
-            }
-        } catch (Exception ignore) { }
+        if (listUfr != null) {
+            return listUfr;
+        }
 
         listUfr = EdtService.getInstance().getUFRList();
 
-        try {
-            cache.put("listUFR", listUfr, Expiration.byDeltaSeconds(604800)); // 1 week
-        } catch (Exception ignore) {}
+        MyLazyClockMemcacheService.getInstance().addListUFR(listUfr);
 
         return listUfr;
 
