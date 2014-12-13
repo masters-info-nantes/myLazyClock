@@ -1,5 +1,10 @@
-<div class="signin" style="margin-top: 50px;">
+<div class="signin" style="margin-top: 50px;" ng-show="online">
 <h4>Identifiant unique du réveil</h4>
 <h2>{{alarmClockId}}</h2>
 <h6>Pour configurer votre réveil, rendez-vous sur :<br>http://mylazyclock.appspot.com</h6>
+</div>
+<div class="signin" style="margin-top: 50px;" ng-hide="offline">
+<h4>Configuration de votre réveil</h4>
+<h2>Wifi</h2>
+<h6>Afin de pouvoir utiliser le réveil, il faut préalablement configurer la connexion wifi. Pour plus d'informations <br><br> https://github.com/masterALMA2016/myLazyClock </h6>
 </div>

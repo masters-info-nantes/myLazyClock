@@ -58,7 +58,6 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
             $scope.sound.volume = (value*0.25).toFixed(2);
             $rootScope.volumeUI = value;
             $localStorage.volume = value;
-            console.log($scope.sound.volume);
         }
 
     	var secondsSinceLastReload = 0;
@@ -73,6 +72,7 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
                     $state.go('webapp.signin');
                 }
                 $scope.sound = ngAudio.load("sounds/"+resp.ringtone);
+                setVolume($localStorage.volume);
 				GApi.execute('myLazyClock', 'clockevent.list', {alarmClockId: $localStorage.alarmClockId}).then(function(resp) {
 					$scope.alarmClockEvents = resp.items;
                     $scope.error = undefined;

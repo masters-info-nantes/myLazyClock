@@ -44,16 +44,14 @@ a {
 	padding: 5px;
 }
 
-.alarmClock .panelClock {
-	position: absolute;
-}
+
 
 .sound {
 	position: absolute;
 	height: 18px;
 	width: 18px;
-	bottom: 2px;
-	left: 2px;
+	bottom: 5px;
+	left: 5px;
 }
 
 .sound0 {
@@ -76,8 +74,8 @@ a {
 	position: absolute;
 	height: 18px;
 	width: 18px;
-	bottom: 2px;
-	right: 2px;
+	bottom: 5px;
+	right: 5px;
 }
 
 .onlineOK {
