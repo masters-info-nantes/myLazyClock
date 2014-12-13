@@ -160,7 +160,11 @@ public class MyLazyClockMemcacheService {
      * @return the list of {@link org.myLazyClock.services.bean.AlarmClockBean} previously stored, or null if not stored
      */
     public Collection<AlarmClockBean> getListAlarmClock(User key) {
-        return (Collection<AlarmClockBean>) get(NAMESPACE_ALARM_CLOCK, key);
+        try {
+            return (Collection<AlarmClockBean>) get(NAMESPACE_ALARM_CLOCK, key);
+        } catch (ClassCastException e) {
+            return null;
+        }
     }
 
     /**
@@ -170,7 +174,11 @@ public class MyLazyClockMemcacheService {
      * @return {@link org.myLazyClock.services.bean.AlarmClockBean} previously stored, or null if not stored
      */
     public AlarmClockBean getAlarmClock(Long key) {
-        return (AlarmClockBean) get(NAMESPACE_ALARM_CLOCK, key);
+        try {
+            return (AlarmClockBean) get(NAMESPACE_ALARM_CLOCK, key);
+        } catch (ClassCastException e) {
+            return null;
+        }
     }
 
     /**
@@ -214,7 +222,11 @@ public class MyLazyClockMemcacheService {
      * @return list of {@link org.myLazyClock.services.bean.CalendarBean} previously stored, null if not stored
      */
     public Collection<CalendarBean> getListCalendar(User user, Long alarmClockId) {
-        return (Collection<CalendarBean>) get(NAMESPACE_CALENDAR, forgeCalendarKey(user, alarmClockId));
+        try {
+            return (Collection<CalendarBean>) get(NAMESPACE_CALENDAR, forgeCalendarKey(user, alarmClockId));
+        } catch (ClassCastException e) {
+            return null;
+        }
     }
 
     /**
@@ -265,7 +277,11 @@ public class MyLazyClockMemcacheService {
      * @return the validity of user previously stored, null if not stored
      */
     public MyLazyClockUserValid getUserValidity(User user) {
-        return (MyLazyClockUserValid) get(NAMESPACE_USER_VALIDITY, user);
+        try {
+            return (MyLazyClockUserValid) get(NAMESPACE_USER_VALIDITY, user);
+        } catch (ClassCastException e) {
+            return null;
+        }
     }
 
     /**
@@ -293,7 +309,11 @@ public class MyLazyClockMemcacheService {
      * @return list of UFR, null id not stored
      */
     public Collection<EdtData> getListUfr() {
-        return (Collection<EdtData>) get(NAMESPACE_SMART_EDT, "listUFR");
+        try {
+            return (Collection<EdtData>) get(NAMESPACE_SMART_EDT, "listUFR");
+        } catch (ClassCastException e) {
+            return null;
+        }
     }
 
     /**
@@ -313,7 +333,11 @@ public class MyLazyClockMemcacheService {
      * @return list of group in the UFR previously stored, null if not stored
      */
     public Collection<EdtData> getListGroupsUfr(String ufr) {
-        return (Collection<EdtData>) get(NAMESPACE_SMART_EDT, ufr);
+        try {
+            return (Collection<EdtData>) get(NAMESPACE_SMART_EDT, ufr);
+        } catch (ClassCastException e) {
+            return null;
+        }
     }
 
     /**
