@@ -72,3 +72,9 @@ label {
 .input-group {
 	width: 100%;
 }
+
+@media (max-width: 767px) {
+	.sign-up-container .middle-sign-up {
+margin-top: 0px;
+}
+}
