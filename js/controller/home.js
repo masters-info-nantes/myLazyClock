@@ -12,42 +12,55 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
         var interval1;
         var interval2;
 
+        $scope.isRaspClient = false;
+        if(window.navigator.userAgent == 'raspmylazyclock')
+            $scope.isRaspClient = true;
+
+        $scope.stop = function() {
+            $scope.soundStop = true;
+            $scope.sound.stop();
+        }
+
         hotkeys.add({
             combo: 's',
             description: 'stop ring',
-            callback: function() {
-                $scope.soundStop = true;
-                $scope.sound.stop();
-            }
+            callback: $scope.stop
         });
+
+        $scope.reload = function() {
+            getAlarmClockEvent();
+        }
 
         hotkeys.add({
             combo: 'r',
             description: 'reload all',
-            callback: function() {
-                getAlarmClockEvent();
-            }
+            callback: $scope.reload
         });
+
+        $scope.volumeUp = function() {
+            if ($localStorage.volume < 4) {
+                setVolume($rootScope.volumeUI+1);
+            }
+        }
 
         hotkeys.add({
             combo: 'p',
             description: 'up volume',
-            callback: function() {
-                if ($localStorage.volume < 4) {
-                    setVolume($rootScope.volumeUI+1);
-                }
-            }
+            callback: $scope.volumeUp
         });
+
+        $scope.volumeDown = function() {
+            if ($localStorage.volume > 0) {
+                setVolume($rootScope.volumeUI-1);
+            }
+        }
 
         hotkeys.add({
             combo: 'm',
             description: 'down volume',
-            callback: function() {
-                if ($localStorage.volume > 0) {
-                    setVolume($rootScope.volumeUI-1);
-                }
-            }
+            callback: $scope.volumeDown
         });
+        
 
         if ($localStorage.volume == undefined)
             setVolume(4);
@@ -110,8 +123,9 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
     			var now = new Date().getTime();
                 if($scope.alarmClockEvents != undefined) {
     			for(var i= 0; i < $scope.alarmClockEvents.length; i++){
-    				if($scope.alarmClockEvents[i]['wakeUpDate'] == undefined )
+    				if($scope.alarmClockEvents[i]['wakeUpDate'] == undefined ) {
     					$scope.alarmClockEvents[i]['wakeUpDate'] = $scope.alarmClockEvents[i]['beginDateTime']-$scope.alarmClockEvents[i]['travelDuration']*1000-$rootScope.alarmClock.preparationTime*1000;
+                    }
     				if(i == 0)
     					nextEvent = $scope.alarmClockEvents[i];
     				else {
@@ -126,9 +140,9 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
                 	}
                 };
                 }
+                $scope.clockEvent = nextEvent;
                 if (nextEvent != undefined) {
                 	
-                	$scope.clockEvent = nextEvent;
                     if (($scope.clockEvent.wakeUpDate-now) < 0 && ($scope.clockEvent.wakeUpDate-now) >= -1000) {
                         $scope.sound.play();
                         $scope.soundStop = false;

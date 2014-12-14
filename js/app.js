@@ -19,7 +19,7 @@ app.run(['GApi', '$state', '$rootScope', '$window',
 
         GApi.load('myLazyClock','v1',BASE);
 
-        $rootScope.online = navigator.onLine;
+        $rootScope.online = window.navigator.onLine;
       $window.addEventListener("offline", function () {
         $rootScope.$apply(function() {
           $rootScope.online = false;
