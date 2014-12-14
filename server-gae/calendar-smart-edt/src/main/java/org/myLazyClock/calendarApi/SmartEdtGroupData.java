@@ -4,7 +4,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
 import java.io.IOException;
-import java.util.*;
+import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by jeremy on 09/12/14.
@@ -41,7 +45,15 @@ public class SmartEdtGroupData {
 
             for(JsonElement element: elements){
                 int elementId = element.getAsJsonObject().get("id").getAsInt();
-                String elementName = element.getAsJsonObject().get("name").getAsString();
+                String elementName = new String(
+                        Charset.forName("ISO-8859-1")
+                                .encode(
+                                        element.getAsJsonObject()
+                                                .get("name")
+                                                .getAsString()
+                                )
+                                .array()
+                );
                 elementsMap.put(elementId, elementName);
             }
             this.data.put(mapId.get(i), elementsMap);
