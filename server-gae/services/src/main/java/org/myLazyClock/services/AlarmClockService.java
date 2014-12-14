@@ -24,10 +24,13 @@ import org.myLazyClock.model.model.AlarmClock;
 import org.myLazyClock.model.repository.AlarmClockRepository;
 import org.myLazyClock.services.bean.AlarmClockBean;
 import org.myLazyClock.services.exception.ForbiddenMyLazyClockException;
+import org.myLazyClock.services.exception.MyLazyClockInvalidFormException;
 import org.myLazyClock.services.exception.NotFoundMyLazyClockException;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created on 22/10/14.
@@ -47,7 +50,8 @@ public class AlarmClockService {
         return service;
     }
 
-    public AlarmClockBean findOne(Long alarmClockId) throws NotFoundMyLazyClockException {
+    public AlarmClockBean findOne(Long alarmClockId)
+            throws NotFoundMyLazyClockException {
         return AlarmClockBean.EntityToBean(findOne_(alarmClockId));
     }
 
@@ -77,7 +81,11 @@ public class AlarmClockService {
         return AlarmClockRepository.getInstance().findAllByUserId(userId);
     }
 
-    public AlarmClockBean link(AlarmClockBean alarmClock, User user) throws ForbiddenMyLazyClockException, NotFoundMyLazyClockException {
+    public AlarmClockBean link(AlarmClockBean alarmClock, User user)
+            throws ForbiddenMyLazyClockException, NotFoundMyLazyClockException, MyLazyClockInvalidFormException {
+
+        checkAlarmClock(alarmClock);
+
         AlarmClock a = findOne_(alarmClock.getId());
         if(a.getUser() != null) {
             throw new ForbiddenMyLazyClockException();
@@ -89,7 +97,8 @@ public class AlarmClockService {
         return AlarmClockBean.EntityToBean(AlarmClockRepository.getInstance().save(a));
     }
 
-    public AlarmClockBean unlink(Long alarmClockId, String userId) throws ForbiddenMyLazyClockException, NotFoundMyLazyClockException {
+    public AlarmClockBean unlink(Long alarmClockId, String userId)
+            throws ForbiddenMyLazyClockException, NotFoundMyLazyClockException {
         AlarmClock a = findOne_(alarmClockId);
         if(!userId.equals(a.getUser())) {
             throw new ForbiddenMyLazyClockException();
@@ -103,7 +112,11 @@ public class AlarmClockService {
         return AlarmClockBean.EntityToBean(AlarmClockRepository.getInstance().save(a));
     }
 
-    public AlarmClockBean update(AlarmClockBean alarmClock, String userId) throws ForbiddenMyLazyClockException, NotFoundMyLazyClockException {
+    public AlarmClockBean update(AlarmClockBean alarmClock, String userId)
+            throws ForbiddenMyLazyClockException, NotFoundMyLazyClockException, MyLazyClockInvalidFormException {
+
+        checkAlarmClock(alarmClock);
+
         AlarmClock a = findOne_(alarmClock.getId());
         if(!userId.equals(a.getUser()))
             throw new ForbiddenMyLazyClockException();
@@ -119,5 +132,48 @@ public class AlarmClockService {
         AlarmClock alarmClock = AlarmClockRepository.getInstance().save(new AlarmClock());
 
         return AlarmClockBean.EntityToBean(alarmClock);
+    }
+
+    /**
+     * Check if {@link org.myLazyClock.services.bean.AlarmClockBean} is valid
+     *
+     * @param alarm AlarmClockBean checked
+     * @throws MyLazyClockInvalidFormException if one field have an error
+     */
+    private void checkAlarmClock(AlarmClockBean alarm)
+            throws MyLazyClockInvalidFormException {
+
+        Map<String, String> errors = new HashMap<>();
+
+        if (checkStringIsNull(alarm.getName())) {
+            errors.put("name", "Name can not be empty");
+        }
+
+        if (checkStringIsNull(alarm.getRingtone())) {
+            errors.put("ringtone", "Ringtone can not be empty");
+        }
+
+        if (checkStringIsNull(alarm.getAddress())) {
+            errors.put("address", "Address can not be empty");
+        }
+
+        if (alarm.getPreparationTime() <= 0) {
+            errors.put("preparationTime", "Preparation time can not be negative or null");
+        }
+
+        if (!errors.isEmpty()) {
+            throw new MyLazyClockInvalidFormException(errors);
+        }
+
+    }
+
+    /**
+     * Check if string is null or empty
+     *
+     * @param field Field checked
+     * @return True if string equals null or equals ""
+     */
+    private boolean checkStringIsNull(String field) {
+        return field == null || "".equals(field);
     }
 }

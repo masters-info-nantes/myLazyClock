@@ -22,6 +22,7 @@ package org.myLazyClock.restApi;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.Named;
+import com.google.api.server.spi.response.BadRequestException;
 import com.google.api.server.spi.response.ForbiddenException;
 import com.google.api.server.spi.response.NotFoundException;
 import com.google.api.server.spi.response.UnauthorizedException;
@@ -30,6 +31,7 @@ import org.myLazyClock.services.AlarmClockService;
 import org.myLazyClock.services.MyLazyClockMemcacheService;
 import org.myLazyClock.services.bean.AlarmClockBean;
 import org.myLazyClock.services.exception.ForbiddenMyLazyClockException;
+import org.myLazyClock.services.exception.MyLazyClockInvalidFormException;
 import org.myLazyClock.services.exception.NotFoundMyLazyClockException;
 
 import java.util.Collection;
@@ -68,7 +70,8 @@ public class AlarmClockAPI {
 
     // Do not add an user because it's use by rasp
     @ApiMethod(name = "alarmClock.item", httpMethod = ApiMethod.HttpMethod.GET, path="alarmClock/item")
-    public AlarmClockBean item(@Named("alarmClockId") Long alarmClockId) throws NotFoundException, UnauthorizedException, ForbiddenException {
+    public AlarmClockBean item(@Named("alarmClockId") Long alarmClockId)
+            throws NotFoundException, UnauthorizedException, ForbiddenException {
 
         try {
 
@@ -94,7 +97,8 @@ public class AlarmClockAPI {
     }
 
     @ApiMethod(name = "alarmClock.link", httpMethod = ApiMethod.HttpMethod.POST, path="alarmClock/link")
-    public AlarmClockBean link(AlarmClockBean alarmClock, User user) throws ForbiddenException, NotFoundException, UnauthorizedException {
+    public AlarmClockBean link(AlarmClockBean alarmClock, User user)
+            throws ForbiddenException, NotFoundException, UnauthorizedException, BadRequestException {
 
         if (user == null) {
             throw new UnauthorizedException("Login Required");
@@ -112,11 +116,14 @@ public class AlarmClockAPI {
             throw new ForbiddenException(e);
         } catch (NotFoundMyLazyClockException e) {
             throw new NotFoundException(e);
+        } catch (MyLazyClockInvalidFormException e) {
+            throw new BadRequestException(e);
         }
     }
 
     @ApiMethod(name = "alarmClock.unlink", httpMethod = ApiMethod.HttpMethod.POST, path="alarmClock/unlink")
-    public AlarmClockBean unlink(@Named("alarmClockId") Long alarmClockId, User user) throws ForbiddenException, NotFoundException, UnauthorizedException {
+    public AlarmClockBean unlink(@Named("alarmClockId") Long alarmClockId, User user)
+            throws ForbiddenException, NotFoundException, UnauthorizedException {
 
         if (user == null) {
             throw new UnauthorizedException("Login Required");
@@ -139,7 +146,8 @@ public class AlarmClockAPI {
     }
 
     @ApiMethod(name = "alarmClock.update", httpMethod = ApiMethod.HttpMethod.POST, path="alarmClock/update")
-    public AlarmClockBean update(AlarmClockBean alarmClock, User user) throws ForbiddenException, NotFoundException, UnauthorizedException {
+    public AlarmClockBean update(AlarmClockBean alarmClock, User user)
+            throws ForbiddenException, NotFoundException, UnauthorizedException, BadRequestException {
 
         if (user == null) {
             throw new UnauthorizedException("Login Required");
@@ -158,6 +166,8 @@ public class AlarmClockAPI {
             throw new ForbiddenException(e);
         } catch (NotFoundMyLazyClockException e) {
             throw new NotFoundException(e);
+        } catch (MyLazyClockInvalidFormException e) {
+            throw new BadRequestException(e);
         }
     }
 

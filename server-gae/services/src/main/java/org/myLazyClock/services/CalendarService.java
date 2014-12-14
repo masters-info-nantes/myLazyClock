@@ -28,9 +28,12 @@ import org.myLazyClock.model.repository.AlarmClockRepository;
 import org.myLazyClock.model.repository.CalendarRepository;
 import org.myLazyClock.services.bean.CalendarBean;
 import org.myLazyClock.services.exception.ForbiddenMyLazyClockException;
+import org.myLazyClock.services.exception.MyLazyClockInvalidFormException;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created on 28/10/14.
@@ -72,7 +75,10 @@ public class CalendarService {
         return CalendarRepository.getInstance().findAll(alarm);
     }
 
-    public CalendarBean add (CalendarBean calendar, Long alarmClockId, User user) throws ForbiddenMyLazyClockException {
+    public CalendarBean add (CalendarBean calendar, Long alarmClockId, User user) throws ForbiddenMyLazyClockException, MyLazyClockInvalidFormException {
+
+        checkCalendar(calendar);
+
         AlarmClock alarm = AlarmClockRepository.getInstance().findOne(alarmClockId);
 
         if (!user.getUserId().equals(alarm.getUser())) {
@@ -102,7 +108,10 @@ public class CalendarService {
         return CalendarRepository.getInstance().findOne(calendarKey);
     }
 
-    public CalendarBean update(Long calendarId, Long alarmClockId, CalendarBean calendar, User user) throws ForbiddenMyLazyClockException {
+    public CalendarBean update(Long calendarId, Long alarmClockId, CalendarBean calendar, User user) throws ForbiddenMyLazyClockException, MyLazyClockInvalidFormException {
+
+        checkCalendar(calendar);
+
         Key calendarKey = new KeyFactory.Builder(AlarmClock.class.getSimpleName(), alarmClockId)
                                     .addChild(Calendar.class.getSimpleName(), calendarId)
                                     .getKey();
@@ -138,5 +147,54 @@ public class CalendarService {
         Calendar calendar = CalendarRepository.getInstance().findOne(calendarKey);
 
         CalendarRepository.getInstance().delete(calendar);
+    }
+
+    /**
+     * Check if {@link org.myLazyClock.services.bean.CalendarBean} is valid
+     *
+     * @param calendar CalendarBean checked
+     * @throws MyLazyClockInvalidFormException if one field have an error
+     */
+    private void checkCalendar(CalendarBean calendar) throws MyLazyClockInvalidFormException {
+        Map<String, String> errors = new HashMap<>();
+
+        if (calendar.getAlarmClockId() == null) {
+            errors.put("alarmClockId", "alarmClockId can not be null");
+        }
+
+        if (checkStringIsNull(calendar.getName())) {
+            errors.put("name", "name can not be empty");
+        }
+
+        if (checkStringIsNull(calendar.getParam())) {
+            errors.put("param", "param can not be empty");
+        }
+
+        if (checkStringIsNull(calendar.getCalendarType())) {
+            errors.put("calendarType", "calendarType can not be empty");
+        }
+
+        if (calendar.getTravelMode() == null) {
+            errors.put("travelMode", "travelMode can not be null");
+        }
+
+        if (checkStringIsNull(calendar.getDefaultEventLocation())) {
+            errors.put("defaultEventLocation", "defaultEventLocation can not be empty");
+        }
+
+        if (!errors.isEmpty()) {
+            throw new MyLazyClockInvalidFormException(errors);
+        }
+
+    }
+
+    /**
+     * Check if string is null or empty
+     *
+     * @param field Field checked
+     * @return True if string equals null or equals ""
+     */
+    private boolean checkStringIsNull(String field) {
+        return field == null || "".equals(field);
     }
 }
