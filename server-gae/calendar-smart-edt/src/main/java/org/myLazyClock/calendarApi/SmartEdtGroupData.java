@@ -4,7 +4,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -41,19 +40,16 @@ public class SmartEdtGroupData {
             JsonElement bddElement = bdd.get(i);
 
             JsonArray elements = bddElement.getAsJsonObject().get("values").getAsJsonArray();
-            HashMap<Integer, String> elementsMap = new HashMap<Integer, String>();
+            HashMap<Integer, String> elementsMap = new HashMap<>();
 
             for(JsonElement element: elements){
                 int elementId = element.getAsJsonObject().get("id").getAsInt();
-                String elementName = new String(
-                        Charset.forName("ISO-8859-1")
-                                .encode(
-                                        element.getAsJsonObject()
-                                                .get("name")
-                                                .getAsString()
-                                )
-                                .array()
-                );
+                String elementName = new String(element.getAsJsonObject()
+                                                        .get("name")
+                                                        .getAsString()
+                                                        .getBytes("ISO-8859-1")
+                                         , "UTF-8");
+
                 elementsMap.put(elementId, elementName);
             }
             this.data.put(mapId.get(i), elementsMap);

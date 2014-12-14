@@ -25,7 +25,6 @@ import org.myLazyClock.calendarApi.JsonConverter;
 import org.myLazyClock.services.bean.EdtData;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -63,11 +62,9 @@ public class EdtService {
             EdtData edtData = new EdtData();
             edtData.setId(a.get("id").getAsString());
             edtData.setName(
-                    new String(
-                            Charset.forName("ISO-8859-1").encode(
-                                    a.get("name").getAsString()
-                            ).array()
-                    )
+                    new String(a.get("name").getAsString()
+                                            .getBytes("ISO-8859-1")
+                            , "UTF-8")
             );
             edts.add(edtData);
         }
