@@ -12,7 +12,7 @@
         
         </accordion-heading>
         <p>Moyen de transport : {{calendar.travelMode}}</p>
-        <p>Lieu par défaut des évenements : {{calendar.defaultEventLocation}} <span ng-hide="calendar.useAlwaysDefaultLocation">(utilisé même si l'évenement posséde une adresse)</span></p>
+        <p>Lieu par défaut des évenements : {{calendar.defaultEventLocation}} <span ng-show="calendar.useAlwaysDefaultLocation">(utilisé même si l'évenement posséde une adresse)</span></p>
          <div class="row">
             <div class="col-md-6">
               <a type="submit" class="btn btn-primary btn-block" ui-sref="webapp.alarmClockItem.view.calendaredit({ calendar: calendar.id })">Editer</a>
