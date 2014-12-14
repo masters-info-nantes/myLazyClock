@@ -110,8 +110,9 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
     			var now = new Date().getTime();
                 if($scope.alarmClockEvents != undefined) {
     			for(var i= 0; i < $scope.alarmClockEvents.length; i++){
-    				if($scope.alarmClockEvents[i]['wakeUpDate'] == undefined )
+    				if($scope.alarmClockEvents[i]['wakeUpDate'] == undefined ) {
     					$scope.alarmClockEvents[i]['wakeUpDate'] = $scope.alarmClockEvents[i]['beginDateTime']-$scope.alarmClockEvents[i]['travelDuration']*1000-$rootScope.alarmClock.preparationTime*1000;
+                    }
     				if(i == 0)
     					nextEvent = $scope.alarmClockEvents[i];
     				else {
@@ -126,9 +127,9 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
                 	}
                 };
                 }
+                $scope.clockEvent = nextEvent;
                 if (nextEvent != undefined) {
                 	
-                	$scope.clockEvent = nextEvent;
                     if (($scope.clockEvent.wakeUpDate-now) < 0 && ($scope.clockEvent.wakeUpDate-now) >= -1000) {
                         $scope.sound.play();
                         $scope.soundStop = false;
