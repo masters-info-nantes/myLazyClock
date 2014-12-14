@@ -225,3 +225,72 @@ background:#000000;
   left:0;
   z-index:9999;
 }
+
+.btn-trans.btn-white {
+color: #ffffff;
+border-color: #ffffff;
+background-color: rgba(0, 0, 0, 0);
+}
+.btn-trans {
+background-color: #fff;
+border-color: #CCCCCC;
+color: #5E5E5E;
+}
+.btn-rad {
+border-radius: 2px;
+-webkit-border-radius: 2px;
+}
+.btn {
+border-color: #CCCCCC;
+border-radius: 0;
+-webkit-border-radius: 0;
+outline: none;
+margin-bottom: 5px !important;
+margin-left: 3px;
+font-size: 13px;
+padding: 7px 11px;
+}
+.btn {
+display: inline-block;
+padding: 6px 12px;
+margin-bottom: 0;
+font-size: 14px;
+font-weight: 400;
+line-height: 1.42857143;
+text-align: center;
+white-space: nowrap;
+vertical-align: middle;
+cursor: pointer;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+background-image: none;
+border: 1px solid transparent;
+border-radius: 4px;
+}
+input, button, select, textarea {
+font-family: inherit;
+font-size: inherit;
+line-height: inherit;
+}
+button, html input[type=button], input[type=reset], input[type=submit] {
+-webkit-appearance: button;
+cursor: pointer;
+}
+button, select {
+text-transform: none;
+}
+button {
+overflow: visible;
+}
+button, input, optgroup, select, textarea {
+margin: 0;
+font: inherit;
+color: inherit;
+}
+* {
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+}

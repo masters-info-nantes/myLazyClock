@@ -12,42 +12,55 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
         var interval1;
         var interval2;
 
+        $scope.isRaspClient = false;
+        if(navigator.userAgent == 'raspmylazyclock')
+            $scope.isRaspClient = true;
+
+        $scope.stop = function() {
+            $scope.soundStop = true;
+            $scope.sound.stop();
+        }
+
         hotkeys.add({
             combo: 's',
             description: 'stop ring',
-            callback: function() {
-                $scope.soundStop = true;
-                $scope.sound.stop();
-            }
+            callback: $scope.stop
         });
+
+        $scope.reload = function() {
+            getAlarmClockEvent();
+        }
 
         hotkeys.add({
             combo: 'r',
             description: 'reload all',
-            callback: function() {
-                getAlarmClockEvent();
-            }
+            callback: $scope.reload
         });
+
+        $scope.volumeUp = function() {
+            if ($localStorage.volume < 4) {
+                setVolume($rootScope.volumeUI+1);
+            }
+        }
 
         hotkeys.add({
             combo: 'p',
             description: 'up volume',
-            callback: function() {
-                if ($localStorage.volume < 4) {
-                    setVolume($rootScope.volumeUI+1);
-                }
-            }
+            callback: $scope.volumeUp
         });
+
+        $scope.volumeDown = function() {
+            if ($localStorage.volume > 0) {
+                setVolume($rootScope.volumeUI-1);
+            }
+        }
 
         hotkeys.add({
             combo: 'm',
             description: 'down volume',
-            callback: function() {
-                if ($localStorage.volume > 0) {
-                    setVolume($rootScope.volumeUI-1);
-                }
-            }
+            callback: $scope.volumeDown
         });
+        
 
         if ($localStorage.volume == undefined)
             setVolume(4);
