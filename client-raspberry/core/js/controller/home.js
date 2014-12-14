@@ -13,7 +13,7 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
         var interval2;
 
         $scope.isRaspClient = false;
-        if(navigator.userAgent == 'raspmylazyclock')
+        if(window.navigator.userAgent == 'raspmylazyclock')
             $scope.isRaspClient = true;
 
         $scope.stop = function() {
