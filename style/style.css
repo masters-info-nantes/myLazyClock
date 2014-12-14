@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Pathway+Gothic+One);
+@import url(//fonts.googleapis.com/css?family=Pathway+Gothic+One);
 
 body{
   padding:0px;
@@ -152,7 +152,7 @@ a {
 	overflow: hidden;
   	background:#ffffff;
 	text-align: center;
-	font-size: 75px;
+	font-size: 85px;
 
 	transition: transform 800ms, z-index 800ms;
 	-moz-transition: -moz-transform 800ms, z-index 800ms;
