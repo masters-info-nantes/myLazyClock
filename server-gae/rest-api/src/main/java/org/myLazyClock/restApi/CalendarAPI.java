@@ -63,7 +63,7 @@ public class CalendarAPI {
             }
 
         } catch (ForbiddenMyLazyClockException e) {
-            throw new ForbiddenException("Forbidden");
+            throw new ForbiddenException(e);
         }
         return listCalendar;
     }
@@ -83,7 +83,7 @@ public class CalendarAPI {
 
             return calendarBean;
         } catch (ForbiddenMyLazyClockException e) {
-            throw new ForbiddenException("Forbidden");
+            throw new ForbiddenException(e);
         }
 
     }
@@ -104,7 +104,7 @@ public class CalendarAPI {
             return calendarBean;
 
         } catch (ForbiddenMyLazyClockException e) {
-            throw new ForbiddenException("Forbidden");
+            throw new ForbiddenException(e);
         }
     }
 
@@ -122,7 +122,7 @@ public class CalendarAPI {
             MyLazyClockMemcacheService.getInstance().cleanCalendar(user, alarmClockId);
 
         } catch (ForbiddenMyLazyClockException e) {
-            throw new ForbiddenException("Forbidden");
+            throw new ForbiddenException(e);
         }
     }
 
@@ -144,7 +144,7 @@ public class CalendarAPI {
             return CalendarService.getInstance().findOne(calendarId, alarmClockId, user);
 
         } catch (ForbiddenMyLazyClockException e) {
-            throw new ForbiddenException("Forbidden");
+            throw new ForbiddenException(e);
         }
     }
 

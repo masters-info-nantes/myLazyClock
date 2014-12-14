@@ -83,7 +83,7 @@ public class AlarmClockAPI {
 
             return alarm;
         } catch (NotFoundMyLazyClockException e) {
-            throw new NotFoundException("NotFound");
+            throw new NotFoundException(e);
         }
     }
 
@@ -109,9 +109,9 @@ public class AlarmClockAPI {
             return newAlarmClock;
 
         } catch (ForbiddenMyLazyClockException e) {
-            throw new ForbiddenException("Forbidden");
+            throw new ForbiddenException(e);
         } catch (NotFoundMyLazyClockException e) {
-            throw new NotFoundException("NotFound");
+            throw new NotFoundException(e);
         }
     }
 
@@ -132,9 +132,9 @@ public class AlarmClockAPI {
             return newAlarmClock;
 
         } catch (ForbiddenMyLazyClockException e) {
-            throw new ForbiddenException("Forbidden");
+            throw new ForbiddenException(e);
         } catch (NotFoundMyLazyClockException e) {
-            throw new NotFoundException("NotFound");
+            throw new NotFoundException(e);
         }
     }
 
@@ -155,9 +155,9 @@ public class AlarmClockAPI {
             return newAlarmClock;
 
         } catch (ForbiddenMyLazyClockException e) {
-            throw new ForbiddenException("Forbidden");
+            throw new ForbiddenException(e);
         } catch (NotFoundMyLazyClockException e) {
-            throw new NotFoundException("NotFound");
+            throw new NotFoundException(e);
         }
     }
 

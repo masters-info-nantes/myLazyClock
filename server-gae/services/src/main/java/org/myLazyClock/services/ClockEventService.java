@@ -4,6 +4,7 @@ import org.myLazyClock.calendarApi.CalendarEvent;
 import org.myLazyClock.calendarApi.CalendarFactory;
 import org.myLazyClock.calendarApi.CalendarStrategy;
 import org.myLazyClock.calendarApi.exception.EventNotFoundException;
+import org.myLazyClock.calendarApi.exception.ForbiddenCalendarException;
 import org.myLazyClock.model.model.AlarmClock;
 import org.myLazyClock.model.model.Calendar;
 import org.myLazyClock.model.model.MyLazyClockUser;
@@ -40,7 +41,7 @@ public class ClockEventService {
      *
      * @return List of event found
      */
-    public Collection<AlarmClockEvent> listEventForWeek(String alarmClockId){
+    public Collection<AlarmClockEvent> listEventForWeek(String alarmClockId) throws ForbiddenCalendarException {
         AlarmClock alarmClock = AlarmClockRepository.getInstance().findOne(Long.decode(alarmClockId));
         MyLazyClockUser user = MyLazyClockUserRepository.getInstance().findOne(alarmClock.getUser());
 
@@ -81,10 +82,7 @@ public class ClockEventService {
                         eventInDay = eventOfDay;
                         calOfEvent = cal;
                     }
-                }
-                catch(EventNotFoundException e){
-                    // No event for this day in this calendar
-                }
+                } catch(EventNotFoundException ignore) { }
             }
 
             AlarmClockEvent alarmEvent;
@@ -122,7 +120,7 @@ public class ClockEventService {
      * @return First event of day if exist, null otherwise
      */
 
-    public CalendarEvent getFirstEventOfDay(Calendar calendar, java.util.Calendar date, String token) throws EventNotFoundException{
+    public CalendarEvent getFirstEventOfDay(Calendar calendar, java.util.Calendar date, String token) throws EventNotFoundException, ForbiddenCalendarException {
 
         java.util.Calendar endDate = (java.util.Calendar) date.clone();
         endDate.set(java.util.Calendar.HOUR_OF_DAY, 23);
@@ -144,8 +142,8 @@ public class ClockEventService {
                 params.put("gCalId", calendar.getParam());
                 params.put("tokenRequest", token);
 
-                params.put("apiId", ConstantAPI.API_ID);
-                params.put("apiSecret", ConstantAPI.API_SECRET);
+                params.put("apiId", org.myLazyClock.services.ConstantAPI.API_ID);
+                params.put("apiSecret", org.myLazyClock.services.ConstantAPI.API_SECRET);
                 break;
             default:
                 strategyId = 1; // URL of ICS file

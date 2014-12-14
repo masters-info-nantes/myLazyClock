@@ -29,6 +29,7 @@ import net.fortuna.ical4j.model.Component;
 import net.fortuna.ical4j.model.ComponentList;
 import net.fortuna.ical4j.model.component.VEvent;
 import org.myLazyClock.calendarApi.exception.EventNotFoundException;
+import org.myLazyClock.calendarApi.exception.ForbiddenCalendarException;
 
 import java.io.*;
 import java.net.URL;
@@ -70,12 +71,6 @@ public class CalendarIcsStrategy implements CalendarStrategy {
      */
     private String getEdt(URL edtUrl) throws IOException {
 
-        /*
-        if(this.icsFiles.containsKey(edtUrl.toString())){
-            return this.icsFiles.get(edtUrl.toString());
-        }
-        */
-
         BufferedReader reader = new BufferedReader(new InputStreamReader(edtUrl.openStream()));
 
         String line;
@@ -87,7 +82,6 @@ public class CalendarIcsStrategy implements CalendarStrategy {
         }
         reader.close();
 
-        //this.icsFiles.put(edtUrl.toString(), page.toString());
         return page.toString();
 
     }
@@ -104,7 +98,7 @@ public class CalendarIcsStrategy implements CalendarStrategy {
      * @throws org.myLazyClock.calendarApi.exception.EventNotFoundException if no event found
      */
     @Override
-    public CalendarEvent getFirstEvent (Map<String, String> params, java.util.Calendar beginDate, java.util.Calendar endDate) throws EventNotFoundException {
+    public CalendarEvent getFirstEvent (Map<String, String> params, java.util.Calendar beginDate, java.util.Calendar endDate) throws EventNotFoundException, ForbiddenCalendarException {
 
         InputStream is;
 
@@ -118,14 +112,14 @@ public class CalendarIcsStrategy implements CalendarStrategy {
             try {
                 icsFile = getEdt(new URL(params.get("url")));
                 if (icsFile == null) {
-                    throw new EventNotFoundException();
+                    throw new ForbiddenCalendarException("Le fichier ICS n'a pas était trouvé");
                 }
 
                 cache.put(params.get("url"), icsFile.getBytes(), Expiration.byDeltaSeconds(7200));
 
                 is = new ByteArrayInputStream(icsFile.getBytes());
             } catch (IOException e) {
-                throw new EventNotFoundException(e);
+                throw new ForbiddenCalendarException(e);
             }
 
         } else {
@@ -138,8 +132,7 @@ public class CalendarIcsStrategy implements CalendarStrategy {
         try {
             calendar = builder.build(is);
         } catch (IOException | ParserException e) {
-            e.printStackTrace();
-            throw new EventNotFoundException();
+            throw new ForbiddenCalendarException(e);
         }
 
         // Looking for first event of the day

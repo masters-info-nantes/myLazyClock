@@ -20,6 +20,7 @@
 package org.myLazyClock.calendarApi;
 
 import org.myLazyClock.calendarApi.exception.EventNotFoundException;
+import org.myLazyClock.calendarApi.exception.ForbiddenCalendarException;
 
 import java.util.Map;
 
@@ -56,5 +57,5 @@ public interface CalendarStrategy {
      * @return CalendarEvent the first event find
      * @throws org.myLazyClock.calendarApi.exception.EventNotFoundException if not event found in specific day
      */
-    public CalendarEvent getFirstEvent(Map<String, String> params, java.util.Calendar beginDate, java.util.Calendar endDate) throws EventNotFoundException;
+    public CalendarEvent getFirstEvent(Map<String, String> params, java.util.Calendar beginDate, java.util.Calendar endDate) throws EventNotFoundException, ForbiddenCalendarException;
 }

@@ -28,6 +28,7 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.Named;
+import com.google.api.server.spi.response.InternalServerErrorException;
 import com.google.api.server.spi.response.UnauthorizedException;
 import com.google.appengine.api.users.User;
 import org.myLazyClock.services.ConstantAPI;
@@ -53,12 +54,17 @@ import java.util.Arrays;
 public class MyLazyClockUserApi {
 
     @ApiMethod(name = "myLazyClockUser.link", httpMethod = ApiMethod.HttpMethod.POST, path = "myLazyClockUser")
-    public MyLazyClockUserValid linkUser(@Named("code") String code, User user) throws UnauthorizedException, GeneralSecurityException, IOException {
+    public MyLazyClockUserValid linkUser(@Named("code") String code, User user) throws UnauthorizedException, InternalServerErrorException {
         if (user == null) {
             throw new UnauthorizedException("Login Required");
         }
 
-        HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+        HttpTransport httpTransport = null;
+        try {
+            httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+        } catch (GeneralSecurityException | IOException e) {
+            throw new InternalServerErrorException(e);
+        }
         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
 
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
@@ -69,7 +75,12 @@ public class MyLazyClockUserApi {
                 Arrays.asList(Constants.SCOPE_CALENDAR_READ)
         ).build();
 
-        GoogleTokenResponse response=flow.newTokenRequest(code).setRedirectUri("postmessage").execute();
+        GoogleTokenResponse response= null;
+        try {
+            response = flow.newTokenRequest(code).setRedirectUri("postmessage").execute();
+        } catch (IOException e) {
+            throw  new InternalServerErrorException(e);
+        }
 
         MyLazyClockUserValid isValid = MyLazyClockUserService.getInstance().add(user, response.getRefreshToken());
 

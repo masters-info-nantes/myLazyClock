@@ -22,6 +22,7 @@ package org.myLazyClock.restApi;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.Named;
+import com.google.api.server.spi.response.ServiceUnavailableException;
 import org.myLazyClock.services.EdtService;
 import org.myLazyClock.services.MyLazyClockMemcacheService;
 import org.myLazyClock.services.bean.EdtData;
@@ -43,7 +44,7 @@ import java.util.Collection;
 public class EdtAPI {
 
     @ApiMethod(name = "edt.groups.list", httpMethod = ApiMethod.HttpMethod.GET, path="edt/groups/")
-    public Collection<EdtData> getGroupsList(@Named("ufr") String ufr) throws IOException {
+    public Collection<EdtData> getGroupsList(@Named("ufr") String ufr) throws ServiceUnavailableException {
 
         Collection<EdtData> listGroup = MyLazyClockMemcacheService.getInstance().getListGroupsUfr(ufr);
 
@@ -51,16 +52,23 @@ public class EdtAPI {
             return listGroup;
         }
 
-        listGroup = EdtService.getInstance().getGroupsList(ufr);
+        try {
 
-        MyLazyClockMemcacheService.getInstance().addGroupsUfr(ufr, listGroup);
+            listGroup = EdtService.getInstance().getGroupsList(ufr);
+
+            MyLazyClockMemcacheService.getInstance().addGroupsUfr(ufr, listGroup);
+
+        } catch (IOException e) {
+            throw new ServiceUnavailableException(e);
+        }
+
 
         return listGroup;
 
     }
 
     @ApiMethod(name = "edt.ufr.list", httpMethod = ApiMethod.HttpMethod.GET, path="edt/ufr/")
-    public Collection<EdtData> getUFRList() throws IOException {
+    public Collection<EdtData> getUFRList() throws ServiceUnavailableException {
 
         Collection<EdtData> listUfr = MyLazyClockMemcacheService.getInstance().getListUfr();
 
@@ -68,10 +76,15 @@ public class EdtAPI {
             return listUfr;
         }
 
-        listUfr = EdtService.getInstance().getUFRList();
+        try {
 
-        MyLazyClockMemcacheService.getInstance().addListUFR(listUfr);
+            listUfr = EdtService.getInstance().getUFRList();
 
+            MyLazyClockMemcacheService.getInstance().addListUFR(listUfr);
+
+        } catch (IOException e) {
+            throw new ServiceUnavailableException(e);
+        }
         return listUfr;
 
     }

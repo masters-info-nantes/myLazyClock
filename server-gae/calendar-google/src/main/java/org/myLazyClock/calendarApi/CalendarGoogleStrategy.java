@@ -29,6 +29,7 @@ import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 import org.myLazyClock.calendarApi.exception.EventNotFoundException;
+import org.myLazyClock.calendarApi.exception.ForbiddenCalendarException;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -68,7 +69,7 @@ public class CalendarGoogleStrategy implements CalendarStrategy {
      * @throws org.myLazyClock.calendarApi.exception.EventNotFoundException if not event found in specific day
      */
     @Override
-    public CalendarEvent getFirstEvent(Map<String, String> params, java.util.Calendar beginDate, java.util.Calendar endDate) throws EventNotFoundException {
+    public CalendarEvent getFirstEvent(Map<String, String> params, java.util.Calendar beginDate, java.util.Calendar endDate) throws EventNotFoundException, ForbiddenCalendarException {
         if (beginDate == null || endDate == null || params == null
                 || params.get("tokenRequest") == null || params.get("tokenRequest").equals("")
                 || params.get("gCalId") == null || params.get("gCalId").equals("")) {
@@ -113,7 +114,9 @@ public class CalendarGoogleStrategy implements CalendarStrategy {
             returnEvent.setEndDate(new Date(event.getEnd().getDateTime().getValue()));
             returnEvent.setAddress(event.getLocation());
 
-        } catch (GeneralSecurityException | IOException e) {
+        } catch (GeneralSecurityException e) {
+            throw new ForbiddenCalendarException("Accés interdit au calendrier de Google");
+        } catch (IOException e) {
             e.printStackTrace();
             throw new EventNotFoundException();
         }
