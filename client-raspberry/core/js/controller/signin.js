@@ -12,9 +12,11 @@ controller.controller('myLazyClock.controller.signin', ['$scope', '$localStorage
                             $state.go('webapp.home');
                         }
                     }, function(resp) {
-                        $interval.cancel(interval);
-                        $localStorage.$reset();
-                        check();
+                        if(resp.code = 404) {
+                            $interval.cancel(interval);
+                            $localStorage.alarmClockId = undefined;
+                            check();
+                        }
                     });
             }
 
