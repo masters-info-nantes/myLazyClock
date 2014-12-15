@@ -9,6 +9,7 @@ package org.myLazyClock.model.repository;
 import org.myLazyClock.model.model.AlarmClock;
 
 import javax.jdo.JDOHelper;
+import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import java.util.Collection;
@@ -64,7 +65,11 @@ public class AlarmClockRepository {
     public AlarmClock findOne(Long id) {
         PersistenceManager pm = PMF.get().getPersistenceManager();
 
-        return pm.getObjectById(AlarmClock.class, id);
+        try {
+            return pm.getObjectById(AlarmClock.class, id);
+        } catch (JDOObjectNotFoundException e) {
+            return null;
+        }
     }
 
     public AlarmClock save(AlarmClock alarmClock) {

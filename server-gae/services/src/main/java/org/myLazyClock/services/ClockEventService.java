@@ -11,6 +11,7 @@ import org.myLazyClock.model.model.MyLazyClockUser;
 import org.myLazyClock.model.repository.AlarmClockRepository;
 import org.myLazyClock.model.repository.MyLazyClockUserRepository;
 import org.myLazyClock.services.bean.AlarmClockEvent;
+import org.myLazyClock.services.exception.NotFoundMyLazyClockException;
 import org.myLazyClock.travelApi.TravelDuration;
 import org.myLazyClock.travelApi.TravelFactory;
 import org.myLazyClock.travelApi.TravelStrategy;
@@ -41,8 +42,11 @@ public class ClockEventService {
      *
      * @return List of event found
      */
-    public Collection<AlarmClockEvent> listEventForWeek(String alarmClockId) throws ForbiddenCalendarException {
+    public Collection<AlarmClockEvent> listEventForWeek(String alarmClockId) throws ForbiddenCalendarException, NotFoundMyLazyClockException {
         AlarmClock alarmClock = AlarmClockRepository.getInstance().findOne(Long.decode(alarmClockId));
+        if (alarmClock == null) {
+            throw new NotFoundMyLazyClockException("Not found alarm clock " + alarmClockId);
+        }
         MyLazyClockUser user = MyLazyClockUserRepository.getInstance().findOne(alarmClock.getUser());
 
         String userToken = (user != null) ? user.getToken() : "";

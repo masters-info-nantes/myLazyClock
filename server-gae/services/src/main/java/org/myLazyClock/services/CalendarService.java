@@ -29,6 +29,7 @@ import org.myLazyClock.model.repository.CalendarRepository;
 import org.myLazyClock.services.bean.CalendarBean;
 import org.myLazyClock.services.exception.ForbiddenMyLazyClockException;
 import org.myLazyClock.services.exception.MyLazyClockInvalidFormException;
+import org.myLazyClock.services.exception.NotFoundMyLazyClockException;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -53,7 +54,7 @@ public class CalendarService {
         return service;
     }
 
-    public Collection<CalendarBean> findAll(Long alarmClockId, User user) throws ForbiddenMyLazyClockException {
+    public Collection<CalendarBean> findAll(Long alarmClockId, User user) throws ForbiddenMyLazyClockException, NotFoundMyLazyClockException {
         Collection<Calendar> allCalendar =  findAll_(alarmClockId, user);
 
         Collection<CalendarBean> allBean = new ArrayList<>();
@@ -65,8 +66,8 @@ public class CalendarService {
         return allBean;
     }
 
-    private Collection<Calendar> findAll_(Long alarmClockId, User user) throws ForbiddenMyLazyClockException {
-        AlarmClock alarm = AlarmClockRepository.getInstance().findOne(alarmClockId);
+    private Collection<Calendar> findAll_(Long alarmClockId, User user) throws ForbiddenMyLazyClockException, NotFoundMyLazyClockException {
+        AlarmClock alarm = findOneAlarmClock_(alarmClockId);
 
         if (!user.getUserId().equals(alarm.getUser())) {
             throw new ForbiddenMyLazyClockException();
@@ -75,11 +76,11 @@ public class CalendarService {
         return CalendarRepository.getInstance().findAll(alarm);
     }
 
-    public CalendarBean add (CalendarBean calendar, Long alarmClockId, User user) throws ForbiddenMyLazyClockException, MyLazyClockInvalidFormException {
+    public CalendarBean add (CalendarBean calendar, Long alarmClockId, User user) throws ForbiddenMyLazyClockException, MyLazyClockInvalidFormException, NotFoundMyLazyClockException {
 
         checkCalendar(calendar);
 
-        AlarmClock alarm = AlarmClockRepository.getInstance().findOne(alarmClockId);
+        AlarmClock alarm = findOneAlarmClock_(alarmClockId);
 
         if (!user.getUserId().equals(alarm.getUser())) {
             throw  new ForbiddenMyLazyClockException();
@@ -90,8 +91,9 @@ public class CalendarService {
         );
     }
 
-    public CalendarBean findOne(Long calendarId, Long alarmClockId, User user) throws ForbiddenMyLazyClockException {
-        AlarmClock alarmClock = AlarmClockRepository.getInstance().findOne(alarmClockId);
+    public CalendarBean findOne(Long calendarId, Long alarmClockId, User user) throws ForbiddenMyLazyClockException, NotFoundMyLazyClockException {
+
+        AlarmClock alarmClock = findOneAlarmClock_(alarmClockId);
 
         if (!user.getUserId().equals(alarmClock.getUser())) {
             throw new ForbiddenMyLazyClockException();
@@ -108,7 +110,17 @@ public class CalendarService {
         return CalendarRepository.getInstance().findOne(calendarKey);
     }
 
-    public CalendarBean update(Long calendarId, Long alarmClockId, CalendarBean calendar, User user) throws ForbiddenMyLazyClockException, MyLazyClockInvalidFormException {
+    private AlarmClock findOneAlarmClock_(Long alarmClockId) throws NotFoundMyLazyClockException {
+        AlarmClock alarmClock = AlarmClockRepository.getInstance().findOne(alarmClockId);
+
+        if (alarmClock == null) {
+            throw new NotFoundMyLazyClockException("Not found alarm clock " + alarmClockId);
+        }
+
+        return alarmClock;
+    }
+
+    public CalendarBean update(Long calendarId, Long alarmClockId, CalendarBean calendar, User user) throws ForbiddenMyLazyClockException, MyLazyClockInvalidFormException, NotFoundMyLazyClockException {
 
         checkCalendar(calendar);
 
@@ -116,7 +128,7 @@ public class CalendarService {
                                     .addChild(Calendar.class.getSimpleName(), calendarId)
                                     .getKey();
 
-        AlarmClock alarmClock = AlarmClockRepository.getInstance().findOne(alarmClockId);
+        AlarmClock alarmClock = findOneAlarmClock_(alarmClockId);
 
         if (!user.getUserId().equals(alarmClock.getUser())) {
             throw new ForbiddenMyLazyClockException();
@@ -134,8 +146,9 @@ public class CalendarService {
         return CalendarBean.EntityToBean(CalendarRepository.getInstance().save(toSave));
     }
 
-    public void delete(Long calendarId, Long alarmClockId, User user) throws ForbiddenMyLazyClockException {
-        AlarmClock alarmClock = AlarmClockRepository.getInstance().findOne(alarmClockId);
+    public void delete(Long calendarId, Long alarmClockId, User user) throws ForbiddenMyLazyClockException, NotFoundMyLazyClockException {
+
+        AlarmClock alarmClock = findOneAlarmClock_(alarmClockId);
 
         if (!alarmClock.getUser().equals(user.getUserId())) {
             throw new ForbiddenMyLazyClockException();

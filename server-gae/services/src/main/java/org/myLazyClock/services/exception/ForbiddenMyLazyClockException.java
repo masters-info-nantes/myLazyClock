@@ -20,10 +20,26 @@
 package org.myLazyClock.services.exception;
 
 /**
- * Created by Maxime on 15/11/14.
+ * Created on 15/11/14.
+ *
+ * @author dralagen, Maxime
  */
 public class ForbiddenMyLazyClockException extends Exception {
+
     public ForbiddenMyLazyClockException() {
         super();
     }
+
+    public ForbiddenMyLazyClockException(String msg) {
+        super(msg);
+    }
+
+    public ForbiddenMyLazyClockException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public ForbiddenMyLazyClockException(Throwable cause) {
+        super(cause);
+    }
+
 }

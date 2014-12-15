@@ -59,7 +59,7 @@ public class AlarmClockService {
         AlarmClock alarmClock = AlarmClockRepository.getInstance().findOne(id);
 
         if (alarmClock == null) {
-            throw new NotFoundMyLazyClockException();
+            throw new NotFoundMyLazyClockException("Not found alarm clock " + id);
         }
 
         return alarmClock;

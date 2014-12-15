@@ -20,10 +20,25 @@
 package org.myLazyClock.services.exception;
 
 /**
- * Created by Maxime on 15/11/14.
+ * Created on 15/11/14.
+ *
+ * @author dralagen, Maxime
  */
 public class NotFoundMyLazyClockException extends Exception {
+
     public NotFoundMyLazyClockException() {
         super();
+    }
+
+    public NotFoundMyLazyClockException(String msg) {
+        super(msg);
+    }
+
+    public NotFoundMyLazyClockException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public NotFoundMyLazyClockException(Throwable cause) {
+        super(cause);
     }
 }
