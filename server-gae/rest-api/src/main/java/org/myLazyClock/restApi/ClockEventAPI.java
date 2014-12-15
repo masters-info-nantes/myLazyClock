@@ -4,9 +4,11 @@ import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.Named;
 import com.google.api.server.spi.response.ForbiddenException;
+import com.google.api.server.spi.response.NotFoundException;
 import org.myLazyClock.calendarApi.exception.ForbiddenCalendarException;
 import org.myLazyClock.services.ClockEventService;
 import org.myLazyClock.services.bean.AlarmClockEvent;
+import org.myLazyClock.services.exception.NotFoundMyLazyClockException;
 
 import java.util.Collection;
 
@@ -24,11 +26,13 @@ import java.util.Collection;
 public class ClockEventAPI {
 
     @ApiMethod(name = "clockevent.list", httpMethod = ApiMethod.HttpMethod.GET, path="clockevent")
-    public Collection<AlarmClockEvent> list(@Named("alarmClockId") String alarmClockId) throws ForbiddenException {
+    public Collection<AlarmClockEvent> list(@Named("alarmClockId") String alarmClockId) throws ForbiddenException, NotFoundException {
         try {
             return ClockEventService.getInstance().listEventForWeek(alarmClockId);
         } catch (ForbiddenCalendarException e) {
             throw new ForbiddenException(e);
+        } catch (NotFoundMyLazyClockException e) {
+            throw new NotFoundException(e);
         }
     }
 }

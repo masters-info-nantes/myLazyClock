@@ -24,6 +24,7 @@ import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.Named;
 import com.google.api.server.spi.response.BadRequestException;
 import com.google.api.server.spi.response.ForbiddenException;
+import com.google.api.server.spi.response.NotFoundException;
 import com.google.api.server.spi.response.UnauthorizedException;
 import com.google.appengine.api.users.User;
 import org.myLazyClock.services.CalendarService;
@@ -31,6 +32,7 @@ import org.myLazyClock.services.MyLazyClockMemcacheService;
 import org.myLazyClock.services.bean.CalendarBean;
 import org.myLazyClock.services.exception.ForbiddenMyLazyClockException;
 import org.myLazyClock.services.exception.MyLazyClockInvalidFormException;
+import org.myLazyClock.services.exception.NotFoundMyLazyClockException;
 
 import java.util.Collection;
 
@@ -49,7 +51,7 @@ public class CalendarAPI {
 
     @ApiMethod(name = "calendar.list", httpMethod = ApiMethod.HttpMethod.GET, path="calendar")
     public Collection<CalendarBean> list(@Named("alarmClockId") Long alarmClockId, User user)
-            throws ForbiddenException, UnauthorizedException {
+            throws ForbiddenException, UnauthorizedException, NotFoundException {
 
         if (user == null) {
             throw new UnauthorizedException("Login Required");
@@ -67,13 +69,15 @@ public class CalendarAPI {
 
         } catch (ForbiddenMyLazyClockException e) {
             throw new ForbiddenException(e);
+        } catch (NotFoundMyLazyClockException e) {
+            throw new NotFoundException(e);
         }
         return listCalendar;
     }
 
     @ApiMethod(name = "calendar.update", httpMethod = ApiMethod.HttpMethod.PUT, path="calendar")
     public CalendarBean update(@Named("calendarId") Long calendarId, @Named("alarmClockId") Long alarmClockId, CalendarBean calendar, User user)
-            throws ForbiddenException, UnauthorizedException, BadRequestException {
+            throws ForbiddenException, UnauthorizedException, BadRequestException, NotFoundException {
 
         if (user == null) {
             throw new UnauthorizedException("Login Required");
@@ -90,13 +94,15 @@ public class CalendarAPI {
             throw new ForbiddenException(e);
         } catch (MyLazyClockInvalidFormException e) {
             throw new BadRequestException(e);
+        } catch (NotFoundMyLazyClockException e) {
+            throw new NotFoundException(e);
         }
 
     }
 
     @ApiMethod(name = "calendar.add", httpMethod = ApiMethod.HttpMethod.POST, path="calendar")
     public CalendarBean add(@Named("alarmClockId") Long alarmClockId, CalendarBean calendar, User user)
-            throws ForbiddenException, UnauthorizedException, BadRequestException {
+            throws ForbiddenException, UnauthorizedException, BadRequestException, NotFoundException {
 
         if (user == null) {
             throw new UnauthorizedException("Login Required");
@@ -114,12 +120,14 @@ public class CalendarAPI {
             throw new ForbiddenException(e);
         } catch (MyLazyClockInvalidFormException e) {
             throw new BadRequestException(e);
+        } catch (NotFoundMyLazyClockException e) {
+            throw new NotFoundException(e);
         }
     }
 
     @ApiMethod(name = "calendar.delete", httpMethod = ApiMethod.HttpMethod.DELETE, path="calendar")
     public void delete(@Named("calendarId") Long calendarId, @Named("alarmClockId") Long alarmClockId, User user)
-            throws ForbiddenException, UnauthorizedException {
+            throws ForbiddenException, UnauthorizedException, NotFoundException {
 
         if (user == null) {
             throw new UnauthorizedException("Login Required");
@@ -133,12 +141,14 @@ public class CalendarAPI {
 
         } catch (ForbiddenMyLazyClockException e) {
             throw new ForbiddenException(e);
+        } catch (NotFoundMyLazyClockException e) {
+            throw new NotFoundException(e);
         }
     }
 
     @ApiMethod(name = "calendar.item", httpMethod = ApiMethod.HttpMethod.GET, path="calendar/item")
     public CalendarBean item(@Named("calendarId") Long calendarId, @Named("alarmClockId") Long alarmClockId, User user)
-            throws ForbiddenException, UnauthorizedException {
+            throws ForbiddenException, UnauthorizedException, NotFoundException {
 
         if (user == null) {
             throw new UnauthorizedException("Login Required");
@@ -156,6 +166,8 @@ public class CalendarAPI {
 
         } catch (ForbiddenMyLazyClockException e) {
             throw new ForbiddenException(e);
+        } catch (NotFoundMyLazyClockException e) {
+            throw new NotFoundException(e);
         }
     }
 
