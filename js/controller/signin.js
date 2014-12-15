@@ -3,6 +3,7 @@ var controller = angular.module('myLazyClock.controller.signin', []);
 controller.controller('myLazyClock.controller.signin', ['$scope', '$localStorage', '$interval', '$state', 'GApi',
     function signinCtl($scope, $localStorage, $interval, $state, GApi) {
         var interval;
+        var interval2;
 
         var checkLink = function(id) {
                 GApi.execute('myLazyClock', 'alarmClock.item', {alarmClockId: id}).then( function(resp) {
@@ -11,9 +12,11 @@ controller.controller('myLazyClock.controller.signin', ['$scope', '$localStorage
                             $state.go('webapp.home');
                         }
                     }, function(resp) {
-                        $interval.cancel(interval);
-                        $localStorage.$reset();
-                        check();
+                        if(resp.code = 404) {
+                            $interval.cancel(interval);
+                            $localStorage.alarmClockId = undefined;
+                            check();
+                        }
                     });
             }
 
@@ -24,13 +27,20 @@ controller.controller('myLazyClock.controller.signin', ['$scope', '$localStorage
 			}, 4000);
     	}
 
-        var check = function() {
-            if($localStorage.alarmClockId == undefined) {
+        var generate = function() {
+            interval2 = $interval(function() {
                 GApi.execute('myLazyClock', 'alarmClock.generate').then( function(resp) {
                     $localStorage.alarmClockId = resp.id;
                     $scope.alarmClockId = resp.id;
+                    $interval.cancel(interval2);
                     goToHome($localStorage.alarmClockId);
                 });
+            }, 1000);
+        }
+
+        var check = function() {
+            if($localStorage.alarmClockId == undefined) {
+                generate();
             } else {
                 $scope.alarmClockId = $localStorage.alarmClockId;
                 goToHome($localStorage.alarmClockId);
