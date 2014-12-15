@@ -102,12 +102,18 @@ public class CalendarService {
         return CalendarBean.EntityToBean(findOne_(calendarId, alarmClockId));
     }
 
-    private Calendar findOne_(Long calendarId, Long alarmClockId) throws ForbiddenMyLazyClockException {
+    private Calendar findOne_(Long calendarId, Long alarmClockId) throws ForbiddenMyLazyClockException, NotFoundMyLazyClockException {
         Key calendarKey = new KeyFactory.Builder(AlarmClock.class.getSimpleName(), alarmClockId)
                 .addChild(Calendar.class.getSimpleName(), calendarId)
                 .getKey();
 
-        return CalendarRepository.getInstance().findOne(calendarKey);
+        Calendar calendar = CalendarRepository.getInstance().findOne(calendarKey);
+
+        if (calendar == null) {
+            throw new NotFoundMyLazyClockException("Not found Calendar " + calendarId + " in alarm clock " + alarmClockId);
+        }
+
+        return calendar;
     }
 
     private AlarmClock findOneAlarmClock_(Long alarmClockId) throws NotFoundMyLazyClockException {

@@ -5,6 +5,7 @@ import org.myLazyClock.model.model.AlarmClock;
 import org.myLazyClock.model.model.Calendar;
 
 import javax.jdo.JDOHelper;
+import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import java.util.Collection;
 import java.util.List;
@@ -61,7 +62,11 @@ public class CalendarRepository {
     public Calendar findOne(Key calendarKey) {
         PersistenceManager pm = PMF.get().getPersistenceManager();
 
-        return pm.getObjectById(Calendar.class, calendarKey);
+        try {
+            return pm.getObjectById(Calendar.class, calendarKey);
+        } catch (JDOObjectNotFoundException e) {
+            return null;
+        }
     }
 
     public void delete(Calendar calendar) {
