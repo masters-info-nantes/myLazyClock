@@ -49,7 +49,7 @@ import java.util.Collection;
 )
 public class CalendarAPI {
 
-    @ApiMethod(name = "calendar.list", httpMethod = ApiMethod.HttpMethod.GET, path="calendar")
+    @ApiMethod(name = "calendar.list", httpMethod = ApiMethod.HttpMethod.GET, path="calendar/{alarmClockId}")
     public Collection<CalendarBean> list(@Named("alarmClockId") Long alarmClockId, User user)
             throws ForbiddenException, UnauthorizedException, NotFoundException {
 
@@ -75,7 +75,7 @@ public class CalendarAPI {
         return listCalendar;
     }
 
-    @ApiMethod(name = "calendar.update", httpMethod = ApiMethod.HttpMethod.PUT, path="calendar")
+    @ApiMethod(name = "calendar.update", httpMethod = ApiMethod.HttpMethod.PUT, path="calendar/{alarmClockId}/{calendarId}")
     public CalendarBean update(@Named("calendarId") Long calendarId, @Named("alarmClockId") Long alarmClockId, CalendarBean calendar, User user)
             throws ForbiddenException, UnauthorizedException, BadRequestException, NotFoundException {
 
@@ -100,7 +100,7 @@ public class CalendarAPI {
 
     }
 
-    @ApiMethod(name = "calendar.add", httpMethod = ApiMethod.HttpMethod.POST, path="calendar")
+    @ApiMethod(name = "calendar.add", httpMethod = ApiMethod.HttpMethod.POST, path="calendar/{alarmClockId}")
     public CalendarBean add(@Named("alarmClockId") Long alarmClockId, CalendarBean calendar, User user)
             throws ForbiddenException, UnauthorizedException, BadRequestException, NotFoundException {
 
@@ -125,7 +125,7 @@ public class CalendarAPI {
         }
     }
 
-    @ApiMethod(name = "calendar.delete", httpMethod = ApiMethod.HttpMethod.DELETE, path="calendar")
+    @ApiMethod(name = "calendar.delete", httpMethod = ApiMethod.HttpMethod.DELETE, path="calendar/{alarmClockId}/{calendarId}")
     public void delete(@Named("calendarId") Long calendarId, @Named("alarmClockId") Long alarmClockId, User user)
             throws ForbiddenException, UnauthorizedException, NotFoundException {
 
@@ -146,7 +146,7 @@ public class CalendarAPI {
         }
     }
 
-    @ApiMethod(name = "calendar.item", httpMethod = ApiMethod.HttpMethod.GET, path="calendar/item")
+    @ApiMethod(name = "calendar.item", httpMethod = ApiMethod.HttpMethod.GET, path="calendar/{alarmClockId}/{calendarId}")
     public CalendarBean item(@Named("calendarId") Long calendarId, @Named("alarmClockId") Long alarmClockId, User user)
             throws ForbiddenException, UnauthorizedException, NotFoundException {
 

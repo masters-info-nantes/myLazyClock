@@ -43,7 +43,7 @@ import java.util.Collection;
 )
 public class EdtAPI {
 
-    @ApiMethod(name = "edt.groups.list", httpMethod = ApiMethod.HttpMethod.GET, path="edt/groups/")
+    @ApiMethod(name = "edt.groups.list", httpMethod = ApiMethod.HttpMethod.GET, path="edt/ufr/{ufr}")
     public Collection<EdtData> getGroupsList(@Named("ufr") String ufr) throws ServiceUnavailableException {
 
         Collection<EdtData> listGroup = MyLazyClockMemcacheService.getInstance().getListGroupsUfr(ufr);
@@ -67,7 +67,7 @@ public class EdtAPI {
 
     }
 
-    @ApiMethod(name = "edt.ufr.list", httpMethod = ApiMethod.HttpMethod.GET, path="edt/ufr/")
+    @ApiMethod(name = "edt.ufr.list", httpMethod = ApiMethod.HttpMethod.GET, path="edt/ufr")
     public Collection<EdtData> getUFRList() throws ServiceUnavailableException {
 
         Collection<EdtData> listUfr = MyLazyClockMemcacheService.getInstance().getListUfr();

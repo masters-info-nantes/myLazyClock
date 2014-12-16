@@ -25,7 +25,7 @@ import java.util.Collection;
 )
 public class ClockEventAPI {
 
-    @ApiMethod(name = "clockevent.list", httpMethod = ApiMethod.HttpMethod.GET, path="clockevent")
+    @ApiMethod(name = "clockevent.list", httpMethod = ApiMethod.HttpMethod.GET, path="clockevent/{alarmClockId}")
     public Collection<AlarmClockEvent> list(@Named("alarmClockId") String alarmClockId) throws ForbiddenException, NotFoundException {
         try {
             return ClockEventService.getInstance().listEventForWeek(alarmClockId);

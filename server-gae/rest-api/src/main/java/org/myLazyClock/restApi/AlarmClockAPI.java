@@ -49,7 +49,7 @@ import java.util.Collection;
 )
 public class AlarmClockAPI {
 
-    @ApiMethod(name = "alarmClock.list", httpMethod = ApiMethod.HttpMethod.GET, path="alarmClock/list")
+    @ApiMethod(name = "alarmClock.list", httpMethod = ApiMethod.HttpMethod.GET, path="alarmClock")
     public Collection<AlarmClockBean> getAllByUser(User user) throws UnauthorizedException {
 
         if (user == null) {
@@ -69,7 +69,7 @@ public class AlarmClockAPI {
     }
 
     // Do not add an user because it's use by rasp
-    @ApiMethod(name = "alarmClock.item", httpMethod = ApiMethod.HttpMethod.GET, path="alarmClock/item")
+    @ApiMethod(name = "alarmClock.item", httpMethod = ApiMethod.HttpMethod.GET, path="alarmClock/{alarmClockId}")
     public AlarmClockBean item(@Named("alarmClockId") Long alarmClockId)
             throws NotFoundException, UnauthorizedException, ForbiddenException {
 
@@ -91,12 +91,12 @@ public class AlarmClockAPI {
     }
 
     // Do not add an user because it's use by rasp
-    @ApiMethod(name = "alarmClock.generate", httpMethod = ApiMethod.HttpMethod.GET, path="alarmClock/generate")
+    @ApiMethod(name = "alarmClock.generate", httpMethod = ApiMethod.HttpMethod.POST, path="alarmClock")
     public AlarmClockBean generate() {
         return AlarmClockService.getInstance().generate();
     }
 
-    @ApiMethod(name = "alarmClock.link", httpMethod = ApiMethod.HttpMethod.POST, path="alarmClock/link")
+    @ApiMethod(name = "alarmClock.link", httpMethod = ApiMethod.HttpMethod.PUT, path="alarmClock")
     public AlarmClockBean link(AlarmClockBean alarmClock, User user)
             throws ForbiddenException, NotFoundException, UnauthorizedException, BadRequestException {
 
@@ -121,7 +121,7 @@ public class AlarmClockAPI {
         }
     }
 
-    @ApiMethod(name = "alarmClock.unlink", httpMethod = ApiMethod.HttpMethod.POST, path="alarmClock/unlink")
+    @ApiMethod(name = "alarmClock.unlink", httpMethod = ApiMethod.HttpMethod.DELETE, path="alarmClock/{alarmClockId}")
     public AlarmClockBean unlink(@Named("alarmClockId") Long alarmClockId, User user)
             throws ForbiddenException, NotFoundException, UnauthorizedException {
 
@@ -145,8 +145,8 @@ public class AlarmClockAPI {
         }
     }
 
-    @ApiMethod(name = "alarmClock.update", httpMethod = ApiMethod.HttpMethod.POST, path="alarmClock/update")
-    public AlarmClockBean update(AlarmClockBean alarmClock, User user)
+    @ApiMethod(name = "alarmClock.update", httpMethod = ApiMethod.HttpMethod.PUT, path="alarmClock/{id}")
+    public AlarmClockBean update(@Named("id") Long alarmClockId, AlarmClockBean alarmClock, User user)
             throws ForbiddenException, NotFoundException, UnauthorizedException, BadRequestException {
 
         if (user == null) {
