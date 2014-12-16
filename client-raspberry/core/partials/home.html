@@ -1,53 +1,53 @@
-<div class="clock-wrap" ng-controller="myLazyClock.controller.clock" style="color: {{alarmClock.color}};">
+<div class="clock-wrap" ng-controller="myLazyClock.controller.clock" style="color: {{alarmClock.color}};" ng-class="{'darkModeTxt': $root.darkMode}">
               <div class="hour-wrap">
 		<div class="digit-top">
-			<div class="front">{{ clock  | date:'HH'}}</div>
-			<div class="back">{{ clock  | date:'HH'}}</div>
+			<div class="front" ng-class="{'darkModeGrey': $root.darkMode}">{{ clock  | date:'HH'}}</div>
+			<div class="back" ng-class="{'darkModeGrey': $root.darkMode}">{{ clock  | date:'HH'}}</div>
 		</div>
 		<div class="digit-bottom">
-			<div class="front">{{ clock  | date:'HH'}}</div>
+			<div class="front" ng-class="{'darkModeGrey': $root.darkMode}">{{ clock  | date:'HH'}}</div>
 		</div>
 	</div>
 	<div class="min-wrap">
 		<div class="digit-top">
-			<div class="front">{{ clock  | date:'mm'}}</div>
-			<div class="back">{{ clock  | date:'mm'}}</div>
+			<div class="front" ng-class="{'darkModeGrey': $root.darkMode}">{{ clock  | date:'mm'}}</div>
+			<div class="back" ng-class="{'darkModeGrey': $root.darkMode}">{{ clock  | date:'mm'}}</div>
 		</div>
 		<div class="digit-bottom">
-			<div class="front">{{ clock  | date:'mm'}}</div>
+			<div class="front" ng-class="{'darkModeGrey': $root.darkMode}">{{ clock  | date:'mm'}}</div>
 		</div>
 	</div>
 	<div class="sec-wrap">
 		<div class="digit-top">
-			<div class="front">{{ clock  | date:'ss'}}</div>
-			<div class="back">{{ clock  | date:'ss'}}</div>
+			<div class="front" ng-class="{'darkModeGrey': $root.darkMode}">{{ clock  | date:'ss'}}</div>
+			<div class="back" ng-class="{'darkModeGrey': $root.darkMode}">{{ clock  | date:'ss'}}</div>
 		</div>
 		<div class="digit-bottom">
-			<div class="front">{{ clock  | date:'ss'}}</div>
+			<div class="front" ng-class="{'darkModeGrey': $root.darkMode}">{{ clock  | date:'ss'}}</div>
 		</div>
 	</div>
 </div>
-<div class="event" ng-style="{'color': alarmClock.color}">
-	<div class="date" ng-show="clockEvent">
+<div class="event" ng-style="{'color': alarmClock.color}" ng-class="{'darkModeTxt': $root.darkMode}" >
+	<div class="date" ng-show="clockEvent" ng-class="{'darkModeGrey': $root.darkMode}">
 		<p style="font-size: 20px; margin-top: 9px;">{{clockEvent.wakeUpDate | date : 'EEEE'}}</p>
 		<p style="font-size: 14px;">{{clockEvent.wakeUpDate | date : 'dd/MM/yyyy'}}</p>
 		<p style="font-size: 23px;"> {{clockEvent.wakeUpDate | date : 'HH:mm'}}</p>
 	</div>
-	<div class="info" ng-show="clockEvent">
+	<div class="info" ng-show="clockEvent" ng-class="{'darkModeGrey': $root.darkMode}">
 		<p style="font-size: 20px;">{{clockEvent.name}}</p>
 		<p style="font-size: 12px;">{{clockEvent.beginDateTime | date : 'HH:mm'}}</p>
 		<p style="font-size: 10px;">{{clockEvent.address}}</p>
 		<p style="font-size: 10px;">{{clockEvent.travelDurationString}} de transport</p>
 	</div>
-	<h3 class="white" style="padding-top: 25px; margin: 0;" ng-hide="clockEvent || error">Pas d'alarmes pour les prochains jours</h3>
-	<h3 class="white" style="padding-top: 10px; margin: 0;" ng-show="error">Erreur</h3>
-	<h6 class="white" style="padding-top: 5px; margin: 0;" ng-show="error">{{error.message}}</h6>
+	<h3 class="white" ng-class="{'darkModeGreyTxt': $root.darkMode}" style="padding-top: 25px; margin: 0;" ng-hide="clockEvent || error">Pas d'alarmes pour les prochains jours</h3>
+	<h3 class="white" ng-class="{'darkModeGreyTxt': $root.darkMode}" style="padding-top: 10px; margin: 0;" ng-show="error">Erreur</h3>
+	<h6 class="white" ng-class="{'darkModeGreyTxt': $root.darkMode}" style="padding-top: 5px; margin: 0;" ng-show="error">{{error.message}}</h6>
 </div>
-<center class="white" style="font-size: 11px; margin: 8px;"><p style="margin-bottom: 0;"><span class="glyphicon glyphicon-dashboard" ></span> Durée de préparation : {{alarmClock.preparationTimeString}}</p></center>
+<center class="white" ng-class="{'darkModeGreyTxt': $root.darkMode}" ng-cla style="font-size: 11px; margin: 8px;"><p style="margin-bottom: 0;"><span class="glyphicon glyphicon-dashboard" ></span> Durée de préparation : {{alarmClock.preparationTimeString}}</p></center>
 
 <div ng-hide="isRaspClient">
-<button type="button" class="btn btn-white btn-rad btn-trans" style="margin-top: 10px;" ng-click="stop()"><span class="glyphicon glyphicon-stop"></span></button>
-<button type="button" class="btn btn-white btn-rad btn-trans" style="margin-top: 10px;" ng-click="reload()"><span class="glyphicon glyphicon-refresh"></span></button>
-<button type="button" class="btn btn-white btn-rad btn-trans" style="margin-top: 10px;" ng-click="volumeDown()"><span class="glyphicon glyphicon-volume-down"></span></button>
-<button type="button" class="btn btn-white btn-rad btn-trans" style="margin-top: 10px;" ng-click="volumeUp()"><span class="glyphicon glyphicon-volume-up"></span></button>
+<button type="button" class="btn btn-white btn-rad btn-trans" ng-class="{'btn-black': $root.darkMode}" style="margin-top: 10px;" ng-click="stop()"><span class="glyphicon glyphicon-stop"></span></button>
+<button type="button" class="btn btn-white btn-rad btn-trans" ng-class="{'btn-black': $root.darkMode}" style="margin-top: 10px;" ng-click="reload()"><span class="glyphicon glyphicon-refresh"></span></button>
+<button type="button" class="btn btn-white btn-rad btn-trans" ng-class="{'btn-black': $root.darkMode}" style="margin-top: 10px;" ng-click="volumeDown()"><span class="glyphicon glyphicon-volume-down"></span></button>
+<button type="button" class="btn btn-white btn-rad btn-trans" ng-class="{'btn-black': $root.darkMode}" style="margin-top: 10px;" ng-click="volumeUp()"><span class="glyphicon glyphicon-volume-up"></span></button>
 </div>

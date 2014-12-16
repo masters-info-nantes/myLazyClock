@@ -294,3 +294,25 @@ color: inherit;
 -moz-box-sizing: border-box;
 box-sizing: border-box;
 }
+
+.darkModeTxt {
+	color: #000000 !important;
+}
+
+.darkMode {
+	background: #000000 !important;
+}
+
+.darkModeGreyTxt {
+	color: #424242 !important;
+}
+
+.darkModeGrey {
+	background: #424242 !important;
+}
+
+.btn-trans.btn-black {
+color: #424242;
+border-color: #424242;
+background-color: rgba(0, 0, 0, 0);
+}
