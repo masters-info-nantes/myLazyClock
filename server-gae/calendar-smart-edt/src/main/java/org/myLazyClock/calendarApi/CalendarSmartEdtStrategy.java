@@ -130,18 +130,31 @@ public class CalendarSmartEdtStrategy implements CalendarStrategy {
         }
 
         // Build event name with group data
-        return group.getData(
-                GroupDataType.ROOM,
-                event.getAsJsonObject()
-                        .get("rooms")
-                        .getAsJsonArray()
-                        .get(0)
-                        .getAsInt()
-        ) + group.getData(
-                GroupDataType.COURSE_NAME,
-                event.getAsJsonObject()
-                        .get("name")
-                        .getAsInt()
+        JsonArray rooms = event.getAsJsonObject()
+                               .get("rooms")
+                               .getAsJsonArray();
+
+        Integer courseName = event.getAsJsonObject()
+                                  .get("name")
+                                  .getAsInt();
+
+        StringBuilder eventName = new StringBuilder("");
+        eventName.append(
+            (rooms.size() > 0)
+                ? group.getData(GroupDataType.ROOM, rooms.get(0).getAsInt())
+                : ""
         );
+
+        eventName.append(
+            (courseName != null && courseName != -1)
+                ? group.getData(GroupDataType.COURSE_NAME, courseName)
+                : ""
+        );
+
+        // In some special cases (as internships) event has no teacher, no room and course name, category equals -1
+        return (eventName.length() > 0)
+                    ? eventName.toString()
+                    : event.getAsJsonObject().get("notes").getAsString()
+        ;
     }
 }
