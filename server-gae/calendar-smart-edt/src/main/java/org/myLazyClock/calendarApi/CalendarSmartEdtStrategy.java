@@ -134,7 +134,7 @@ public class CalendarSmartEdtStrategy implements CalendarStrategy {
                                .get("rooms")
                                .getAsJsonArray();
 
-        Integer courseName = event.getAsJsonObject()
+        int courseName = event.getAsJsonObject()
                                   .get("name")
                                   .getAsInt();
 
@@ -146,7 +146,7 @@ public class CalendarSmartEdtStrategy implements CalendarStrategy {
         );
 
         eventName.append(
-            (courseName != null && courseName != -1)
+            (courseName != -1)
                 ? group.getData(GroupDataType.COURSE_NAME, courseName)
                 : ""
         );

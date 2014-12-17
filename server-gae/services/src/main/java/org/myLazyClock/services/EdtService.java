@@ -61,11 +61,7 @@ public class EdtService {
             JsonObject a = array.get(i).getAsJsonObject();
             EdtData edtData = new EdtData();
             edtData.setId(a.get("id").getAsString());
-            edtData.setName(
-                    new String(a.get("name").getAsString()
-                                            .getBytes("ISO-8859-1")
-                            , "UTF-8")
-            );
+            edtData.setName(a.get("name").getAsString());
             edts.add(edtData);
         }
         return edts;

@@ -44,11 +44,9 @@ public class SmartEdtGroupData {
 
             for(JsonElement element: elements){
                 int elementId = element.getAsJsonObject().get("id").getAsInt();
-                String elementName = new String(element.getAsJsonObject()
-                                                        .get("name")
-                                                        .getAsString()
-                                                        .getBytes("ISO-8859-1")
-                                         , "UTF-8");
+                String elementName = element.getAsJsonObject()
+                        .get("name")
+                        .getAsString();
 
                 elementsMap.put(elementId, elementName);
             }
