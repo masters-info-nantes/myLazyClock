@@ -29,14 +29,22 @@ app.run(['GApi', '$state', '$rootScope', '$http', '$timeout',
                 init = true;
                 GApi.load('myLazyClock','v1',BASE);
               }
-              $timeout(isOnline, 4000);
+              $timeout(isOnline, 60000);
             }).
             error(function(data, status, headers, config) {
-              if(status == 0)
+              if(status == 0) {
                 $rootScope.online = false;
-              else
+                $timeout(isOnline, 4000);
+              }
+              else {
+                if(!init) {
+                  init = true;
+                  GApi.load('myLazyClock','v1',BASE);
+                }
                 $rootScope.online = true;
-              $timeout(isOnline, 4000);
+                $timeout(isOnline, 60000);
+              }
+                
             });
         }
 
