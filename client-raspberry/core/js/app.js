@@ -11,8 +11,8 @@ var app = angular.module('myLazyClock', [
 
 ]);
 
-app.run(['GApi', '$state', '$rootScope', '$http', '$interval',
-    function(GApi, $state, $rootScope, $http, $interval) {
+app.run(['GApi', '$state', '$rootScope', '$http', '$timeout',
+    function(GApi, $state, $rootScope, $http, $timeout) {
 
         //var BASE = 'http://localhost:8080/_ah/api';
         var BASE = 'https://mylazyclock.appspot.com/_ah/api';
@@ -29,16 +29,15 @@ app.run(['GApi', '$state', '$rootScope', '$http', '$interval',
                 init = true;
                 GApi.load('myLazyClock','v1',BASE);
               }
+              $timeout(isOnline, 4000);
             }).
             error(function(data, status, headers, config) {
               $rootScope.online = false;
+              $timeout(isOnline, 4000);
             });
         }
 
         isOnline();
-        $interval(function() {
-          isOnline();
-        }, 4000);
 
     }
 ]);
