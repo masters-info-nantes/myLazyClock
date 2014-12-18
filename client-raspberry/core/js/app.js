@@ -32,7 +32,10 @@ app.run(['GApi', '$state', '$rootScope', '$http', '$timeout',
               $timeout(isOnline, 4000);
             }).
             error(function(data, status, headers, config) {
-              $rootScope.online = false;
+              if(status == 0)
+                $rootScope.online = false;
+              else
+                $rootScope.online = true;
               $timeout(isOnline, 4000);
             });
         }
