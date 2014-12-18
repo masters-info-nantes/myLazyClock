@@ -11,25 +11,33 @@ var app = angular.module('myLazyClock', [
 
 ]);
 
-app.run(['GApi', '$state', '$rootScope', '$window',
-    function(GApi, $state, $rootScope, $window) {
+app.run(['GApi', '$state', '$rootScope', '$http', '$timeout',
+    function(GApi, $state, $rootScope, $http, $timeout) {
 
         //var BASE = 'http://localhost:8080/_ah/api';
         var BASE = 'https://mylazyclock.appspot.com/_ah/api';
 
-        GApi.load('myLazyClock','v1',BASE);
+        var init = false;
 
-        $rootScope.online = window.navigator.onLine;
-      $window.addEventListener("offline", function () {
-        $rootScope.$apply(function() {
-          $rootScope.online = false;
-        });
-      }, false);
-      $window.addEventListener("online", function () {
-        $rootScope.$apply(function() {
-          $rootScope.online = true;
-        });
-      }, false);
+        $rootScope.online = false;
+
+        var isOnline = function() {
+          $http.get('https://api.github.com/').
+            success(function(data, status, headers, config) {
+              $rootScope.online = true;
+              if(!init) {
+                init = true;
+                GApi.load('myLazyClock','v1',BASE);
+              }
+              $timeout(isOnline, 4000);
+            }).
+            error(function(data, status, headers, config) {
+              $rootScope.online = false;
+              $timeout(isOnline, 4000);
+            });
+        }
+
+        isOnline();
 
     }
 ]);
