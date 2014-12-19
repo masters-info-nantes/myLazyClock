@@ -1,8 +1,19 @@
 var controller = angular.module('myLazyClock.controller.signin', []);
 
-controller.controller('myLazyClock.controller.signin', ['$scope', '$localStorage', '$interval', '$state', 'GApi',
-    function signinCtl($scope, $localStorage, $interval, $state, GApi) {
+controller.controller('myLazyClock.controller.signin', ['$scope', '$localStorage', '$interval', '$state', 'GApi', 'hotkeys',
+    function signinCtl($scope, $localStorage, $interval, $state, GApi, hotkeys) {
         var interval;
+
+        $scope.reload = function() {
+            if ($localStorage.alarmClockId != undefined)
+                checkLink($localStorage.alarmClockId);
+        }
+
+        hotkeys.add({
+            combo: 'r',
+            description: 'reload all',
+            callback: $scope.reload
+        });
 
         var checkLink = function(id) {
                 GApi.execute('myLazyClock', 'alarmClock.item', {alarmClockId: id}).then( function(resp) {
@@ -23,7 +34,7 @@ controller.controller('myLazyClock.controller.signin', ['$scope', '$localStorage
     		checkLink(id);
     		interval = $interval(function() {
 				checkLink(id);
-			}, 6000);
+			}, 60000);
     	}
 
         var generate = function() {

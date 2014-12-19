@@ -22,18 +22,29 @@ app.run(['GApi', '$state', '$rootScope', '$http', '$timeout',
         $rootScope.online = false;
 
         var isOnline = function() {
-          $http.get('https://api.github.com/').
+          $http.get('https://api.github.com/', {'cache' : false}).
             success(function(data, status, headers, config) {
               $rootScope.online = true;
               if(!init) {
                 init = true;
                 GApi.load('myLazyClock','v1',BASE);
               }
-              $timeout(isOnline, 4000);
+              $timeout(isOnline, 60000);
             }).
             error(function(data, status, headers, config) {
-              $rootScope.online = false;
-              $timeout(isOnline, 4000);
+              if(status == 0) {
+                $rootScope.online = false;
+                $timeout(isOnline, 4000);
+              }
+              else {
+                if(!init) {
+                  init = true;
+                  GApi.load('myLazyClock','v1',BASE);
+                }
+                $rootScope.online = true;
+                $timeout(isOnline, 60000);
+              }
+                
             });
         }
 
