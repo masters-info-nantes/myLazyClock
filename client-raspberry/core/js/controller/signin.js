@@ -5,7 +5,8 @@ controller.controller('myLazyClock.controller.signin', ['$scope', '$localStorage
         var interval;
 
         $scope.reload = function() {
-            checkLink();
+            if ($localStorage.alarmClockId != undefined)
+                checkLink($localStorage.alarmClockId);
         }
 
         hotkeys.add({
