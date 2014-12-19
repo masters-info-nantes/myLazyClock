@@ -50,5 +50,9 @@ app.run(['GApi', '$state', '$rootScope', '$http', '$timeout',
 
         isOnline();
 
+        $rootScope.isRaspClient = false;
+        if(window.navigator.userAgent == 'raspmylazyclock')
+            $rootScope.isRaspClient = true;
+
     }
 ]);
