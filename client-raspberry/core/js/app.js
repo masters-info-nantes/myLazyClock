@@ -22,7 +22,7 @@ app.run(['GApi', '$state', '$rootScope', '$http', '$timeout',
         $rootScope.online = false;
 
         var isOnline = function() {
-          $http.get('https://api.github.com/').
+          $http.get('https://api.github.com/', {'cache' : false}).
             success(function(data, status, headers, config) {
               $rootScope.online = true;
               if(!init) {
