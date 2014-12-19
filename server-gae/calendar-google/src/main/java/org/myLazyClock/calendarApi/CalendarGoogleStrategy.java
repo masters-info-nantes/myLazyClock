@@ -117,8 +117,7 @@ public class CalendarGoogleStrategy implements CalendarStrategy {
         } catch (GeneralSecurityException e) {
             throw new ForbiddenCalendarException("Accés interdit au calendrier de Google");
         } catch (IOException e) {
-            e.printStackTrace();
-            throw new EventNotFoundException();
+            throw new EventNotFoundException(e);
         }
 
     	return returnEvent;

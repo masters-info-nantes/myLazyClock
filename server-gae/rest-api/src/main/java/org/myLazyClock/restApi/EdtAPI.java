@@ -27,7 +27,6 @@ import org.myLazyClock.services.EdtService;
 import org.myLazyClock.services.MyLazyClockMemcacheService;
 import org.myLazyClock.services.bean.EdtData;
 
-import java.io.IOException;
 import java.util.Collection;
 
 /**
@@ -58,7 +57,7 @@ public class EdtAPI {
 
             MyLazyClockMemcacheService.getInstance().addGroupsUfr(ufr, listGroup);
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new ServiceUnavailableException(e);
         }
 
@@ -82,7 +81,7 @@ public class EdtAPI {
 
             MyLazyClockMemcacheService.getInstance().addListUFR(listUfr);
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new ServiceUnavailableException(e);
         }
         return listUfr;

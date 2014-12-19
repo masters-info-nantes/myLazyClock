@@ -92,10 +92,6 @@ public class CalendarSmartEdtStrategy implements CalendarStrategy {
             JsonArray daysArray = root.getAsJsonObject().get("days").getAsJsonArray();
             JsonArray modulesArray = daysArray.get(dayIndex).getAsJsonObject().get("modules").getAsJsonArray();
 
-            if(modulesArray.size() <= 0 ){ // No events today
-                throw new EventNotFoundException();
-            }
-
             JsonObject event = modulesArray.get(0).getAsJsonObject();
             String eventName = this.buildEventName(Integer.parseInt(params.get("groupId")), event);
             returnEvent.setName(eventName);
@@ -109,7 +105,7 @@ public class CalendarSmartEdtStrategy implements CalendarStrategy {
 
             returnEvent.setBeginDate(beginEventDate.getTime());
         }
-        catch(IOException ex){
+        catch(IOException | IndexOutOfBoundsException ex){
             throw new EventNotFoundException();
         }
 
