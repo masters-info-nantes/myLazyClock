@@ -1,0 +1,32 @@
+<div class="accordion accordion-semi ">
+  <div class="panel panel-default">
+  <div class="panel-heading">
+    <h4 class="panel-title">
+             <a ui-sref="webapp.alarmClockItem.view.calendarlist"><i class="glyphicon glyphicon-chevron-left"></i>{{ calendar.name }}
+              <span ng-show="calendar.calendarType=='GOOGLE_CALENDAR'" class="pull-right label label-default google">Google Calendar</span>
+            <span ng-show="calendar.calendarType=='ICS_FILE'" class="pull-right label label-default">ICS</span>
+            <span ng-show="calendar.calendarType=='EDT'" class="pull-right label label-default">EDT - Universités</span>  
+        </a>
+    </h4>
+  </div>
+  <div >
+      <div class="panel-body">
+        <form name="editCalendar" ng-submit="submitEdit()">
+                <p>Moyen de transport utilisé pour se rendre aux événements</p>
+                <div class="input-group" ng-class="{'has-error' : !editCalendar.travelMode.$valid}">
+                    <select class="form-control" ng-model="calendar.travelMode" ng-options="travelMode.name for travelMode in travelsMode" required name="travelMode"><option value="">-- Choix du moyen de transport --</option></select>
+                </div>
+                <p>Si un évenement du calendrier ne comporte pas de lieu, quel lieu doit être choisit</p>
+                <div class="input-group" ng-class="{'has-error' : !locationOK}">
+                    <input ng-model="calendar.defaultEventLocation" name="defaultEventLocation" type="text" placeholder="lieu par défaut" class="form-control input-md" required autocomplete-location ng-disabled="locationOK">
+                    <span class="input-group-btn">
+        <button class="btn btn-default" type="button" ng-disabled="!locationOK" ng-click="editLocation()">Editer</button>
+      </span>
+                </div>
+                <label><input type="checkbox" ng-model="calendar.useAlwaysDefaultLocation"> Forcer à utiliser ce lieu pour tout les événements</label>
+        <button type="submit" class="btn btn-primary btn-block" ng-class="{'disabled' : !editCalendar.$valid || !locationOK}">Valider</button>
+      </form>
+  </div>
+</div>
+</div>
+</div>

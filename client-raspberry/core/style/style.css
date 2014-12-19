@@ -1,0 +1,333 @@
+@font-face {
+  font-family: 'Pathway Gothic One';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Pathway Gothic One'), local('PathwayGothicOne-Regular'), url(Lqv9ztoTUV8Q0FmQZzPqaA6LSHyyJAN5JIFgwWnj0Az3rGVtsTkPsbDajuO5ueQw.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Pathway Gothic One';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Pathway Gothic One'), local('PathwayGothicOne-Regular'), url(Lqv9ztoTUV8Q0FmQZzPqaGK2nnhar3JOctZdNmsrpnn3rGVtsTkPsbDajuO5ueQw.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+body{
+  padding:0px;
+  margin:0px;
+  background-color:#2196F3;
+  -webkit-font-smoothing: antialiased;
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  text-align:center;
+  color: #2196F3;
+  overflow:hidden;
+}
+
+.signin {
+
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight:300;
+  font-size:30px;
+  color:#ffffff;
+  margin: 0;
+  text-align:center;
+}
+
+a {
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  color:#fff;
+  text-decoration:none;
+  display:block;
+  margin:15px auto 0 auto;
+  text-align:center;
+}
+
+.white {
+	  color:#ffffff;
+}
+
+.alarmClock {
+	width: 310px;
+	height: 230px;
+	top: 50%;
+	left: 50%;
+	margin-top: -115px;
+	margin-left: -155px;
+	position: absolute;
+	padding: 0px;
+}
+
+
+
+.sound {
+	position: absolute;
+	height: 18px;
+	width: 18px;
+	bottom: 5px;
+	left: 5px;
+}
+
+.sound0 {
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAQAAAD8x0bcAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAACYktHRAD/h4/MvwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAExJREFUKM+N0rERACAIBEGqoRn6rwcDRwUEnrl0wyMlHAKMEasgxCoIbdKiQxr0SIksKZAnKYokQT/5UEYCyolDFTGoJhd1RCar0BgtabdjyZo7GRoAAAAASUVORK5CYII=);
+}
+.sound1 {
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAQAAAD8x0bcAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAACYktHRAD/h4/MvwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAE1JREFUKFOFysENACAIBEGqoRnLs2CMIQZUuMv+NiMmvG88KUdqg6FNCHIC0SEABWlRJg26SYnmQwo0zRjahCAnEB0CUJAWZdIi2jeqFhzHdYj+Ll/tAAAAAElFTkSuQmCC);
+}
+.sound2 {
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAQAAAD8x0bcAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAACYktHRAD/h4/MvwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAE1JREFUKFOFysENACAIBEGqoRnLs2CMIQZUuMv+NiMmvG88KUdqg6FNCHIC0SEABWnRTKRB04yhTQhyAtEhAAVpUSYNukmJXlIi2jeqFhxkgO4UzXyaAAAAAElFTkSuQmCC);
+}
+.sound3 {
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAQAAAD8x0bcAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAACYktHRAD/h4/MvwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAE1JREFUKFOFysENACAIBEGqoRnLs2CMUaNywGV/mxETHgyXcqTWGJqEoEVK1DcpUDdjaBKCFinRIQW6JEUvSdBPQuRJgJAAigggGoyoAWWpjyR7kvBhAAAAAElFTkSuQmCC);
+}
+.sound4 {
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAQAAAD8x0bcAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAACYktHRAD/h4/MvwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAEhJREFUKM+N0jkOACAMxMA8PT9fCgTkXuR2SguEx4BypABDCjC0yYgOGdAjLbKkQZ6UKJICZZJQRQKqiUMdMagnF00EP6vIN1oz+LLjstvjpQAAAABJRU5ErkJggg==);
+}
+
+.online {
+	position: absolute;
+	height: 18px;
+	width: 18px;
+	bottom: 5px;
+	right: 5px;
+}
+
+.onlineOK {
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAQAAAD8x0bcAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAACYktHRAD/h4/MvwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAL1JREFUKM+lkjsKwlAQRSeptAzYiKBJK4h90oSgQXwp3IwWgiuQrERwGdqLu9Bgb4LHQuMneRrEudUMp5i5dwSplvwCGTTo4jJkjCLEo0sD4wmZOAQojQJsTESw8LVALh9LsEvjqNB3BKGPQjEhZsOBjAsJW2ImKBS9fCePmIRiJSxxbzsJQosTukpovloQkZWQlFHRzEUJmuscX78hK30sdfYPZEftU3bO/cYj7W8Bh6ScGVR9wYzpX6/yVVdilppEo6giHAAAAABJRU5ErkJggg==);
+}
+.onlineKO {
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAQAAAD8x0bcAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAACYktHRAD/h4/MvwAAAAlwSFlzAAALEwAACxMBAJqcGAAAANJJREFUKM+N0k0LAUEcx/HNwV5xQnLyHiQK+1YcSN4KL0DJC3BzdyRhXwAXB3lKuSmJvmZ27aPJml/tYfvU/Gd+o6FFR37yjEhEoQI7loIlmXDhxZMzU7oYxDyk0wOLGdzwry0d4hKV2Xx+SVYPMVhT0oT11krJWnK74U/Wd2ZaBFiSmstm9kwyOU5KdiDjnE6mwiPEqlwpeVdgpx0Y1hQs5b9MJ4MvpkA6c5csRAsuC7aU5WiRPWmrLNPeMlxmWRzgThG707EaaTRpqF7BX+8pMm9T1L8zZ8pGqwAAAABJRU5ErkJggg==);
+}
+
+.event {
+	height:100px;
+	margin-bottom:5px;
+}
+
+.info,
+.date {
+	background-color:#ffffff;
+	height:100px;
+	float:left;
+	position: relative;
+	overflow: hidden;
+}
+
+.info{
+	margin-left: 5px;
+	width:205px;
+}
+
+.date{
+	width:100px;
+}
+
+.event h5 {
+	margin-top: 2px;
+}
+
+.event p {
+	margin: 0px;
+	padding: 0px;
+	text-align: center;
+}
+
+.clock-wrap{
+  font-family: 'Pathway Gothic One', sans-serif;
+	height:100px;
+	margin-bottom:4px;
+}
+
+.min-wrap,
+.hour-wrap, .sec-wrap{
+	width:100px;
+	height:100px;
+	
+	float:left;
+	position: relative;
+}
+
+.min-wrap, .sec-wrap{
+	margin-left: 5px;
+}
+
+
+.digit-top, 
+.digit-bottom{
+	width:100px;
+	height:50px;
+	position: absolute;
+}
+
+.clock-wrap .front, .clock-wrap .back{
+	width: 100px;
+	height: 50px;
+	position: absolute;
+	overflow: hidden;
+  	background:#ffffff;
+	text-align: center;
+	font-size: 85px;
+
+	transition: transform 800ms, z-index 800ms;
+	-moz-transition: -moz-transform 800ms, z-index 800ms;
+	-webkit-transition: -webkit-transform 800ms, z-index 800ms;
+	-o-transition: -o-transform 800ms, z-index 800ms;
+
+	
+
+	-webkit-transform-style: preserve-3d;
+}
+
+.clock-wrap .front{
+	z-index: 30;
+	
+
+	transform-origin: 0px 50px;
+	-webkit-transform-origin: 0px 50px;
+	-moz-transform-origin: 0px 50px;
+	-o-transform-origin: 0px 50px;
+
+	transform: rotateX(0deg);
+	-webkit-transform: rotateX(0deg);
+	-moz-transform: rotateX(0deg); 
+	-o-transform: rotateX(0deg); 
+    backface-visibility: hidden;
+}
+
+.clock-wrap .back{
+	z-index: 20;
+	top:50px;
+
+	transform-origin: 0px 0;
+	-webkit-transform-origin: 0px 0;
+	-moz-transform-origin: 0px 0;
+	-o-transform-origin: 0px 0;
+
+	transform: rotateX(180deg);
+	-webkit-transform: rotateX(180deg);
+	-moz-transform: rotateX(180deg); 
+	-o-transform: rotateX(180deg);
+    backface-visibility: hidden;
+
+    line-height:0;
+}
+
+
+.digit-top{
+	line-height:100px;
+	top:0;
+	z-index: 10;
+  
+}
+
+.digit-bottom{
+	top: 50px;
+	line-height:0;
+	z-index: 0;
+  background:lighten(#ededed,20);
+}
+
+
+.hour-wrap:before, .min-wrap:before, .sec-wrap:before {
+  content:"";
+background:#000000;
+  opacity:0.04;
+  position:absolute;
+  width:100px;
+  height:50px;
+  top:0;
+  left:0;
+  z-index:9999;
+}
+
+.btn-trans.btn-white {
+color: #ffffff;
+border-color: #ffffff;
+background-color: rgba(0, 0, 0, 0);
+}
+.btn-trans {
+background-color: #fff;
+border-color: #CCCCCC;
+color: #5E5E5E;
+}
+.btn-rad {
+border-radius: 2px;
+-webkit-border-radius: 2px;
+}
+.btn {
+border-color: #CCCCCC;
+border-radius: 0;
+-webkit-border-radius: 0;
+outline: none;
+margin-bottom: 5px !important;
+margin-left: 3px;
+font-size: 13px;
+padding: 7px 11px;
+}
+.btn {
+display: inline-block;
+padding: 6px 12px;
+margin-bottom: 0;
+font-size: 14px;
+font-weight: 400;
+line-height: 1.42857143;
+text-align: center;
+white-space: nowrap;
+vertical-align: middle;
+cursor: pointer;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+background-image: none;
+border: 1px solid transparent;
+border-radius: 4px;
+}
+input, button, select, textarea {
+font-family: inherit;
+font-size: inherit;
+line-height: inherit;
+}
+button, html input[type=button], input[type=reset], input[type=submit] {
+-webkit-appearance: button;
+cursor: pointer;
+}
+button, select {
+text-transform: none;
+}
+button {
+overflow: visible;
+}
+button, input, optgroup, select, textarea {
+margin: 0;
+font: inherit;
+color: inherit;
+}
+* {
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+}
+
+.darkModeTxt {
+	color: #000000 !important;
+}
+
+.darkMode {
+	background: #000000 !important;
+}
+
+.darkModeGreyTxt {
+	color: #424242 !important;
+}
+
+.darkModeGrey {
+	background: #424242 !important;
+}
+
+.btn-trans.btn-black {
+color: #424242;
+border-color: #424242;
+background-color: rgba(0, 0, 0, 0);
+}

@@ -1,0 +1,56 @@
+<div id="cl-wrapper">
+
+  <div class="cl-sidebar">
+    <div class="cl-navblock">
+      <div class="menu-space">
+        <div class="content">
+          <a ui-sref="webapp.home">
+            <div class="sidebar-logo">
+              <div class="logo">
+              </div>
+            </div>
+          </a>
+          <div class="side-user">
+            <center><img ng-src="{{user.picture}}" alt="Avatar" class="img-circle" height="80px"/></center>
+          </div>
+          <ul class="cl-vnavigation">
+            <li><a ui-sref="webapp.home"><i class="glyphicon glyphicon-home"></i><span>Accueil</span></a></li>
+            <li ng-repeat="a in alarmClocks" ><a ui-sref="webapp.alarmClockItem.view.calendarlist({ id: a.id })"><i class="glyphicon glyphicon-dashboard"></i><span>{{ a.name }}</span></a></li>
+            <li><a ui-sref="webapp.alarmClockAdd"><i class="glyphicon glyphicon-plus"></i><span>Ajouter un réveil</span></a></li>
+          </ul>
+          <center class="hidden-xs" style="margin-top : 60px;">
+            <a href="https://github.com/masterALMA2016/myLazyClock"><img src="images/github.png" alt="github" /></a>
+            <p style="color: #CCC;">2014 - My Lazy Clock</p>
+          </center>
+        </div>
+      </div>
+    </div>
+  </div>
+    <div class="container-fluid" id="pcont">
+   <!-- TOP NAVBAR -->
+  <div id="head-nav" class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-collapse">
+        <ul class="nav navbar-nav navbar-right user-nav">
+          <li class="dropdown profile_menu">
+            <a href="" class="dropdown-toggle" data-toggle="dropdown"><img alt="Avatar" height="30px" ng-src="{{user.picture}}" /><span>{{user.name}}</span> <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a ng-href="{{user.link}}">Ma page google +</a></li>
+              <li class="divider"></li>
+              <li><a href="#" ng-click="logout()">Se déconnecter</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+    
+    <div class="cl-mcont">
+        <div ui-view autoscroll="true"></div>
+    
+    </div>
+    
+    </div> 
+    
+</div>

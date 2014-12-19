@@ -1,0 +1,45 @@
+				<div class="block-flat dark-box" ng-style="{'background': alarmClock.color}">		
+						<div class="header">
+              <div class="actions">
+                <a class="minimize" ui-sref="webapp.alarmClockItem.edit({ id: alarmClock.id })"><i class="glyphicon glyphicon-pencil"></i></a>
+                <a class="minimize" ui-sref="webapp.alarmClockItem.delete({ id: alarmClock.id })"><i class="glyphicon glyphicon-remove"></i></a>
+              </div>
+							<h3>{{alarmClock.name}}</h3>
+						</div>
+						<div class="content">
+<div class="clock-wrap" ng-controller="myLazyClock.controller.clock" style="color: {{alarmClock.color}};">
+              <div class="hour-wrap">
+		<div class="digit-top">
+			<div class="front">{{ clock  | date:'HH'}}</div>
+			<div class="back">{{ clock  | date:'HH'}}</div>
+		</div>
+		<div class="digit-bottom">
+			<div class="front">{{ clock  | date:'HH'}}</div>
+		</div>
+	</div>
+	<div class="min-wrap">
+		<div class="digit-top">
+			<div class="front">{{ clock  | date:'mm'}}</div>
+			<div class="back">{{ clock  | date:'mm'}}</div>
+		</div>
+		<div class="digit-bottom">
+			<div class="front">{{ clock  | date:'mm'}}</div>
+		</div>
+	</div>
+	<div class="sec-wrap">
+		<div class="digit-top">
+			<div class="front">{{ clock  | date:'ss'}}</div>
+			<div class="back">{{ clock  | date:'ss'}}</div>
+		</div>
+		<div class="digit-bottom">
+			<div class="front">{{ clock  | date:'ss'}}</div>
+		</div>
+	</div>
+</div>
+<center><p><span class="glyphicon glyphicon-home" ></span> Adresse : {{alarmClock.address}}</p></center>
+<center><p><span class="glyphicon glyphicon-dashboard" ></span> Durée pour se préparer : {{alarmClock.preparationTimeString}}</p></center>
+						</div>
+					</div>
+
+
+<div ui-view></div>

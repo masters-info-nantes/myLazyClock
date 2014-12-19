@@ -1,0 +1,71 @@
+<div class="block-flat dark-box" style="background: {{alarmClockTemp.color}};">
+<div class="header">
+	<div class="actions">
+	</div>
+	<h3>
+		<a class="minimize" ui-sref="webapp.alarmClockItem.view.calendarlist({ id: alarmClock.id })">
+			<span class="glyphicon glyphicon-chevron-left"></span>
+		</a>
+		{{alarmClockTemp.name}}
+	</h3>
+</div>
+<div class="content">
+	<form class="form-horizontal" ng-submit="submitUpdate()" name="editAlarmClock">
+<fieldset>
+
+<p>Nom du réveil</p>
+<!-- Text input-->
+<div class="input-group" ng-class="{'has-error' : !editAlarmClock.name.$valid}">
+  <input ng-model="alarmClockTemp.name" name="name" type="text" placeholder="Nom du réveil" class="form-control input-md" required>
+</div>
+
+<p>Adresse où se trouve le réveil</p>
+<!-- Text input-->
+<div class="input-group" ng-class="{'has-error' : !locationOK}">
+  <input ng-model="alarmClockTemp.address" name="address" type="text" placeholder="Adresse du réveil" class="form-control input-md" required autocomplete-location ng-disabled="locationOK">
+  <span class="input-group-btn">
+        <button class="btn btn-default" type="button" ng-disabled="!locationOK" ng-click="editLocation()">Editer</button>
+      </span>
+</div>
+
+<p>Temps que vous voulez pour vous préparer</p>
+<!-- Text input-->
+<div class="input-group" ng-class="{'has-error' : !editAlarmClock.preparationTime.$valid}">
+  <select class="form-control input-md" ng-model="alarmClockTemp.preparationTime" ng-options="preparationTime.name for preparationTime in preparationTimes" name="preparationTime" required><option value="">-- Choix de la durée pour vous préparer --</option></select>
+</div>
+
+<p>Sonnerie du réveil</p>
+<!-- Text input-->
+<div class="input-group" ng-class="{'has-error' : !editAlarmClock.ringtone.$valid}">
+  <select class="form-control input-md" ng-model="alarmClockTemp.ringtone" ng-options="ringtone.name for ringtone in ringtones" name="ringtone" required><option value="">-- Choix de la sonnerie --</option></select>
+</div>
+
+<p>Couleur du réveil</p>
+<!-- Text input-->
+<div class="row colorSelect">
+  <div class="col-md-2">
+    <div class="well wellBtn" ng-model="alarmClockTemp.color" btn-radio="'#2196F3'" style="background: #2196F3;"></div>
+  </div>
+  <div class="col-md-2">
+    <div class="well wellBtn" ng-model="alarmClockTemp.color" btn-radio="'#3F51B5'" style="background: #3F51B5;"></div>
+  </div>
+  <div class="col-md-2">
+    <div class="well wellBtn" ng-model="alarmClockTemp.color" btn-radio="'#4CAF50'" style="background: #4CAF50;"></div>
+  </div>
+  <div class="col-md-2">
+    <div class="well wellBtn" ng-model="alarmClockTemp.color" btn-radio="'#9C27B0'" style="background: #9C27B0;"></div>
+  </div>
+  <div class="col-md-2">
+    <div class="well wellBtn" ng-model="alarmClockTemp.color" btn-radio="'#F44336'" style="background: #F44336;"></div>
+  </div>
+  <div class="col-md-2">
+    <div class="well wellBtn" ng-model="alarmClockTemp.color" btn-radio="'#607D8B'" style="background: #607D8B;"></div>
+  </div>
+</div>
+
+<button type="submit" class="btn btn-white btn-rad btn-trans" ng-class="{'disabled' : !editAlarmClock.$valid || !locationOK}">Valider</button>
+</fieldset>
+</form>
+
+</div>
+</div>

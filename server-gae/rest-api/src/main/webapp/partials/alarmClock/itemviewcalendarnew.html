@@ -1,0 +1,73 @@
+<div class="accordion accordion-semi ">
+  <div class="panel panel-default">
+  <div class="panel-heading">
+    <h4 class="panel-title">
+             <a ui-sref="webapp.alarmClockItem.view.calendarlist"><i class="glyphicon glyphicon-chevron-left"></i> Ajouter un nouveau calendrier
+        </a>
+    </h4>
+  </div>
+  <div >
+      <div class="panel-body">
+        <form name="addCalendar" ng-submit="submitAdd()">
+        <tabset justified="true">
+            <tab select="onTabSelect('google')">
+                <tab-heading>
+                    Google Calendar
+                </tab-heading>
+                <div ng-show="googleOfflineOk">
+                <p>Choisir votre Calendrier Google</p>
+                <div class="input-group" ng-class="{'has-error' : !addCalendar.googleParam.$valid}">
+                    <select class="form-control" ng-model="temp.google" ng-options="cal.summary for cal in googleCalendars" ng-required="tab == 'google'" name="googleParam"><option value="">-- Choix du calendrier --</option></select>
+                </div>
+                </div>
+                <div ng-if="googleOfflineKO">
+                    <p>Afin de pouvoir ajouter un calendrier google sur votre réveil, vous devez valider l'accès hors connexion aux données à l'application</p>
+                    <button type="button" class="btn btn-primary btn-block" ng-click="offlineGoogle()">Validation accès hors connexion</button>
+                </div>
+            </tab>
+            <tab select="onTabSelect('ics')">
+                <tab-heading>
+                    Calendrier ics 
+                </tab-heading>
+                <p>Nom du calendrier</p>
+                <div class="input-group" ng-class="{'has-error' : !addCalendar.icsName.$valid}">
+                    <input ng-model="temp.ics.name" type="text" placeholder="Nom du calendrier" class="form-control input-md" ng-required="tab == 'ics'" name="icsName">
+                </div>
+                <p>Url du calendrier (lien vers le fichier ics)</p>
+                <div class="input-group" ng-class="{'has-error' : !addCalendar.icsParam.$valid}">
+                    <input ng-model="temp.ics.param" type="text" placeholder="url du calendrier (ics)" class="form-control input-md" ng-required="tab == 'ics'" name="icsParam">
+                </div>
+            </tab>
+            <tab select="onTabSelect('edt')">
+                <tab-heading>
+                    EDT - Universités
+                </tab-heading>
+                <p>Choisir l'UFR</p>
+                <div class="input-group" ng-class="{'has-error' : !addCalendar.edtUfr.$valid}">
+                    <select class="form-control" ng-model="temp.edt.ufr" ng-options="ufr.name for ufr in edtUfr" ng-change="edtUpdateGroups()" ng-required="tab == 'edt'" name="edtUfr"><option value="">-- Choix de l'UFR --</option></select>
+                </div>
+                <p ng-show="edtGroups">Choisir du groupe</p>
+                <div class="input-group" ng-class="{'has-error' : !addCalendar.edtGoup.$valid}" ng-show="edtGroups">
+                    <select class="form-control" ng-model="temp.edt.group" ng-options="group.name for group in edtGroups" ng-required="tab == 'edt'" name="edtGoup"><option value="">-- Choix du groupe --</option></select>
+                </div>
+            </tab>
+        </tabset>
+                <p>Moyen de transport utilisé pour se rendre aux événements</p>
+                <div class="input-group" ng-class="{'has-error' : !addCalendar.travelMode.$valid}">
+                    <select class="form-control" ng-model="temp.travelMode" ng-options="travelMode.name for travelMode in travelsMode" required name="travelMode"><option value="">-- Choix du moyen de transport --</option></select>
+                </div>
+
+                <p>Si un évenement du calendrier ne comporte pas de lieu, quel lieu doit être choisit</p>
+                <div class="input-group" ng-class="{'has-error' : !locationOK}">
+                    <input ng-model="newCalendar.defaultEventLocation" type="text" placeholder="lieu par défaut" class="form-control input-md" required name="defaultEventLocation" autocomplete-location ng-disabled="locationOK">
+                    <span class="input-group-btn">
+        <button class="btn btn-default" type="button" ng-disabled="!locationOK" ng-click="editLocation()">Editer</button>
+      </span>
+                </div>
+                <label><input type="checkbox" ng-model="newCalendar.useAlwaysDefaultLocation"> Forcer à utiliser ce lieu pour tout les événements</label>
+        <button type="submit" class="btn btn-primary btn-block" ng-class="{'disabled' : !addCalendar.$valid || !locationOK}">Ajouter au réveil</button>
+        </form>
+  </div>
+</div>
+</div>
+</div>

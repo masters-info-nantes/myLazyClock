@@ -1,0 +1,13 @@
+				<div class="block-flat dark-box" style="background: {{alarmClock.color}};">		
+						<div class="header">
+              <div class="actions">
+              </div>
+							<h3><a class="minimize" ui-sref="webapp.alarmClockItem.view.calendarlist({ id: alarmClock.id })">
+			<span class="glyphicon glyphicon-chevron-left"></span>
+		</a>{{alarmClock.name}}</h3>
+						</div>
+						<div class="content">
+              <p>Vous êtes sur le point de supprimer l'assocation de votre réveil avec votre compte. S'il s'agit bien de votre choix, cliquez sur supprimer</p>
+              <center><button type="button" class="btn btn-white btn-rad btn-trans" ng-click="submitDelete()">Supprimer</button></center>
+						</div>
+					</div>

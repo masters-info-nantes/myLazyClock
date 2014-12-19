@@ -1,0 +1,18 @@
+<div class="accordion accordion-semi ">
+  <div class="panel panel-default">
+  <div class="panel-heading">
+    <h4 class="panel-title">
+             <a ui-sref="webapp.alarmClockItem.view.calendarlist"><i class="glyphicon glyphicon-chevron-left"></i>{{ calendar.name }}
+              <span ng-show="calendar.calendarType=='GOOGLE_CALENDAR'" class="pull-right label label-default google">Google Calendar</span>
+            <span ng-show="calendar.calendarType=='ICS_FILE'" class="pull-right label label-default">ICS</span>
+        </a>
+    </h4>
+  </div>
+  <div >
+      <div class="panel-body">
+        <p>Vous êtes sur le point de supprimer l'assocation de votre réveil avec votre compte. S'il s'agit bien de votre choix, cliquez sur supprimer</p>
+              <center><button type="button" class="btn btn-primary" ng-click="submitDelete()">Supprimer</button></center>
+  </div>
+</div>
+</div>
+</div>
