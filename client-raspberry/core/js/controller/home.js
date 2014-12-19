@@ -13,10 +13,6 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
         var interval1;
         var interval2;
 
-        $scope.isRaspClient = false;
-        if(window.navigator.userAgent == 'raspmylazyclock')
-            $scope.isRaspClient = true;
-
         $scope.stop = function() {
             if($scope.sound.progress == 0) {
                 $rootScope.darkMode = !$rootScope.darkMode;
