@@ -43,10 +43,10 @@ import java.util.Map;
  */
 public class CalendarGoogleStrategy implements CalendarStrategy {
 
-    public static final int ID = 3;
+    public static final CalendarId ID = CalendarId.GOOGLE_CALENDAR;
 
     @Override
-    public Integer getId() {
+    public CalendarId getId() {
         return ID;
     }
 

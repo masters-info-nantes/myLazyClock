@@ -1,8 +1,6 @@
 package org.myLazyClock.services;
 
-import org.myLazyClock.calendarApi.CalendarEvent;
-import org.myLazyClock.calendarApi.CalendarFactory;
-import org.myLazyClock.calendarApi.CalendarStrategy;
+import org.myLazyClock.calendarApi.*;
 import org.myLazyClock.calendarApi.exception.EventNotFoundException;
 import org.myLazyClock.calendarApi.exception.ForbiddenCalendarException;
 import org.myLazyClock.model.model.AlarmClock;
@@ -130,7 +128,7 @@ public class ClockEventService {
         endDate.set(java.util.Calendar.HOUR_OF_DAY, 23);
         endDate.set(java.util.Calendar.MINUTE, 59);
 
-        int strategyId; // ICS_FILE
+        CalendarId strategyId; // ICS_FILE
 
         String calendarType = calendar.getCalendarType();
 
@@ -138,11 +136,11 @@ public class ClockEventService {
 
         switch (calendarType) {
             case "EDT":
-                strategyId = 2;
+                strategyId = CalendarId.EDT;
                 params.put("groupId", calendar.getParam());
                 break;
             case "GOOGLE_CALENDAR":
-                strategyId = 3;
+                strategyId = CalendarId.GOOGLE_CALENDAR;
                 params.put("gCalId", calendar.getParam());
                 params.put("tokenRequest", token);
 
@@ -150,7 +148,7 @@ public class ClockEventService {
                 params.put("apiSecret", org.myLazyClock.services.ConstantAPI.API_SECRET);
                 break;
             default:
-                strategyId = 1; // URL of ICS file
+                strategyId = CalendarId.ICS; // URL of ICS file
                 params.put("url", calendar.getParam());
                 break;
         }

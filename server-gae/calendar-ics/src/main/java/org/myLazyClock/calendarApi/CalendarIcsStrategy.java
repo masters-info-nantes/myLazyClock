@@ -43,11 +43,11 @@ import java.util.logging.Level;
  */
 public class CalendarIcsStrategy implements CalendarStrategy {
 
-    public static final int ID = 1;
+    public static final CalendarId ID = CalendarId.ICS;
     //private HashMap<String, String> icsFiles;
 
     @Override
-    public Integer getId() {
+    public CalendarId getId() {
         return ID;
     }
 
