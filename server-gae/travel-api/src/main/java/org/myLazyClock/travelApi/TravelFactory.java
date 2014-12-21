@@ -50,14 +50,14 @@ public class TravelFactory  implements Iterable<TravelStrategy> {
     /**
      * List all module who implement {@link TravelStrategy}
      */
-    private Map<Integer, TravelStrategy> allModules;
+    private Map<TravelId, TravelStrategy> allModules;
 
     /**
      * Search all module who implement {@link TravelStrategy}
      * and put in allModule
      */
     private TravelFactory() {
-        allModules = new HashMap<Integer, TravelStrategy>();
+        allModules = new HashMap<>();
 
         Reflections reflections = new Reflections("org.myLazyClock.travelApi");
         Set<Class<? extends TravelStrategy>> modules = reflections.getSubTypesOf(TravelStrategy.class);
@@ -67,7 +67,7 @@ public class TravelFactory  implements Iterable<TravelStrategy> {
             try {
                 TravelStrategy instance = aModule.newInstance();
 
-                Integer id = instance.getId();
+                TravelId id = instance.getId();
 
                 if (allModules.containsKey(id)) {
                     throw new IllegalStateException(
@@ -97,7 +97,7 @@ public class TravelFactory  implements Iterable<TravelStrategy> {
      * @return the {@link TravelStrategy} if find,
      * @throws NullPointerException
      */
-    public TravelStrategy get(Integer id) throws NullPointerException {
+    public TravelStrategy get(TravelId id) throws NullPointerException {
         TravelStrategy strategy = allModules.get(id);
         if (strategy == null) {
             throw new NullPointerException();

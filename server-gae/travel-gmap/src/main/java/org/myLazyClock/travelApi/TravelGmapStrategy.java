@@ -21,10 +21,10 @@ import java.util.Map;
  */
 public class TravelGmapStrategy implements TravelStrategy {
 
-    public static final int ID = 1;
+    public static final TravelId ID = TravelId.GOOGLE_MAP;
 
     @Override
-    public Integer getId() {
+    public TravelId getId() {
         return ID;
     }
 

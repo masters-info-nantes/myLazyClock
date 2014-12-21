@@ -12,6 +12,7 @@ import org.myLazyClock.services.bean.AlarmClockEvent;
 import org.myLazyClock.services.exception.NotFoundMyLazyClockException;
 import org.myLazyClock.travelApi.TravelDuration;
 import org.myLazyClock.travelApi.TravelFactory;
+import org.myLazyClock.travelApi.TravelId;
 import org.myLazyClock.travelApi.TravelStrategy;
 import org.myLazyClock.travelApi.exception.TravelNotFoundException;
 
@@ -193,21 +194,21 @@ public class ClockEventService {
 
         switch (event.getTravelMode()) {
             case BICYCLING:
-                strategy = TravelFactory.getInstance().get(1);
+                strategy = TravelFactory.getInstance().get(TravelId.GOOGLE_MAP);
                 params.put("mode", "bicycling");
                 break;
             case TRANSIT:
-                strategy = TravelFactory.getInstance().get(2);
+                strategy = TravelFactory.getInstance().get(TravelId.TAN);
                 params.put("mode", "transit");
                 break;
             case WALKING:
-                strategy = TravelFactory.getInstance().get(1);
+                strategy = TravelFactory.getInstance().get(TravelId.GOOGLE_MAP);
                 params.put("mode", "walking");
                 break;
 
             case DRIVING:
             default:
-                strategy = TravelFactory.getInstance().get(1);
+                strategy = TravelFactory.getInstance().get(TravelId.GOOGLE_MAP);
         }
 
         TravelDuration travel = strategy.getDuration(alarmClock.getAddress(), event.getAddress(), event.getBeginDate(), params);
