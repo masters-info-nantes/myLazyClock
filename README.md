@@ -14,7 +14,7 @@ Device compatible
 -----------------
 
 - Personal computer with a browser HTML5 (Windows, Mac OS, Linux)
-- Raspberry
+- Raspberry Pi
 
 
 Developer
