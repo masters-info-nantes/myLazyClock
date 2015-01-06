@@ -14,9 +14,7 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
         var interval2;
 
         $scope.stop = function() {
-            if($scope.sound.progress == 0) {
-                $rootScope.darkMode = !$rootScope.darkMode;
-            }
+            $rootScope.darkMode = !$rootScope.darkMode;
             $scope.soundStop = true;
             $scope.sound.stop();
         }
@@ -145,7 +143,6 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
                 	
                     if (($scope.clockEvent.wakeUpDate-now) < 0 && ($scope.clockEvent.wakeUpDate-now) >= -1000) {
                         $scope.sound.play();
-                        $rootScope.darkMode = false;
                         $scope.soundStop = false;
                     }
                 	if (($scope.clockEvent.wakeUpDate-now) < -1000 && ($scope.clockEvent.wakeUpDate-now) > -600000) {
