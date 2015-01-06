@@ -38,7 +38,7 @@ public interface TravelStrategy {
      *
      * @return Identifier of the strategy
      */
-    public Integer getId();
+    public TravelId getId();
 
     /**
      * The name of the TravelStrategy can be use by user

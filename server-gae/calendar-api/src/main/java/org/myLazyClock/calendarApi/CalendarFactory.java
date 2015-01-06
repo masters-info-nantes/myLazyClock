@@ -42,7 +42,7 @@ public class CalendarFactory implements Iterable<CalendarStrategy> {
     /**
      * List all module who implement {@link CalendarStrategy}
      */
-    private Map<Integer, CalendarStrategy> allModules;
+    private Map<CalendarId, CalendarStrategy> allModules;
 
     /**
      * Search all module who implement {@link CalendarStrategy}
@@ -50,7 +50,7 @@ public class CalendarFactory implements Iterable<CalendarStrategy> {
      *
      */
     private CalendarFactory() {
-        allModules = new HashMap<Integer, CalendarStrategy>();
+        allModules = new HashMap<>();
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/Paris")); // For Calendar work's on Google servers
 
         Reflections reflections = new Reflections("org.myLazyClock.calendarApi");
@@ -60,7 +60,7 @@ public class CalendarFactory implements Iterable<CalendarStrategy> {
             try {
                 CalendarStrategy instance = aModule.newInstance();
 
-                Integer id = instance.getId();
+                CalendarId id = instance.getId();
 
                 if (allModules.containsKey(id)) {
                     throw new IllegalStateException(
@@ -71,9 +71,7 @@ public class CalendarFactory implements Iterable<CalendarStrategy> {
                 }
                 allModules.put(id, instance);
 
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
+            } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
@@ -86,7 +84,7 @@ public class CalendarFactory implements Iterable<CalendarStrategy> {
      * @return the {@link CalendarStrategy} if find,
      * @throws NullPointerException
      */
-    public CalendarStrategy get(Integer id) throws NullPointerException {
+    public CalendarStrategy get(CalendarId id) throws NullPointerException {
         CalendarStrategy strategy = allModules.get(id);
         if (strategy == null) {
             throw new NullPointerException();

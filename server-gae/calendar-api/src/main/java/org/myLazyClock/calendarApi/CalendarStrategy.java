@@ -38,7 +38,7 @@ public interface CalendarStrategy {
      *
      * @return Identifier of the strategy
      */
-    public Integer getId();
+    public CalendarId getId();
 
     /**
      * The name of the {@link CalendarStrategy} can be use by user

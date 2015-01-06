@@ -2,7 +2,7 @@ var controller = angular.module('myLazyClock.controller.home', []);
 
 controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$state', '$localStorage', 'GApi', 'ngAudio', '$interval', 'hotkeys', '$rootScope', '$localStorage',
     function homeCtl($rootScope, $scope, $state, $localStorage, GApi, ngAudio, $interval, hotkeys, $rootScope, $localStorage) {
-    	$scope.sound = ngAudio.load("sounds/ring.mp3");
+    	$scope.sound = ngAudio.load("sounds/ring.ogg");
     	$scope.sound.loop = true;
         $scope.sound.volume = 1;
         $rootScope.volumeUI = 4;
@@ -14,7 +14,7 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
         var interval2;
 
         $scope.stop = function() {
-            if($scope.sound.progress == 0) {
+            if($scope.sound.progress.toFixed(1) == 0) {
                 $rootScope.darkMode = !$rootScope.darkMode;
             }
             $scope.soundStop = true;
@@ -84,7 +84,7 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
                     $interval.cancel(interval2);
                     $state.go('webapp.signin');
                 }
-                $scope.sound = ngAudio.load("sounds/"+resp.ringtone);
+                $scope.sound = ngAudio.load("sounds/"+resp.ringtone+".ogg");
                 setVolume($localStorage.volume);
 				GApi.execute('myLazyClock', 'clockevent.list', {alarmClockId: $localStorage.alarmClockId}).then(function(resp) {
 					$scope.alarmClockEvents = resp.items;

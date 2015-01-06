@@ -15,7 +15,7 @@ public class CalendarFactoryTest {
 
     @Test(expected = NullPointerException.class)
     public void testGetCalendarStrategy() {
-        CalendarStrategy strategy = factory.get(-1);
+        CalendarStrategy strategy = factory.get(null);
         Assert.assertNull(strategy);
     }
 

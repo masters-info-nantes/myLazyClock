@@ -16,7 +16,7 @@ public class TravelFactoryTest {
 
     @Test(expected = NullPointerException.class)
     public void testGetTravelStrategy() {
-        TravelStrategy strategy = factory.get(-1);
+        TravelStrategy strategy = factory.get(null);
         Assert.assertNull(strategy);
     }
 }

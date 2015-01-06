@@ -44,10 +44,10 @@ import java.util.Map;
  */
 public class CalendarSmartEdtStrategy implements CalendarStrategy {
 
-    public static final int ID = 2;
+    public static final CalendarId ID = CalendarId.EDT;
 
     @Override
-    public Integer getId() {
+    public CalendarId getId() {
         return ID;
     }
 

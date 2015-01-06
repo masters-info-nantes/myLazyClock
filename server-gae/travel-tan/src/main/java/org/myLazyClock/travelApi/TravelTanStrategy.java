@@ -22,10 +22,10 @@ import java.util.Map;
  */
 public class TravelTanStrategy implements TravelStrategy {
 
-    public static final int ID = 2;
+    public static final TravelId ID = TravelId.TAN;
 
     @Override
-    public Integer getId() {
+    public TravelId getId() {
         return ID;
     }
 

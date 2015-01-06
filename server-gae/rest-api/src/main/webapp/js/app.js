@@ -19,8 +19,8 @@ app.constant('TRAVELS_MODE',[
 ]);
 
 app.constant('RINGTONES',[
-    {'name' : 'Vieux téléphone', 'file' : 'ring.mp3'},
-    {'name' : 'Tetris', 'file' : 'tetris.mp3'}
+    {'name' : 'Vieux téléphone', 'file' : 'ring'},
+    {'name' : 'Tetris', 'file' : 'tetris'}
 ]);
 
 app.constant('PREPARATION_TIMES',[

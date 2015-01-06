@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.myLazyClock</groupId>
     <artifactId>myLazyClock</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <packaging>pom</packaging>
 
     <name>myLazyClock</name>
@@ -61,7 +59,7 @@
         </developer>
     </developers>
 
-    <contributors/>
+    <contributors />
 
     <modules>
         <module>rest-api</module>
@@ -260,6 +258,21 @@
                                 <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                             </manifest>
                         </archive>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>external.atlassian.jgitflow</groupId>
+                    <artifactId>jgitflow-maven-plugin</artifactId>
+                    <version>1.0-m4.3</version>
+                    <configuration>
+                        <flowInitContext>
+                            <versionTagPrefix>v</versionTagPrefix>
+                        </flowInitContext>
+                        <autoVersionSubmodules>true</autoVersionSubmodules>
+                        <pushReleases>false</pushReleases>
+                        <allowUntracked>true</allowUntracked>
+                        <noDeploy>true</noDeploy>
                     </configuration>
                 </plugin>
             </plugins>
