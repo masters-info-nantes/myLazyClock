@@ -270,7 +270,7 @@
                             <versionTagPrefix>v</versionTagPrefix>
                         </flowInitContext>
                         <autoVersionSubmodules>true</autoVersionSubmodules>
-                        <pushReleases>false</pushReleases>
+                        <pushReleases>true</pushReleases>
                         <allowUntracked>true</allowUntracked>
                         <noDeploy>true</noDeploy>
                     </configuration>
