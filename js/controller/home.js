@@ -2,7 +2,7 @@ var controller = angular.module('myLazyClock.controller.home', []);
 
 controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$state', '$localStorage', 'GApi', 'ngAudio', '$interval', 'hotkeys', '$rootScope', '$localStorage',
     function homeCtl($rootScope, $scope, $state, $localStorage, GApi, ngAudio, $interval, hotkeys, $rootScope, $localStorage) {
-    	$scope.sound = ngAudio.load("sounds/ring.mp3");
+    	$scope.sound = ngAudio.load("sounds/ring.ogg");
     	$scope.sound.loop = true;
         $scope.sound.volume = 1;
         $rootScope.volumeUI = 4;
@@ -14,9 +14,7 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
         var interval2;
 
         $scope.stop = function() {
-            if($scope.sound.progress == 0) {
-                $rootScope.darkMode = !$rootScope.darkMode;
-            }
+            $rootScope.darkMode = !$rootScope.darkMode;
             $scope.soundStop = true;
             $scope.sound.stop();
         }
@@ -84,7 +82,8 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
                     $interval.cancel(interval2);
                     $state.go('webapp.signin');
                 }
-                $scope.sound = ngAudio.load("sounds/"+resp.ringtone);
+                //$scope.sound = ngAudio.load("sounds/"+resp.ringtone+".ogg");
+                $scope.sound.play();
                 setVolume($localStorage.volume);
 				GApi.execute('myLazyClock', 'clockevent.list', {alarmClockId: $localStorage.alarmClockId}).then(function(resp) {
 					$scope.alarmClockEvents = resp.items;
@@ -145,7 +144,6 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
                 	
                     if (($scope.clockEvent.wakeUpDate-now) < 0 && ($scope.clockEvent.wakeUpDate-now) >= -1000) {
                         $scope.sound.play();
-                        $rootScope.darkMode = false;
                         $scope.soundStop = false;
                     }
                 	if (($scope.clockEvent.wakeUpDate-now) < -1000 && ($scope.clockEvent.wakeUpDate-now) > -600000) {
