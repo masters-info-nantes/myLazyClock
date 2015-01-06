@@ -264,12 +264,16 @@
                 </plugin>
 
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-release-plugin</artifactId>
-                    <version>2.5.1</version>
+                    <groupId>external.atlassian.jgitflow</groupId>
+                    <artifactId>jgitflow-maven-plugin</artifactId>
+                    <version>1.0-m4.3</version>
                     <configuration>
+                        <flowInitContext>
+                            <versionTagPrefix>v</versionTagPrefix>
+                        </flowInitContext>
                         <autoVersionSubmodules>true</autoVersionSubmodules>
-                        <tagNameFormat>v@{project.version}</tagNameFormat>
+                        <pushReleases>false</pushReleases>
+                        <allowUntracked>true</allowUntracked>
                     </configuration>
                 </plugin>
             </plugins>
