@@ -272,6 +272,7 @@
                         <autoVersionSubmodules>true</autoVersionSubmodules>
                         <pushReleases>false</pushReleases>
                         <allowUntracked>true</allowUntracked>
+                        <noDeploy>true</noDeploy>
                     </configuration>
                 </plugin>
             </plugins>
