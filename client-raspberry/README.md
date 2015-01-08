@@ -90,10 +90,12 @@ Troubleshooting
 -----------
 
 **How to reset completely data of your alarm clock ?**
+
 If you need to reset data of your alarm clock (not remove MyLazyClock, just reset like if you never launch it) you could remove chromium profile by removing ~/.config/chromium and ~/.cache/chromium.
 
 
 **How to fix blue screen after upgrade/installing the client ?**
+
 If your alarm clock start and only display a blue screen with nothing more, it's because when upgrading you've change access right to to the client. To fix this situation, connect with ssh or connect the SD card directly to a unix/linux system and run following commands :
 ```
 	# for an SD card connected to a unix/linux system
