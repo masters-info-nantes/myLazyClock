@@ -8,10 +8,10 @@ User Case
 
 I go to sleep without verify my edt, but I forgot the TAN changed schedule and I wasn't see, the first course was canceled.
 
-myLazyClock checks my edt and retards my wake up time and I can sleep more, It checks the route and alerts me, at my wake up, to new schedule of my transport.
+myLazyClock checks all my calendars and retards my wake up time, and I can sleep more, It checks the route and alerts me, at my wake up, to new schedule of my transport.
 
-Device compatible
------------------
+Device compatibility
+--------------------
 
 - Personal computer with a browser HTML5 (Windows, Mac OS, Linux)
 - Raspberry Pi
@@ -20,7 +20,7 @@ Device compatible
 Developer
 ---------
 
-For Compile the project
+To compile the project
 
 ```
 mvn install -Dmaven.test.skip=true
@@ -28,7 +28,7 @@ mvn install -Dmaven.test.skip=true
 mvn clean install -Dmaven.test.skip=true
 ```
 
-For launch the google app engine dev serveur
+To launch the google app engine dev serveur
 
 ```
 mvn -pl rest-api appengine:devserver
@@ -54,7 +54,7 @@ Add  profile in ~/.m2/settings.xml, all information of api key are in your [admi
     ...
 </settings>
 ```
-And execute this command for recompile the project with good profile, and déploy the project
+And execute this command for recompile the project with good profile, and deploy the project
 ```
 mvn clean install -P myLazyClockProd && mvn -pl rest-api, appengine:update
 ```
@@ -64,9 +64,9 @@ Contribute
 
 We use git with this [git-flow](http://nvie.com/posts/a-successful-git-branching-model/)
 
-Clone the project with this command
+Clone the project with this command: 
 ```
 git clone https://github.com/masterALMA2016/myLazyClock.git -b develop
 ```
 
-or fork-it
+Or fork-it
