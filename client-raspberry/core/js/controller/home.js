@@ -75,7 +75,7 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
 
     	var secondsSinceLastReload = 0;
 		var getAlarmClockEvent = function() {
-			console.log('reload after : '+secondsSinceLastReload)
+			console.log('reload after : '+secondsSinceLastReload);
 			secondsSinceLastReload = 0;
     		GApi.execute('myLazyClock', 'alarmClock.item', {alarmClockId: $localStorage.alarmClockId}).then(function(resp) {
 				$rootScope.alarmClock = resp;
@@ -103,7 +103,7 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
     	var getAlarmClockEventLoop = function() {
     		var update = function() {
     			var now = new Date().getTime();
-    			if(secondsSinceLastReload == 240) // 4heures en minutes
+    			if(secondsSinceLastReload >= 240 && !$scope.soundStop) // 4heures en minutes si pas d'alarm en cours
     				getAlarmClockEvent();
     			if($scope.clockEvent != undefined) {
     				if ($scope.clockEvent.wakeUpDate-now > ($scope.clockEvent.travelDuration*1000)-60000 && $scope.clockEvent.wakeUpDate-now < ($scope.clockEvent.travelDuration*1000)+60000) // 
@@ -119,6 +119,7 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
 
     	var ringCtl = function() {
     		var updateRing = function() {
+                console.log($scope.soundStop);
     			var nextEvent;
     			var now = new Date().getTime();
                 if($scope.alarmClockEvents != undefined) {
@@ -132,8 +133,7 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
     					if($scope.alarmClockEvents[i]['wakeUpDate'] < nextEvent.wakeUpDate)
     						nextEvent = $scope.alarmClockEvents[i];
     				}
-    				if (($scope.alarmClockEvents[i]['wakeUpDate']-now) <= -600000 || (($scope.alarmClockEvents[i]['wakeUpDate']-now) < -1000 && ($scope.alarmClockEvents[i]['wakeUpDate']-now) >= -600000) && $scope.soundStop) {
-                		$scope.sound.stop();
+    				if (($scope.alarmClockEvents[i]['wakeUpDate']-now) <= -600000 ) {
                 		if (i > -1) {
                             $scope.alarmClockEvents.splice(i--, 1);
                         }
@@ -142,16 +142,16 @@ controller.controller('myLazyClock.controller.home', ['$rootScope', '$scope', '$
                 }
                 $scope.clockEvent = nextEvent;
                 if (nextEvent != undefined) {
-                	
-                    if (($scope.clockEvent.wakeUpDate-now) < 0 && ($scope.clockEvent.wakeUpDate-now) >= -1000) {
-                        $scope.sound.play();
+                	if ((nextEvent.wakeUpDate-now) < 0 && (nextEvent.wakeUpDate-now) > -600000 && !$scope.soundStop) {
+                		$scope.sound.play();
                         $rootScope.darkMode = false;
+                	}
+                	if ((nextEvent.wakeUpDate-now) > 0 || (nextEvent.wakeUpDate-now) < -600000) {
                         $scope.soundStop = false;
                     }
-                	if (($scope.clockEvent.wakeUpDate-now) < -1000 && ($scope.clockEvent.wakeUpDate-now) > -600000) {
-                		$scope.sound.play();
-                	}
-                	
+                }
+                else {
+                    $scope.soundStop = false;
                 }
     		}
     		updateRing();

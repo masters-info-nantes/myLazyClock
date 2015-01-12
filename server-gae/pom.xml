@@ -4,7 +4,7 @@
 
     <groupId>org.myLazyClock</groupId>
     <artifactId>myLazyClock</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <packaging>pom</packaging>
 
     <name>myLazyClock</name>
@@ -270,7 +270,7 @@
                             <versionTagPrefix>v</versionTagPrefix>
                         </flowInitContext>
                         <autoVersionSubmodules>true</autoVersionSubmodules>
-                        <pushReleases>false</pushReleases>
+                        <pushReleases>true</pushReleases>
                         <allowUntracked>true</allowUntracked>
                         <noDeploy>true</noDeploy>
                     </configuration>
