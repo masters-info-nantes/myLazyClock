@@ -86,6 +86,7 @@ while true;do firefox;done;
 - for this step you have two possibilies to doing :
 
 **pre-configure firefox profil :**
+
 	- download from https://mega.co.nz/#F!foggVYYY!6gtqLY5cT7H0Eg6s8j4SoA the lastest "XXXX-XX-XX_mozilla-firefox-profile.zip" (where XXXX-XX-XX is the date of the release in YYYY-MM-DD format)
 	- extract zip at the root of your newusername with :
 	```
@@ -94,6 +95,7 @@ while true;do firefox;done;
 	Note: after this you should now have a .mozilla directory in the home folder (you could see it with "ls -a")
 
 **full manual way :**
+
 	- run startx command from Raspberry Pi directy
 	- when firefox is started, close X server by running following command through ssh or by changing tty on the Raspberry Pi with Ctrl+Alt+f2 :
 	```
@@ -186,13 +188,13 @@ We choose to purpose two method to install yourself your Lazy Clock because we t
 
 If you need to reset data of your alarm clock (not remove MyLazyClock, just reset like if you never launch it) :
 
-**Firefox version:**
+*Firefox version:*
 - copy ~/.mozilla/firefox/XXXXXXXX.default/prefs.js (where "XXXXXXXX.default" is your profil name)
 - remove ~/.mozilla/firefox/XXXXXXXX.default/
 - start Firefox to generate a new profile (by example, restart your Raspberry Pi)
 - replace in the new profile ~/.mozilla/firefox/XXXXXXXX.default/prefs.js by those you previously copy
 
-**Chromium version:**
+*Chromium version:*
 - remove chromium profile by removing ~/.config/chromium and ~/.cache/chromium
 
 
