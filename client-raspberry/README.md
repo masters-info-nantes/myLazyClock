@@ -23,7 +23,7 @@ Easy installation for Raspberry Pi
 
 You can download our ready-to-use SD card image with MyLazyClock client already install. All necessary drivers for [Adafruit 2.8" TFT screen](https://www.adafruit.com/products/1601) or compatible are installed too. You only need to copy the SD card image on your (micro) SD card, insert it inside your Raspberry Pi, connect screen and ethernet cable then power on it.
 
-SD card could be download here : [https://mega.co.nz/#F!foggVYYY!6gtqLY5cT7H0Eg6s8j4SoA](https://mega.co.nz/#F!foggVYYY!6gtqLY5cT7H0Eg6s8j4SoA)
+SD card could be download here : https://mega.co.nz/#F!foggVYYY!6gtqLY5cT7H0Eg6s8j4SoA
 
 Note : to reproduce this installation type, you have just to follow "Manual installation with Firefox"
 
@@ -84,13 +84,15 @@ xdotool mousemove 320 240 &
 while true;do firefox;done;
 ```
 - for this step you have two possibilies to doing :
+
 **pre-configure firefox profil :**
-	- download from [https://mega.co.nz/#F!foggVYYY!6gtqLY5cT7H0Eg6s8j4SoA](https://mega.co.nz/#F!foggVYYY!6gtqLY5cT7H0Eg6s8j4SoA) the lastest "XXXX-XX-XX_mozilla-firefox-profile.zip" (where XXXX-XX-XX is the date of the release in YYYY-MM-DD format)
+	- download from https://mega.co.nz/#F!foggVYYY!6gtqLY5cT7H0Eg6s8j4SoA the lastest "XXXX-XX-XX_mozilla-firefox-profile.zip" (where XXXX-XX-XX is the date of the release in YYYY-MM-DD format)
 	- extract zip at the root of your newusername with :
 	```
 	unzip XXXX-XX-XX_mozilla-firefox-profile.zip
 	```
 	Note: after this you should now have a .mozilla directory in the home folder (you could see it with "ls -a")
+
 **full manual way :**
 	- run startx command from Raspberry Pi directy
 	- when firefox is started, close X server by running following command through ssh or by changing tty on the Raspberry Pi with Ctrl+Alt+f2 :
@@ -183,11 +185,13 @@ We choose to purpose two method to install yourself your Lazy Clock because we t
 **How to reset completely data of your alarm clock ?**
 
 If you need to reset data of your alarm clock (not remove MyLazyClock, just reset like if you never launch it) :
+
 **Firefox version:**
 - copy ~/.mozilla/firefox/XXXXXXXX.default/prefs.js (where "XXXXXXXX.default" is your profil name)
 - remove ~/.mozilla/firefox/XXXXXXXX.default/
 - start Firefox to generate a new profile (by example, restart your Raspberry Pi)
 - replace in the new profile ~/.mozilla/firefox/XXXXXXXX.default/prefs.js by those you previously copy
+
 **Chromium version:**
 - remove chromium profile by removing ~/.config/chromium and ~/.cache/chromium
 
