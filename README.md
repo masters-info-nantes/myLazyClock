@@ -1,4 +1,4 @@
-myLazyClock  [![Build Status](https://travis-ci.org/masterALMA2016/myLazyClock.svg?branch=develop)](https://travis-ci.org/masterALMA2016/myLazyClock)
+myLazyClock  [![GitHub version](https://badge.fury.io/gh/masters-info-nantes%2FmyLazyClock.svg)](http://badge.fury.io/gh/masters-info-nantes%2FmyLazyClock)  [![Build Status](https://travis-ci.org/masters-info-nantes/myLazyClock.svg?branch=develop)](https://travis-ci.org/masters-info-nantes/myLazyClock)
 ===========
 
 My Lazy Smart Alarm Clock wake up and It's never time.
@@ -64,9 +64,10 @@ Contribute
 
 We use git with this [git-flow](http://nvie.com/posts/a-successful-git-branching-model/)
 
-Clone the project with this command: 
+Clone the project with this command:
 ```
 git clone https://github.com/masterALMA2016/myLazyClock.git -b develop
 ```
 
 Or fork-it
+
