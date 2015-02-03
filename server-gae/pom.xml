@@ -4,7 +4,7 @@
 
     <groupId>org.myLazyClock</groupId>
     <artifactId>myLazyClock</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <packaging>pom</packaging>
 
     <name>myLazyClock</name>
@@ -72,11 +72,11 @@
     </modules>
 
     <scm>
-        <connection>scm:git:https://github.com/masterALMA2016/myLazyClock.git</connection>
+        <connection>scm:git:https://github.com/masters-info-nantes/myLazyClock.git</connection>
         <developerConnection>
-            scm:git:https://github.com/masterALMA2016/myLazyClock.git
+            scm:git:https://github.com/masters-info-nantes/myLazyClock.git
         </developerConnection>
-        <url>https://github.com/masterALMA2016/myLazyClock.git</url>
+        <url>https://github.com/masters-info-nantes/myLazyClock.git</url>
     </scm>
 
     <properties>
