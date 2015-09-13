@@ -79,7 +79,7 @@ public class CalendarGoogleStrategy implements CalendarStrategy {
         DateTime startTime = new DateTime(beginDate.getTime());
         DateTime endTime = new DateTime(endDate.getTime());
 
-        CalendarEvent returnEvent = new CalendarEvent();
+        CalendarEvent returnEvent = null;
 
         try {
 
@@ -89,7 +89,7 @@ public class CalendarGoogleStrategy implements CalendarStrategy {
             GoogleCredential credential = new GoogleCredential.Builder()
                     .setTransport(httpTransport)
                     .setJsonFactory(jsonFactory)
-                    .setClientSecrets(params.get("apiId"),params.get("apiSecret"))
+                    .setClientSecrets(params.get("apiId"), params.get("apiSecret"))
                     .build().setRefreshToken(params.get("tokenRequest"));
 
             Calendar service = new Calendar.Builder(httpTransport, jsonFactory, null)
@@ -103,16 +103,34 @@ public class CalendarGoogleStrategy implements CalendarStrategy {
                     .setOrderBy("startTime")
                     .setSingleEvents(true).execute();
 
-            if (events.getItems().isEmpty()) {
-                throw new EventNotFoundException();
+            int i = 0;
+            while (returnEvent == null) {
+
+                Event event;
+                try {
+                    event = events.getItems().get(i);
+                    i++;
+                } catch (IndexOutOfBoundsException e) {
+                    throw new EventNotFoundException();
+                }
+
+                try {
+
+                    CalendarEvent calendarEvent = new CalendarEvent();
+
+                    calendarEvent.setName(event.getSummary());
+                    calendarEvent.setBeginDate(new Date(event.getStart().getDateTime().getValue()));
+                    calendarEvent.setEndDate(new Date(event.getEnd().getDateTime().getValue()));
+                    calendarEvent.setAddress(event.getLocation());
+
+                    returnEvent = calendarEvent;
+
+                } catch (NullPointerException e) {
+                    // bad event
+                    returnEvent = null;
+                }
+
             }
-
-            Event event = events.getItems().get(0);
-
-            returnEvent.setName(event.getSummary());
-            returnEvent.setBeginDate(new Date(event.getStart().getDateTime().getValue()));
-            returnEvent.setEndDate(new Date(event.getEnd().getDateTime().getValue()));
-            returnEvent.setAddress(event.getLocation());
 
         } catch (GeneralSecurityException e) {
             throw new ForbiddenCalendarException("Accés interdit au calendrier de Google");
