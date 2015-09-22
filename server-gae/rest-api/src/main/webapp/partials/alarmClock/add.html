@@ -24,7 +24,7 @@
 <p>Saisir l'identificant visible sur le reveil (suite de chiffre)</p>
 <!-- Text input-->
 <div class="input-group" ng-class="{'has-error' : !addAlarmClock.id.$valid}">
-  <input ng-model="alarmClock.id" name="id" type="text" placeholder="ID de du réveil" required class="form-control input-md">
+  <input ng-model="alarmClock.id" name="id" type="text" placeholder="Indentifiant du réveil" required class="form-control input-md">
 </div>
 
 <p>Nom du réveil</p>
@@ -75,7 +75,7 @@
   <div class="col-md-2">
     <div class="well wellBtn" ng-model="alarmClock.color" btn-radio="'#607D8B'" style="background: #607D8B;"></div>
   </div>
-  
+
 </div>
 
 <button type="submit" class="btn btn-white btn-rad btn-trans" ng-class="{'disabled' : !addAlarmClock.$valid || !locationOK}">Ajouter</button>
@@ -83,3 +83,4 @@
 </form>
 </div>
 </div>
+
