@@ -1,4 +1,4 @@
-myLazyClock  [![GitHub version](https://badge.fury.io/gh/masters-info-nantes%2FmyLazyClock.svg)](http://badge.fury.io/gh/masters-info-nantes%2FmyLazyClock)  [![Build Status](https://travis-ci.org/masters-info-nantes/myLazyClock.svg?branch=develop)](https://travis-ci.org/masters-info-nantes/myLazyClock)
+myLazyClock  ![GitHub version](https://img.shields.io/github/release/masters-info-nantes/myLazyClock.svg)  [![Build Status](https://travis-ci.org/masters-info-nantes/myLazyClock.svg?branch=develop)](https://travis-ci.org/masters-info-nantes/myLazyClock)
 ===========
 
 My Lazy Smart Alarm Clock wake up and It's never time.
